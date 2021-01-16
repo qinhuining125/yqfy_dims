@@ -14,8 +14,12 @@ public class YqfkRelZjEntity extends BaseEntity {
 
     private static final long serialVersionUID = -7528738187238993843L;
     private String id;
-    //  区域编码，具体到县
-    private String areacode;
+    //  省编码
+    private String Pcode;
+    //  市编码
+    private String Ccode;
+    //  县编码
+    private String Xcode;
     //YQFK表中的ID
     private String YQID;
     //  创建时间
@@ -29,12 +33,28 @@ public class YqfkRelZjEntity extends BaseEntity {
         this.id = id;
     }
 
-    public String getAreacode() {
-        return areacode;
+    public String getPcode() {
+        return Pcode;
     }
 
-    public void setAreacode(String areacode) {
-        this.areacode = areacode;
+    public void setPcode(String pcode) {
+        Pcode = pcode;
+    }
+
+    public String getCcode() {
+        return Ccode;
+    }
+
+    public void setCcode(String ccode) {
+        Ccode = ccode;
+    }
+
+    public String getXcode() {
+        return Xcode;
+    }
+
+    public void setXcode(String xcode) {
+        Xcode = xcode;
     }
 
     public String getYQID() {

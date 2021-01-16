@@ -23,8 +23,12 @@ public class YqfkEntity extends BaseEntity {
     private int age;
     //身份证
     private int card;
-    //户籍(具体到村编码，因为网格员到访的村一定有村编码)
-    private String hjbm;
+    //户籍省编码
+    private String hjPbm;
+    //户籍市编码
+    private String hjCbm;
+    //户籍县编码
+    private String hjXbm;
     //  户籍(全部信息汉字)
     private String hj;
     //  是否常驻
@@ -51,12 +55,24 @@ public class YqfkEntity extends BaseEntity {
     private byte expReturnWay;
     //  拟返乡车牌号
     private String expReturnCarnum;
-    //  返乡前编码，具体到县，因为并一定能拿到村编码
-    private String beforeReturnBm;
+    //  返乡前省编码
+    private String beforeReturnPbm;
+    //  返乡前市编码
+    private String beforeReturnCbm;
+    //  返乡前县编码
+    private String beforeReturnXbm;
     //  返乡前住址，全信息
     private String beforeReturnAddress;
-    //  返乡后编码，具体到村
-    private String afterReturnBm;
+    //  返乡后省编码
+    private String afterReturnPbm;
+    //  返乡后市编码
+    private String afterReturnCbm;
+    //  返乡后县编码
+    private String afterReturnXbm;
+    //  返乡后镇编码
+    private String afterReturnZhbm;
+    //  返乡后村编码
+    private String afterReturnCubm;
     //  返乡后住址，全信息
     private String afterReturnAddress;
     //  是否本地租户 0:否 1:是
@@ -124,12 +140,28 @@ public class YqfkEntity extends BaseEntity {
         this.card = card;
     }
 
-    public String getHjbm() {
-        return hjbm;
+    public String getHjPbm() {
+        return hjPbm;
     }
 
-    public void setHjbm(String hjbm) {
-        this.hjbm = hjbm;
+    public void setHjPbm(String hjPbm) {
+        this.hjPbm = hjPbm;
+    }
+
+    public String getHjCbm() {
+        return hjCbm;
+    }
+
+    public void setHjCbm(String hjCbm) {
+        this.hjCbm = hjCbm;
+    }
+
+    public String getHjXbm() {
+        return hjXbm;
+    }
+
+    public void setHjXbm(String hjXbm) {
+        this.hjXbm = hjXbm;
     }
 
     public String getHj() {
@@ -236,12 +268,28 @@ public class YqfkEntity extends BaseEntity {
         this.expReturnCarnum = expReturnCarnum;
     }
 
-    public String getBeforeReturnBm() {
-        return beforeReturnBm;
+    public String getBeforeReturnPbm() {
+        return beforeReturnPbm;
     }
 
-    public void setBeforeReturnBm(String beforeReturnBm) {
-        this.beforeReturnBm = beforeReturnBm;
+    public void setBeforeReturnPbm(String beforeReturnPbm) {
+        this.beforeReturnPbm = beforeReturnPbm;
+    }
+
+    public String getBeforeReturnCbm() {
+        return beforeReturnCbm;
+    }
+
+    public void setBeforeReturnCbm(String beforeReturnCbm) {
+        this.beforeReturnCbm = beforeReturnCbm;
+    }
+
+    public String getBeforeReturnXbm() {
+        return beforeReturnXbm;
+    }
+
+    public void setBeforeReturnXbm(String beforeReturnXbm) {
+        this.beforeReturnXbm = beforeReturnXbm;
     }
 
     public String getBeforeReturnAddress() {
@@ -252,12 +300,44 @@ public class YqfkEntity extends BaseEntity {
         this.beforeReturnAddress = beforeReturnAddress;
     }
 
-    public String getAfterReturnBm() {
-        return afterReturnBm;
+    public String getAfterReturnPbm() {
+        return afterReturnPbm;
     }
 
-    public void setAfterReturnBm(String afterReturnBm) {
-        this.afterReturnBm = afterReturnBm;
+    public void setAfterReturnPbm(String afterReturnPbm) {
+        this.afterReturnPbm = afterReturnPbm;
+    }
+
+    public String getAfterReturnCbm() {
+        return afterReturnCbm;
+    }
+
+    public void setAfterReturnCbm(String afterReturnCbm) {
+        this.afterReturnCbm = afterReturnCbm;
+    }
+
+    public String getAfterReturnXbm() {
+        return afterReturnXbm;
+    }
+
+    public void setAfterReturnXbm(String afterReturnXbm) {
+        this.afterReturnXbm = afterReturnXbm;
+    }
+
+    public String getAfterReturnZhbm() {
+        return afterReturnZhbm;
+    }
+
+    public void setAfterReturnZhbm(String afterReturnZhbm) {
+        this.afterReturnZhbm = afterReturnZhbm;
+    }
+
+    public String getAfterReturnCubm() {
+        return afterReturnCubm;
+    }
+
+    public void setAfterReturnCubm(String afterReturnCubm) {
+        this.afterReturnCubm = afterReturnCubm;
     }
 
     public String getAfterReturnAddress() {
