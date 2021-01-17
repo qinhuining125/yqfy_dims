@@ -74,10 +74,10 @@
         <div class="table-responsive ibox-content">
             <div class="clearfix" style="margin-bottom:10px;">
                 <div class="pull-left">
-                    <#--<button type="button" class="btn btn-primary" id="btn-add-taskInfo"><i
+                    <button type="button" class="btn btn-primary" id="btn-add-taskInfo"><i
                                 class="fa fa-plus"></i> 新增
                     </button>
-                    <button type="button" class="btn btn-danger" id="btn-del-taskInfo"><i
+                    <!--<button type="button" class="btn btn-danger" id="btn-del-taskInfo"><i
                                 class="fa fa-remove"></i> 删除
                     </button>-->
                 </div>

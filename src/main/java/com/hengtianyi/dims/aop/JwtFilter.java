@@ -33,9 +33,8 @@ public class JwtFilter implements Filter {
   public static final String COMMON_TOKEN = "XG5m-edfPW41LQZ0sj8WXPbgGaNq9hh3MMzkGIETVws";
 
   static {
-    WHITE_LIST = new ArrayList<>(2);
+    WHITE_LIST = new ArrayList<>(1);
     WHITE_LIST.add("/api/login.json");
-    WHITE_LIST.add("/api/province/list.json");
   }
 
   @Override

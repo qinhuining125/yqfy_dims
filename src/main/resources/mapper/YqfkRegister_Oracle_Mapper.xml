@@ -119,7 +119,7 @@
 
   <!-- 添加 -->
   <insert id="insert" parameterType="com.hengtianyi.dims.service.entity.YqfkRegisterEntity">
-    insert into "YQ_YQFK" ("ID" , "NAME" , "SEX") values (#{id,jdbcType=CHAR} , #{name,jdbcType=VARCHAR} , #{sex,jdbcType=VARCHAR})
+    insert into "YQ_YQFK" ("ID" , "NAME" , "SEX", "AGE") values (#{id,jdbcType=CHAR} , #{name,jdbcType=VARCHAR} , #{sex,jdbcType=VARCHAR},#{age,jdbcType=VARCHAR})
   </insert>
 
   <!-- 选择性添加 -->
@@ -133,12 +133,129 @@
       <if test="name != null and name !=''">
         "NAME",
       </if>
-      <if test="content != null and content !=''">
-        "SEX"/*,*/
+      <if test="sex != null and sex !=''">
+        "SEX",
       </if>
-     <!-- <if test="createTime != null">
+      <if test="age != null and age !=''">
+        "AGE",
+      </if>
+      <if test="card != null and card !=''">
+        "CARD",
+      </if>
+      <if test="hjPbm != null and hjPbm !=''">
+        "HJ_PBM",
+      </if>
+      <if test="hjCbm != null and hjCbm !=''">
+        "HJ_CBM",
+      </if>
+      <if test="hjXbm != null and hjXbm !=''">
+        "HJ_XBM",
+      </if>
+      <if test="hj != null and hj !=''">
+        "HJ",
+      </if>
+      <if test="sfcz != null and sfcz !=''">
+        "SFCZ",
+      </if>
+      <if test="relation != null and relation !=''">
+        "RELATION",
+      </if>
+      <if test="phone != null and phone !=''">
+        "PHONE",
+      </if>
+      <if test="workSchool != null and workSchool !=''">
+        "WORK_SCHOOL",
+      </if>
+      <if test="industray != null and industray !=''">
+        "INDUSTRAY",
+      </if>
+      <if test="returnState != null and returnState !=''">
+        "RETURN_STATE",
+      </if>
+      <if test="returnTime != null">
+        "RETURN_TIME",
+      </if>
+      <if test="returnWay != null and returnWay !=''">
+        "RETURN_WAY",
+      </if>
+      <if test="returnCarnum != null and returnCarnum !=''">
+        "RETURN_CARNUM",
+      </if>
+      <if test="expReturnTime != null">
+        "EXP_RETURN_TIME",
+      </if>
+      <if test="expReturnWay != null and expReturnWay !=''">
+        "EXP_RETURN_WAY",
+      </if>
+      <if test="expReturnCarnum != null and expReturnCarnum !=''">
+       "EXP_RETURN_CARNUM",
+      </if>
+      <if test="beforeReturnPbm != null and beforeReturnPbm !=''">
+        "BEFORE_RETURN_PBM",
+      </if>
+      <if test="beforeReturnCbm != null and beforeReturnCbm !=''">
+        "BEFORE_RETURN_CBM",
+      </if>
+      <if test="beforeReturnXbm != null and beforeReturnXbm !=''">
+        "BEFORE_RETURN_XBM",
+      </if>
+      <if test="beforeReturnAddress != null and beforeReturnAddress !=''">
+        "BEFORE_RETURN_ADDRESS",
+      </if>
+      <if test="afterReturnPbm != null and afterReturnPbm !=''">
+        "AFTER_RETURN_PBM",
+      </if>
+      <if test="afterReturnCbm != null and afterReturnCbm !=''">
+        "AFTER_RETURN_CBM",
+      </if>
+      <if test="afterReturnXbm != null and afterReturnXbm!='' ">
+        "AFTER_RETURN_XBM",
+      </if>
+      <if test="afterReturnZhbm != null and afterReturnZhbm !=''">
+        "AFTER_RETURN_ZBM",
+      </if>
+      <if test="afterReturnCubm != null and afterReturnCubm !=''">
+        "AFTER_RETURN_CUBM",
+      </if>
+      <if test="afterReturnAddress != null and afterReturnAddress !=''">
+        "AFTER_RETURN_ADDRESS",
+      </if>
+      <if test="localState != null and localState !=''">
+        "LOCAL_STATE",
+      </if>
+      <if test="natTime != null">
+        "NAT_TIME",
+      </if>
+      <if test="natResult != null and natResult !=''">
+        "NAT_RESULT",
+      </if>
+      <if test="touchState != null and touchState !=''">
+        "TOUCH_STATE",
+      </if>
+      <if test="isLateStete != null and isLateStete !=''">
+        "ISOLATE_STATE",
+      </if>
+      <if test="isLateStateTime != null">
+        "ISOLATE_START_TIME",
+      </if>
+      <if test="healthState != null and healthState !=''">
+        "HEALTH_STATE",
+      </if>
+      <if test="remark != null and remark !=''">
+        "REMARK",
+      </if>
+      <if test="crateAccount != null and crateAccount !=''">
+        "CREATE_ACCOUNT",
+      </if>
+      <if test="createTime != null">
         "CREATE_TIME",
-      </if>-->
+      </if>
+      <if test="updateTime != null">
+        "UPDATE_TIME",
+      </if>
+      <if test="updateAccount != null and updateAccount !=''">
+        "UPDATE_ACCOUNT",
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null and id !=''">
@@ -147,12 +264,129 @@
       <if test="name != null and name !=''">
         #{name,jdbcType=VARCHAR},
       </if>
-      <if test="content != null and content !=''">
-        #{sex,jdbcType=VARCHAR}/*,*/
+      <if test="sex != null and sex !=''">
+        #{sex,jdbcType=VARCHAR},
       </if>
-     <!-- <if test="createTime != null">
-        #{createTime,jdbcType=TIMESTAMP},
-      </if>-->
+      <if test="age != null and age !=''">
+        #{age,jdbcType=VARCHAR},
+      </if>
+      <if test="card != null and card !=''">
+        #{card,jdbcType=VARCHAR},
+      </if>
+      <if test="hjPbm != null and hjPbm !=''">
+        #{hjPbm,jdbcType=VARCHAR},
+      </if>
+      <if test="hjCbm != null and hjCbm !=''">
+        #{hjCbm,jdbcType=VARCHAR},
+      </if>
+      <if test="hjXbm != null and hjXbm !=''">
+        #{hjXbm,jdbcType=VARCHAR},
+      </if>
+      <if test="hj != null and hj !=''">
+        #{hj,jdbcType=VARCHAR},
+      </if>
+      <if test="sfcz != null and sfcz !=''">
+        #{sfcz,jdbcType=VARCHAR},
+      </if>
+      <if test="relation != null and relation !=''">
+        #{relation,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null and phone !=''">
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="workSchool != null and workSchool !=''">
+        #{workSchool,jdbcType=VARCHAR},
+      </if>
+      <if test="industray != null and industray !=''">
+        #{industray,jdbcType=VARCHAR},
+      </if>
+      <if test="returnState != null and returnState !=''">
+        #{returnState,jdbcType=VARCHAR},
+      </if>
+      <if test="returnTime != null">
+        #{returnTime,jdbcType=DATE},
+      </if>
+      <if test="returnWay != null and returnWay !=''">
+        #{returnWay,jdbcType=VARCHAR},
+      </if>
+      <if test="returnCarnum != null and returnCarnum !=''">
+        #{returnCarnum,jdbcType=VARCHAR},
+      </if>
+      <if test="expReturnTime != null">
+        #{expReturnTime,jdbcType=DATE},
+      </if>
+      <if test="expReturnWay != null and expReturnWay !=''">
+        #{expReturnWay,jdbcType=VARCHAR},
+      </if>
+      <if test="expReturnCarnum != null and expReturnCarnum !=''">
+        #{expReturnCarnum,jdbcType=VARCHAR},
+      </if>
+      <if test="beforeReturnPbm != null and beforeReturnPbm !=''">
+        #{beforeReturnPbm,jdbcType=VARCHAR},
+      </if>
+      <if test="beforeReturnCbm != null and beforeReturnCbm !=''">
+        #{beforeReturnCbm,jdbcType=VARCHAR},
+      </if>
+      <if test="beforeReturnXbm != null and beforeReturnXbm !=''">
+        #{beforeReturnXbm,jdbcType=VARCHAR},
+      </if>
+      <if test="beforeReturnAddress != null and beforeReturnAddress !=''">
+        #{beforeReturnAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="afterReturnPbm != null and afterReturnPbm !=''">
+        #{afterReturnPbm,jdbcType=VARCHAR},
+      </if>
+      <if test="afterReturnCbm != null and afterReturnCbm !=''">
+        #{afterReturnCbm,jdbcType=VARCHAR},
+      </if>
+      <if test="afterReturnXbm != null and afterReturnXbm!='' ">
+        #{afterReturnXbm,jdbcType=VARCHAR},
+      </if>
+      <if test="afterReturnZhbm != null and afterReturnZhbm !=''">
+        #{afterReturnZhbm,jdbcType=VARCHAR},
+      </if>
+      <if test="afterReturnCubm != null and afterReturnCubm !=''">
+        #{afterReturnCubm,jdbcType=VARCHAR},
+      </if>
+      <if test="afterReturnAddress != null and afterReturnAddress !=''">
+        #{afterReturnAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="localState != null and localState !=''">
+        #{localState,jdbcType=VARCHAR},
+      </if>
+      <if test="natTime != null">
+        #{natTime,jdbcType=DATE},
+      </if>
+      <if test="natResult != null and natResult !=''">
+        #{natResult,jdbcType=VARCHAR},
+      </if>
+      <if test="touchState != null and touchState !=''">
+        #{touchState,jdbcType=VARCHAR},
+      </if>
+      <if test="isLateStete != null and isLateStete !=''">
+        #{isLateStete,jdbcType=VARCHAR},
+      </if>
+      <if test="isLateStateTime != null">
+        #{isLateStateTime,jdbcType=DATE},
+      </if>
+      <if test="healthState != null and healthState !=''">
+        #{healthState,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null and remark !=''">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="crateAccount != null and crateAccount !=''">
+        #{crateAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=DATE},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=DATE},
+      </if>
+      <if test="updateAccount != null and updateAccount !=''">
+        #{updateAccount,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
 
