@@ -7,9 +7,9 @@
     <div class="form-middle">
       <form id="form-taskInfo" action="${mapping!}/saveData.json?${global.addSign!}=${(entity.id)!}"
             class="form-horizontal" method="post">
-        <input type="hidden" name="id" value="${(entity.id)!}"/>
-        <input type="hidden" name="receiveId" id="receiveId" value=""/>
-        <input type="hidden" name="receiveRoleId" id="receiveRoleId" value=""/>
+        <input type="text" name="id" value="${(entity.id)!}"/>
+        <input type="text" name="receiveId" id="receiveId" value=""/>
+        <input type="text" name="receiveRoleId" id="receiveRoleId" value=""/>
         <div class="form-group">
           <label class="col-xs-3 control-label"><span class="text-danger">*</span>乡镇:</label>
           <div class="col-xs-3">
