@@ -1,0 +1,464 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!--
+ Oracle
+ table name  INCORRUPT_ADVICE
+ remarks     廉政建议
+ author      LY
+-->
+<mapper namespace="com.hengtianyi.dims.service.dao.YqfkRegisterDao">
+
+
+  <!-- doc 查询条件，根据实际情况，对where条件进行删减 -->
+  <sql id="sql_where">
+    <where>
+      <if test="id !=null and id !=''">
+        and "ID" = #{id,jdbcType=CHAR}
+      </if>
+      <if test="name !=null and name !=''">
+        and "NAME" = #{name,jdbcType=VARCHAR}
+      </if>
+     <!-- <if test="createTime !=null and createTime !=''">
+        and "CREATE_TIME" = #{createTime,jdbcType=TIMESTAMP}
+      </if>-->
+    </where>
+  </sql>
+
+  <!-- 字段与实体的映射 -->
+  <resultMap id="BaseResultMap" type="com.hengtianyi.dims.service.entity.YqfkRegisterEntity">
+    <id column="ID" property="id" jdbcType="CHAR"/>
+    <result column="NAME" property="name" jdbcType="VARCHAR"/>
+    <result column="SEX" property="sex" jdbcType="VARCHAR"/>
+    <result column="CREATE_ACCOUNT" property="crateAccount" jdbcType="VARCHAR"/>
+   <!-- <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP"/>
+    <result column="USER_NAME" property="userName" jdbcType="VARCHAR"/>
+    <result column="ROLE_ID" property="roleId" jdbcType="DECIMAL"/>-->
+  </resultMap>
+
+  <!-- 字段集合 -->
+  <sql id="Base_Column_List">
+      "ID" , "NAME" , "SEX", "CREATE_ACCOUNT"
+  </sql>
+
+  <!-- 根据主键查询 -->
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select
+    <include refid="Base_Column_List"/>
+    from "YQ_YQFK" where "ID" = #{id,jdbcType=CHAR} and rownum &lt;= 1
+  </select>
+
+  <!-- 根据条件查询，总数 -->
+  <select id="searchDataCount" resultType="java.lang.Integer"
+    parameterType="com.hengtianyi.dims.service.entity.YqfkRegisterEntity">
+    select count(1) from "YQ_YQFK"
+    <include refid="sql_where"/>
+  </select>
+
+  <!-- 根据条件查询，分页 -->
+  <select id="searchData" resultMap="BaseResultMap"
+    parameterType="com.hengtianyi.dims.service.entity.YqfkRegisterEntity">
+    <choose>
+      <when test="orderSql !=''">
+        select
+        <include refid="Base_Column_List"/>
+        from (select ROWNUM as "ROW_ID",
+        <include refid="Base_Column_List"/>
+        from (select
+        <include refid="Base_Column_List"/>
+        from "YQ_YQFK"
+        <include refid="sql_where"/>
+        order by ${orderSql})
+        where ROWNUM &lt;= #{pager.end}) "PAGINATION"
+        where "PAGINATION"."ROW_ID" &gt;= #{pager.first}
+      </when>
+      <otherwise>
+        select
+        <include refid="Base_Column_List"/>
+        from (select ROWNUM as "ROW_ID",
+        <include refid="Base_Column_List"/>
+        from "YQ_YQFK"
+        <include refid="sql_where"/>
+        and ROWNUM &lt;= #{pager.end}) "PAGINATION"
+        where "PAGINATION"."ROW_ID" &gt;= #{pager.first}
+      </otherwise>
+    </choose>
+  </select>
+
+  <!-- 根据条件查询，全部 -->
+  <select id="searchAllData" resultMap="BaseResultMap"
+    parameterType="com.hengtianyi.dims.service.entity.YqfkRegisterEntity">
+    select
+    <include refid="Base_Column_List"/>
+    from "YQ_YQFK"
+    <include refid="sql_where"/>
+    <if test="orderSql !='' ">
+      order by ${orderSql}
+    </if>
+  </select>
+
+  <!-- 单条删除 -->
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from "YQ_YQFK" where "ID" = #{id,jdbcType=CHAR}
+  </delete>
+
+  <!-- 多条删除 -->
+  <delete id="deleteByIds" parameterType="java.util.List">
+    delete from "YQ_YQFK" where "ID" in
+    <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+      #{item}
+    </foreach>
+  </delete>
+
+  <!-- 选择性删除，根据实际情况，对where条件进行删减 -->
+  <delete id="deleteSelective"
+    parameterType="com.hengtianyi.dims.service.entity.YqfkRegisterEntity">
+    delete from "YQ_YQFK"
+    <include refid="sql_where"/>
+  </delete>
+
+  <!-- 添加 -->
+  <insert id="insert" parameterType="com.hengtianyi.dims.service.entity.YqfkRegisterEntity">
+    insert into "YQ_YQFK" ("ID" , "NAME" , "SEX", "AGE") values (#{id,jdbcType=CHAR} , #{name,jdbcType=VARCHAR} , #{sex,jdbcType=VARCHAR},#{age,jdbcType=VARCHAR})
+  </insert>
+
+  <!-- 选择性添加 -->
+  <insert id="insertSelective"
+    parameterType="com.hengtianyi.dims.service.entity.YqfkRegisterEntity">
+    insert into "YQ_YQFK"
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null and id !=''">
+        "ID",
+      </if>
+      <if test="name != null and name !=''">
+        "NAME",
+      </if>
+      <if test="sex != null and sex !=''">
+        "SEX",
+      </if>
+      <if test="age != null and age !=''">
+        "AGE",
+      </if>
+      <if test="card != null and card !=''">
+        "CARD",
+      </if>
+      <if test="hjPbm != null and hjPbm !=''">
+        "HJ_PBM",
+      </if>
+      <if test="hjCbm != null and hjCbm !=''">
+        "HJ_CBM",
+      </if>
+      <if test="hjXbm != null and hjXbm !=''">
+        "HJ_XBM",
+      </if>
+      <if test="hj != null and hj !=''">
+        "HJ",
+      </if>
+      <if test="sfcz != null and sfcz !=''">
+        "SFCZ",
+      </if>
+      <if test="relation != null and relation !=''">
+        "RELATION",
+      </if>
+      <if test="phone != null and phone !=''">
+        "PHONE",
+      </if>
+      <if test="workSchool != null and workSchool !=''">
+        "WORK_SCHOOL",
+      </if>
+      <if test="industray != null and industray !=''">
+        "INDUSTRAY",
+      </if>
+      <if test="returnState != null and returnState !=''">
+        "RETURN_STATE",
+      </if>
+      <if test="returnTime != null">
+        "RETURN_TIME",
+      </if>
+      <if test="returnWay != null and returnWay !=''">
+        "RETURN_WAY",
+      </if>
+      <if test="returnCarnum != null and returnCarnum !=''">
+        "RETURN_CARNUM",
+      </if>
+      <if test="expReturnTime != null">
+        "EXP_RETURN_TIME",
+      </if>
+      <if test="expReturnWay != null and expReturnWay !=''">
+        "EXP_RETURN_WAY",
+      </if>
+      <if test="expReturnCarnum != null and expReturnCarnum !=''">
+       "EXP_RETURN_CARNUM",
+      </if>
+      <if test="beforeReturnPbm != null and beforeReturnPbm !=''">
+        "BEFORE_RETURN_PBM",
+      </if>
+      <if test="beforeReturnCbm != null and beforeReturnCbm !=''">
+        "BEFORE_RETURN_CBM",
+      </if>
+      <if test="beforeReturnXbm != null and beforeReturnXbm !=''">
+        "BEFORE_RETURN_XBM",
+      </if>
+      <if test="beforeReturnAddress != null and beforeReturnAddress !=''">
+        "BEFORE_RETURN_ADDRESS",
+      </if>
+      <if test="afterReturnPbm != null and afterReturnPbm !=''">
+        "AFTER_RETURN_PBM",
+      </if>
+      <if test="afterReturnCbm != null and afterReturnCbm !=''">
+        "AFTER_RETURN_CBM",
+      </if>
+      <if test="afterReturnXbm != null and afterReturnXbm!='' ">
+        "AFTER_RETURN_XBM",
+      </if>
+      <if test="afterReturnZhbm != null and afterReturnZhbm !=''">
+        "AFTER_RETURN_ZBM",
+      </if>
+      <if test="afterReturnCubm != null and afterReturnCubm !=''">
+        "AFTER_RETURN_CUBM",
+      </if>
+      <if test="afterReturnAddress != null and afterReturnAddress !=''">
+        "AFTER_RETURN_ADDRESS",
+      </if>
+      <if test="localState != null and localState !=''">
+        "LOCAL_STATE",
+      </if>
+      <if test="natTime != null">
+        "NAT_TIME",
+      </if>
+      <if test="natResult != null and natResult !=''">
+        "NAT_RESULT",
+      </if>
+      <if test="touchState != null and touchState !=''">
+        "TOUCH_STATE",
+      </if>
+      <if test="isLateStete != null and isLateStete !=''">
+        "ISOLATE_STATE",
+      </if>
+      <if test="isLateStateTime != null">
+        "ISOLATE_START_TIME",
+      </if>
+      <if test="healthState != null and healthState !=''">
+        "HEALTH_STATE",
+      </if>
+      <if test="remark != null and remark !=''">
+        "REMARK",
+      </if>
+      <if test="crateAccount != null and crateAccount !=''">
+        "CREATE_ACCOUNT",
+      </if>
+      <if test="createTime != null">
+        "CREATE_TIME",
+      </if>
+      <if test="updateTime != null">
+        "UPDATE_TIME",
+      </if>
+      <if test="updateAccount != null and updateAccount !=''">
+        "UPDATE_ACCOUNT",
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null and id !=''">
+        #{id,jdbcType=CHAR},
+      </if>
+      <if test="name != null and name !=''">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null and sex !=''">
+        #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null and age !=''">
+        #{age,jdbcType=VARCHAR},
+      </if>
+      <if test="card != null and card !=''">
+        #{card,jdbcType=VARCHAR},
+      </if>
+      <if test="hjPbm != null and hjPbm !=''">
+        #{hjPbm,jdbcType=VARCHAR},
+      </if>
+      <if test="hjCbm != null and hjCbm !=''">
+        #{hjCbm,jdbcType=VARCHAR},
+      </if>
+      <if test="hjXbm != null and hjXbm !=''">
+        #{hjXbm,jdbcType=VARCHAR},
+      </if>
+      <if test="hj != null and hj !=''">
+        #{hj,jdbcType=VARCHAR},
+      </if>
+      <if test="sfcz != null and sfcz !=''">
+        #{sfcz,jdbcType=VARCHAR},
+      </if>
+      <if test="relation != null and relation !=''">
+        #{relation,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null and phone !=''">
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="workSchool != null and workSchool !=''">
+        #{workSchool,jdbcType=VARCHAR},
+      </if>
+      <if test="industray != null and industray !=''">
+        #{industray,jdbcType=VARCHAR},
+      </if>
+      <if test="returnState != null and returnState !=''">
+        #{returnState,jdbcType=VARCHAR},
+      </if>
+      <if test="returnTime != null">
+        #{returnTime,jdbcType=DATE},
+      </if>
+      <if test="returnWay != null and returnWay !=''">
+        #{returnWay,jdbcType=VARCHAR},
+      </if>
+      <if test="returnCarnum != null and returnCarnum !=''">
+        #{returnCarnum,jdbcType=VARCHAR},
+      </if>
+      <if test="expReturnTime != null">
+        #{expReturnTime,jdbcType=DATE},
+      </if>
+      <if test="expReturnWay != null and expReturnWay !=''">
+        #{expReturnWay,jdbcType=VARCHAR},
+      </if>
+      <if test="expReturnCarnum != null and expReturnCarnum !=''">
+        #{expReturnCarnum,jdbcType=VARCHAR},
+      </if>
+      <if test="beforeReturnPbm != null and beforeReturnPbm !=''">
+        #{beforeReturnPbm,jdbcType=VARCHAR},
+      </if>
+      <if test="beforeReturnCbm != null and beforeReturnCbm !=''">
+        #{beforeReturnCbm,jdbcType=VARCHAR},
+      </if>
+      <if test="beforeReturnXbm != null and beforeReturnXbm !=''">
+        #{beforeReturnXbm,jdbcType=VARCHAR},
+      </if>
+      <if test="beforeReturnAddress != null and beforeReturnAddress !=''">
+        #{beforeReturnAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="afterReturnPbm != null and afterReturnPbm !=''">
+        #{afterReturnPbm,jdbcType=VARCHAR},
+      </if>
+      <if test="afterReturnCbm != null and afterReturnCbm !=''">
+        #{afterReturnCbm,jdbcType=VARCHAR},
+      </if>
+      <if test="afterReturnXbm != null and afterReturnXbm!='' ">
+        #{afterReturnXbm,jdbcType=VARCHAR},
+      </if>
+      <if test="afterReturnZhbm != null and afterReturnZhbm !=''">
+        #{afterReturnZhbm,jdbcType=VARCHAR},
+      </if>
+      <if test="afterReturnCubm != null and afterReturnCubm !=''">
+        #{afterReturnCubm,jdbcType=VARCHAR},
+      </if>
+      <if test="afterReturnAddress != null and afterReturnAddress !=''">
+        #{afterReturnAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="localState != null and localState !=''">
+        #{localState,jdbcType=VARCHAR},
+      </if>
+      <if test="natTime != null">
+        #{natTime,jdbcType=DATE},
+      </if>
+      <if test="natResult != null and natResult !=''">
+        #{natResult,jdbcType=VARCHAR},
+      </if>
+      <if test="touchState != null and touchState !=''">
+        #{touchState,jdbcType=VARCHAR},
+      </if>
+      <if test="isLateStete != null and isLateStete !=''">
+        #{isLateStete,jdbcType=VARCHAR},
+      </if>
+      <if test="isLateStateTime != null">
+        #{isLateStateTime,jdbcType=DATE},
+      </if>
+      <if test="healthState != null and healthState !=''">
+        #{healthState,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null and remark !=''">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="crateAccount != null and crateAccount !=''">
+        #{crateAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=DATE},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=DATE},
+      </if>
+      <if test="updateAccount != null and updateAccount !=''">
+        #{updateAccount,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+
+  <!-- 全部更新 -->
+  <update id="updateByPrimaryKey"
+    parameterType="com.hengtianyi.dims.service.entity.YqfkRegisterEntity">
+    update "YQ_YQFK" set
+      "NAME" = #{name,jdbcType=VARCHAR} , "SEX" = #{sex,jdbcType=VARCHAR} /*, "CREATE_TIME" = #{createTime,jdbcType=TIMESTAMP}*/
+    where "ID" = #{id,jdbcType=CHAR}
+  </update>
+
+  <!-- 选择性更新 -->
+  <update id="updateByPrimaryKeySelective"
+    parameterType="com.hengtianyi.dims.service.entity.YqfkRegisterEntity">
+    update "YQ_YQFK"
+    <set>
+      <if test="name != null">
+        "NAME" = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        "SEX" = #{sex,jdbcType=VARCHAR},
+      </if>
+     <!-- <if test="createTime != null">
+        "CREATE_TIME" = #{createTime,jdbcType=TIMESTAMP},
+      </if>-->
+    </set>
+    where "ID" = #{id,jdbcType=CHAR}
+  </update>
+
+  <!--分页-->
+  <select id="pagelist" resultMap="BaseResultMap"
+    parameterType="com.hengtianyi.dims.service.dto.QueryDto">
+    select
+    p."ID" , p."NAME" , p."SEX", p."CREATE_ACCOUNT"
+    from (select ROWNUM as "ROW_ID",
+    <include refid="Base_Column_List"/>
+    from (select t.* from "YQ_YQFK" t
+    order by t.create_time desc)
+    where ROWNUM &lt;= #{dto.end}) p
+    left join "SYS_USER" s on p."CREATE_ACCOUNT"=s."ID"
+    where p."ROW_ID" &gt;= #{dto.first}
+  </select>
+
+  <select id="pagecount" resultType="java.lang.Integer"
+    parameterType="com.hengtianyi.dims.service.dto.QueryDto">
+    select count(1) from "YQ_YQFK" t where 1=1
+    <!--<if test="dto.areaCode!=null and dto.areaCode !=''">
+      and t."USER_ID" in (select a.id from sys_user a
+      where a.area_code like (#{dto.areaCode,jdbcType=VARCHAR} ||'%'))
+    </if>-->
+  </select>
+
+
+  <select id="getEchartsData" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    p."ID" , p."USER_ID" , p."CONTENT" , p."CREATE_TIME",
+    s."USER_NAME",s."ROLE_ID"
+    from "INCORRUPT_ADVICE" p
+    inner join "SYS_USER" s on p."USER_ID"=s."ID"
+    where 1=1
+    <choose>
+      <when test="endTime!=null and endTime!=''">
+        and p."CREATE_TIME" >= to_date(#{startTime,jdbcType=VARCHAR},'yyyy-mm-dd hh24:mi:ss')
+        and p."CREATE_TIME" &lt; to_date(#{endTime,jdbcType=VARCHAR},'yyyy-mm-dd hh24:mi:ss')
+      </when>
+      <otherwise>
+        and p."CREATE_TIME" &lt; sysdate
+      </otherwise>
+    </choose>
+    <if test="areaCode!=null and areaCode!=''">
+      and s."AREA_CODE" like (#{areaCode,jdbcType=VARCHAR} ||'%')
+    </if>
+  </select>
+</mapper>

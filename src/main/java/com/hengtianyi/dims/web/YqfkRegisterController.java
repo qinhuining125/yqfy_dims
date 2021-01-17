@@ -7,14 +7,17 @@ import com.hengtianyi.common.core.constant.BaseConstant;
 import com.hengtianyi.common.core.feature.ServiceResult;
 import com.hengtianyi.common.core.util.JsonUtil;
 import com.hengtianyi.common.core.util.StringUtil;
-import com.hengtianyi.dims.constant.FrameConstant;
+import com.hengtianyi.common.core.util.sequence.IdGenUtil;
+import com.hengtianyi.common.core.util.sequence.SystemClock;
 import com.hengtianyi.dims.exception.ErrorEnum;
 import com.hengtianyi.dims.exception.WebException;
-import com.hengtianyi.dims.service.api.*;
+import com.hengtianyi.dims.service.api.IncorruptAdviceService;
+import com.hengtianyi.dims.service.api.SysUserService;
+import com.hengtianyi.dims.service.api.YqfkRegisterService;
 import com.hengtianyi.dims.service.dto.QueryDto;
-import com.hengtianyi.dims.service.dto.TaskInfoDto;
+import com.hengtianyi.dims.service.entity.IncorruptAdviceEntity;
 import com.hengtianyi.dims.service.entity.SysUserEntity;
-import com.hengtianyi.dims.service.entity.TaskInfoEntity;
+import com.hengtianyi.dims.service.entity.YqfkRegisterEntity;
 import com.hengtianyi.dims.utils.WebUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,34 +26,29 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * YqfkRegister - Controller
  *
- * @author LY
+ * @author JYY
  */
 @Controller
 @RequestMapping(value = YqfkRegisterController.MAPPING)
-public class YqfkRegisterController extends AbstractBaseController<TaskInfoEntity, String> {
+public class YqfkRegisterController extends
+    AbstractBaseController<YqfkRegisterEntity, String> {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(YqfkRegisterController.class);
   public static final String MAPPING = "a/yqfkRegister";
 
   @Resource
-  private TaskInfoService taskInfoService;
+  private YqfkRegisterService yqfkRegisterService;
   @Resource
   private SysUserService sysUserService;
-  @Resource
-  private TaskFlowService taskFlowService;
-  @Resource
-  private TownshipService townshipService;
-  @Resource
-  private RelUserAreaService relUserAreaService;
 
   @Override
-  public TaskInfoService getService() {
-    return taskInfoService;
+  public YqfkRegisterService getService() {
+    return yqfkRegisterService;
   }
 
   @Override
@@ -67,8 +65,7 @@ public class YqfkRegisterController extends AbstractBaseController<TaskInfoEntit
   @GetMapping(value = "/index.html", produces = BaseConstant.HTML)
   public String index(Model model) {
     model.addAttribute("mapping", MAPPING);
-    model.addAttribute("areaList", townshipService.areaList());
-    return "web/taskInfo/taskInfo_index";
+    return "web/yqfkRegister/yqfkRegister_index";
   }
 
   /**
@@ -79,9 +76,8 @@ public class YqfkRegisterController extends AbstractBaseController<TaskInfoEntit
    * @return 视图
    */
   @GetMapping(value = "/edit.html", produces = BaseConstant.HTML)
-  public String edit(Model model, @RequestParam(value = "id", required = false) String id,
-      HttpServletRequest request) {
-    TaskInfoEntity entity = null;
+  public String edit(Model model, @RequestParam(value = "id", required = false) String id) {
+    YqfkRegisterEntity entity = null;
     if (StringUtil.isNoneBlank(id)) {
       entity = this.getDataByIdCommon(id);
       if (entity == null) {
@@ -90,9 +86,7 @@ public class YqfkRegisterController extends AbstractBaseController<TaskInfoEntit
     }
     model.addAttribute("mapping", MAPPING);
     model.addAttribute("entity", entity);
-    String userId = WebUtil.getUserId(request);
-    model.addAttribute("areaList", relUserAreaService.getUserArealist(userId));
-    return "web/taskInfo/taskInfo_edit";
+    return "web/yqfkRegister/yqfkRegister_edit";
   }
 
   /**
@@ -105,30 +99,31 @@ public class YqfkRegisterController extends AbstractBaseController<TaskInfoEntit
   @ResponseBody
   @PostMapping(value = "/getDataList.json", produces = BaseConstant.JSON)
   public String getDataList(@ModelAttribute CommonPageDto pageDto,
-      @ModelAttribute TaskInfoEntity dto, HttpServletRequest request) {
-    QueryDto queryDto = new QueryDto();
-    SysUserEntity userEntity = WebUtil.getUser(request);
-    Integer roleId = userEntity.getRoleId();
-    queryDto.setRoleId(roleId);
-    if (roleId < 1005) {
-      queryDto.setUserId(userEntity.getId());
+      @ModelAttribute YqfkRegisterEntity dto) {
+    try {
+      int rowsCount = getService().searchDataCount(dto);
+      if (BaseConstant.NUM_1 > rowsCount) {
+        //无数据，返回JSON
+        return BaseConstant.EMPTY_LIST_JSON;
+      }
+      pageDto.setTotal(rowsCount);
+      QueryDto queryDto = new QueryDto();
+      queryDto.setCurrentPage(pageDto.getCurrent());
+      List<YqfkRegisterEntity> listData = getService().listData(queryDto);
+      for (YqfkRegisterEntity one : listData) {
+        this.clearEntity(one);
+      }
+      CommonPageDto cpDto = new CommonPageDto(listData);
+      cpDto.setCurrent(pageDto.getCurrent());
+      cpDto.setRowCount(pageDto.getRowCount());
+      cpDto.setTotal(pageDto.getTotal());
+      return cpDto.toJsonHtml();
+    } catch (Exception ex) {
+      getLogger()
+          .error("[getDataListCommon]{}, pageDto = {}, dto = {}", ex.getMessage(), pageDto.toJson(),
+              dto.toJson(), ex);
     }
-    if (dto != null) {
-      if (dto.getState() != null) {
-        queryDto.setState(dto.getState().intValue());
-      }
-      if (StringUtil.isNotEmpty(dto.getStartTime())) {
-        queryDto.setStartTime(dto.getStartTime().trim() + " 00:00:00");
-      }
-      if (StringUtil.isNotEmpty(dto.getEndTime())) {
-        queryDto.setEndTime(dto.getEndTime().trim() + " 00:00:00");
-      }
-      queryDto.setAreaCode(dto.getAreaCode());
-    }
-    queryDto.setCurrentPage(pageDto.getCurrent());
-    queryDto.setFirst((pageDto.getCurrent() - 1) * FrameConstant.PAGE_SIZE);
-    queryDto.setEnd(pageDto.getCurrent() * FrameConstant.PAGE_SIZE);
-    return taskInfoService.listData(queryDto).toJsonHtml();
+    return BaseConstant.EMPTY_LIST_JSON;
   }
 
   /**
@@ -140,17 +135,14 @@ public class YqfkRegisterController extends AbstractBaseController<TaskInfoEntit
   @ResponseBody
   @PostMapping(value = "/getDataInfo.json", produces = BaseConstant.JSON)
   public String getDataInfo(@RequestParam String id) {
-    ServiceResult<TaskInfoEntity> result = new ServiceResult<>();
-    TaskInfoEntity one = this.getDataByIdCommon(id);
+    ServiceResult<YqfkRegisterEntity> result = new ServiceResult<>();
+    YqfkRegisterEntity one = this.getDataByIdCommon(id);
     if (null != one) {
       this.clearEntity(one);
-      SysUserEntity userEntity = sysUserService.searchDataById(one.getUserId());
+      /*SysUserEntity userEntity = sysUserService.searchDataById(one.getUserId());
       if (userEntity != null) {
         one.setUserName(userEntity.getUserName());
-      }
-      one.setFlows(taskFlowService.getAllFlows(one.getId()));
-
-      one.setImg(taskInfoService.getImages(id));
+      }*/
       result.setSuccess(true);
       result.setResult(one);
     } else {
@@ -168,47 +160,39 @@ public class YqfkRegisterController extends AbstractBaseController<TaskInfoEntit
   @ResponseBody
   @PostMapping(value = "/deleteData.json", produces = BaseConstant.JSON)
   public String deleteData(@ModelAttribute CommonStringDto idsDto) {
-//    deleteDataCommon(idsDto)
-//    taskInfoService.deleteInfo(idsDto);
-//    System.out.println(deleteDataCommon(idsDto));
-//    return deleteDataCommon(idsDto);
-//    deleteDataCommon(idsDto);
-    return taskInfoService.deleteInfo(idsDto);
+    return deleteDataCommon(idsDto);
   }
 
   /**
    * 通过AJAX保存[JSON]
    *
+   * @param entity 对象实体
+   * @param n      这个可以是任意非空字符，用来确定是否添加
    * @return JSON
    */
   @ResponseBody
   @PostMapping(value = "/saveData.json", produces = BaseConstant.JSON)
-  public String saveData(@ModelAttribute TaskInfoDto dto, HttpServletRequest request) {
-    System.out.println(dto);
-    ServiceResult<Integer> result = new ServiceResult<>();
-    try {
-      int ct = taskInfoService.saveData(dto, request);
-      if (ct > BaseConstant.NUM_0) {
-        result.setResult(ct);
-        result.setSuccess(true);
-      } else {
-        result.setResult(BaseConstant.NUM_0);
-        result.setError(BaseConstant.ERROR_SAVE);
+  public String saveData(@ModelAttribute YqfkRegisterEntity entity,
+      @RequestParam(value = BaseConstant.PAGE_ADD_SIGN, required = false) String n) {
+    boolean isNew = StringUtil.isBlank(n);
+    if (isNew) {
+      // 如果没有在表单指定主键，这里需要生成一个
+      String id = entity.getId();
+      if (StringUtil.isBlank(id)) {
+        entity.setId(IdGenUtil.uuid32());
+       // entity.setUserId(WebUtil.getUserId());
       }
-    } catch (Exception ex) {
-      String exMsg = ex.getMessage();
-      result.setResult(-1);
-      result.setError(BaseConstant.ERROR_SAVE);
-      LOGGER.error("[insertDataCommon]{}, entity = {}", exMsg, dto.toJson(), ex);
+     // entity.setCreateTime(SystemClock.nowDate());
+      return this.insertDataCommon(entity);
+    } else {
+      return this.updateDataCommon(entity);
     }
-    return JsonUtil.toJson(result);
   }
 
   @Override
-  public void clearEntity(TaskInfoEntity entity) {
+  public void clearEntity(YqfkRegisterEntity entity) {
     if (null != entity) {
       entity.clean();
-
     }
   }
 }
