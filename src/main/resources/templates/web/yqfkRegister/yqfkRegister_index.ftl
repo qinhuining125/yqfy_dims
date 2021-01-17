@@ -10,7 +10,7 @@
                 <div class="ibox-tools"><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></div>
             </div>
             <div class="ibox-content">
-                <form class="form-horizontal" id="frm-search-taskInfo">
+            <#--    <form class="form-horizontal" id="frm-search-taskInfo">
                     <div class="row">
                         <div class="col-xs-6 col-sm-4 col-lg-3">
                             <div class="form-group">
@@ -52,7 +52,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-xs-6 col-sm-4 col-lg-3">
+                        <<div class="col-xs-6 col-sm-4 col-lg-3">
                             <div class="form-group">
                                 <label class="col-sm-4 control-label">村:</label>
                                 <div class="col-sm-7">
@@ -68,41 +68,41 @@
                         </button>
                         <button type="reset" class="btn"><i class="fa fa-minus"></i> 重置</button>
                     </div>
-                </form>
+                </form>-->
             </div>
         </div>
         <div class="table-responsive ibox-content">
             <div class="clearfix" style="margin-bottom:10px;">
                 <div class="pull-left">
-                    <button type="button" class="btn btn-primary" id="btn-add-taskInfo"><i
+                    <#--<button type="button" class="btn btn-primary" id="btn-add-taskInfo"><i
                                 class="fa fa-plus"></i> 新增
                     </button>
                     <button type="button" class="btn btn-danger" id="btn-del-taskInfo"><i
                                 class="fa fa-remove"></i> 删除
-                    </button>
+                    </button>-->
                 </div>
                 <div class="grid-o pull-right" id="bootgrid-toolbar"></div>
             </div>
-            <table id="table-taskInfo"
+            <table id="table-yqfkRegister"
                    class="table table-condensed table-hover table-striped table-bordered no-margins">
                 <thead>
                 <tr>
                     <th data-column-id="id" data-width="60px" data-formatter="no" data-sortable="false"
                         data-identifier="true">序号
                     </th>
-                    <th data-column-id="userName" data-order="desc" data-visible="true" data-sortable="true">
+                    <th data-column-id="name" data-order="desc" data-visible="true" data-sortable="true">
                         用户
                     </th>
-                    <th data-column-id="content" data-order="desc" data-visible="true" data-sortable="true">
-                        内容
+                    <th data-column-id="sex" data-order="desc" data-visible="true" data-sortable="true">
+                        性别
                     </th>
-                    <th data-column-id="createTime" data-order="desc" data-visible="true"
+                   <#-- <th data-column-id="createTime" data-order="desc" data-visible="true"
                         data-sortable="true" data-formatter="fun_date">任务时间
                     </th>
                     <th data-column-id="state" data-order="desc" data-formatter="fun_state"
                         data-visible="true" data-sortable="true">
                         状态
-                    </th>
+                    </th>-->
                     <th data-column-id="link" data-width="180px" data-formatter="commands" data-custom="true"
                         data-sortable="false">操作
                     </th>
@@ -116,7 +116,7 @@
 <#include "/common/scriptfile_list.ftl"/>
 <script src="${global.staticPath!}static/plugins/laydate/laydate.js"></script>
 <script src="${global.staticPath!}/static/utils/handlebars-tool.js"></script>
-<script id="template-taskInfo" type="text/x-handlebars-template">
+<script id="template-yqfkRegister" type="text/x-handlebars-template">
     <td data-id="{{id}}">
         <button class="btn btn-primary btn-xs o-ch ops-view"><i class="fa fa-eye"></i> 查看</button>
         <#--<button class="btn btn-warning btn-xs o-c ops-edit"><i class="fa fa-edit"></i> 修改</button>-->
@@ -127,28 +127,28 @@
         {{/fun_equals_one}}
     </td>
 </script>
-<script id="template-villages" type="text/x-handlebars-template">
+<#--<script id="template-villages" type="text/x-handlebars-template">
     <option value="">--请选择--</option>
     {{#each this}}
     <option value="{{areaCode}}">{{areaName}}</option>
     {{/each}}
-</script>
+</script>-->
 
-<script id="template-view-taskInfo" type="text/x-handlebars-template">
+<script id="template-view-yqfkRegister" type="text/x-handlebars-template">
     <div class="form-horizontal" style="margin: 20px;">
         <div class="form-group">
             <label class="col-xs-4 control-label">用户：</label>
             <div class="col-xs-8">
-                <div class="form-control-static">{{userName}}</div>
+                <div class="form-control-static">{{name}}</div>
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-4 control-label">内容：</label>
+            <label class="col-xs-4 control-label">性别：</label>
             <div class="col-xs-8">
-                <div class="form-control-static">{{content}}</div>
+                <div class="form-control-static">{{sex}}</div>
             </div>
         </div>
-        <div class="form-group">
+      <#--  <div class="form-group">
             <label class="col-xs-4 control-label">任务时间：</label>
             <div class="col-xs-8">
                 <div class="form-control-static">{{formatDate createTime "yyyy-MM-dd hh:mm:ss"}}</div>
@@ -158,13 +158,13 @@
             <label class="col-xs-4 control-label">图片：</label>
             <div id="localImag">
                 {{#each img}}
-                <#--        <img src="http://localhost:81/{{imageURL}}" width="200" height="200" />-->
+                &lt;#&ndash;        <img src="http://localhost:81/{{imageURL}}" width="200" height="200" />&ndash;&gt;
                 <img src="${global.preUrl!}{{imageURL}}" width="200" height="200" />
-                <#--        <img src="/getImage?path="{{imageURL}}" width="200" height="200">-->
+                &lt;#&ndash;        <img src="/getImage?path="{{imageURL}}" width="200" height="200">&ndash;&gt;
                 {{/each}}
             </div>
-        </div>
-        <table class="table table-condensed table-hover table-striped table-bordered no-margins">
+        </div>-->
+      <#--  <table class="table table-condensed table-hover table-striped table-bordered no-margins">
             <thead>
             <tr>
                 <td>接受人员</td>
@@ -196,7 +196,7 @@
             </tr>
             {{/each}}
             </tbody>
-        </table>
+        </table>-->
     </div>
 </script>
 <script>
@@ -247,10 +247,10 @@
     }
 
     $(document).ready(function () {
-        var HBR_TD = Handlebars.compile($("#template-taskInfo").html());
+        var HBR_TD = Handlebars.compile($("#template-yqfkRegister").html());
         var pageParams = {
             <#-- 模块id，最重要的属性 -->
-            "moduleName": "taskInfo",
+            "moduleName": "yqfkRegister",
             <#-- 弹窗区域，都是100%，是不显示最大化按钮的 -->
             "area": ["60%", "500px"],
             "url": {
@@ -288,13 +288,13 @@
             "otherParams": {}
         };
         <#-- view的本页渲染的模板 -->
-        var HBR_VIEW = Handlebars.compile($("#template-view-taskInfo").html());
+        var HBR_VIEW = Handlebars.compile($("#template-view-yqfkRegister").html());
         <#-- 列表ajax加载，绑定删除和编辑之外的其他按钮 -->
 
         function bindRowEvent() {
             <#-- 绑定查看，本例是用的本页渲染，也可以使用单独的页面 -->
             <#-- CommonGetData定义在main-list.js -->
-            $("#table-taskInfo .ops-view").on("click", function () {
+            $("#table-yqfkRegister .ops-view").on("click", function () {
                 var id = $(this).parent().attr("data-id");
                 CommonGetData(pageParams.url.view, {
                     "id": id

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!--
+ Oracle
+ table name  CLUE_FLOW
+ remarks     线索流程
+ author      LY
+-->
+<mapper namespace="com.hengtianyi.dims.service.dao.RegionDao">
+
+
+  <!-- 字段与实体的映射 -->
+  <resultMap id="BaseResultMap" type="com.hengtianyi.dims.service.entity.Region">
+    <id column="PCODE" property="pcode" jdbcType="VARCHAR"/>
+    <result column="PNAME" property="pname" jdbcType="VARCHAR"/>
+    <result column="PLEVEL" property="plevel" jdbcType="VARCHAR"/>
+    <result column="PARENT" property="parent" jdbcType="VARCHAR"/>
+    <result column="VALID" property="valid" jdbcType="VARCHAR"/>
+  </resultMap>
+
+  <!-- 字段集合 -->
+  <sql id="Base_Column_List">
+      "PCODE" , "PNAME" , "PLEVEL" , "PARENT" , "VALID"
+  </sql>
+
+  <select id="getProvince" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select
+    t."PCODE" , t."PNAME" , t."PLEVEL" , t."PARENT" , t."VALID"
+    from "YQFK_PCX" t where t."PARENT"=0 and t."PLEVEL"=1
+
+  </select>
+
+  <select id="getCity" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select
+    t."PCODE" , t."PNAME" , t."PLEVEL" , t."PARENT" , t."VALID"
+    from "YQFK_PCX" t  where t."PARENT"=#{pcode,jdbcType=VARCHAR} and t."PLEVEL"=2
+
+  </select>
+
+  <select id="getCounty" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select
+    t."PCODE" , t."PNAME" , t."PLEVEL" , t."PARENT" , t."VALID"
+    from "YQFK_PCX" t where t."PARENT"=#{pcode,jdbcType=VARCHAR} and t."PLEVEL"=3
+
+  </select>
+</mapper>
