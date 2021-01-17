@@ -26,7 +26,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * TaskInfo - Controller
+ * YqfkRegister - Controller
  *
  * @author LY
  */
@@ -35,7 +35,7 @@ import javax.servlet.http.HttpServletRequest;
 public class YqfkRegisterController extends AbstractBaseController<TaskInfoEntity, String> {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(YqfkRegisterController.class);
-  public static final String MAPPING = "a/taskInfo";
+  public static final String MAPPING = "a/yqfkRegister";
 
   @Resource
   private TaskInfoService taskInfoService;
