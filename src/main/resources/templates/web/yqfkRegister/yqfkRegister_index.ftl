@@ -26,24 +26,24 @@
                                 <input type="hidden" id="areaCode" name="areaCode">
                             </div>
                         </div>
-                        <div class="col-xs-6 col-sm-4 col-lg-3">
-                            <div class="form-group">
-                                <label class="col-sm-4 control-label">返乡状态</label>
-                                <div class="col-sm-7">
-                                    <select name="state" class="form-control">
-                                        <option value="">全部</option>
-                                        <option value="0">未处理</option>
-                                        <option value="1">已受理</option>
-                                        <option value="2">已办结</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
+<#--                        <div class="col-xs-6 col-sm-4 col-lg-3">-->
+<#--                            <div class="form-group">-->
+<#--                                <label class="col-sm-4 control-label">返乡状态</label>-->
+<#--                                <div class="col-sm-7">-->
+<#--                                    <select name="state" class="form-control">-->
+<#--                                        <option value="">全部</option>-->
+<#--                                        <option value="0">未处理</option>-->
+<#--                                        <option value="1">已受理</option>-->
+<#--                                        <option value="2">已办结</option>-->
+<#--                                    </select>-->
+<#--                                </div>-->
+<#--                            </div>-->
+<#--                        </div>-->
                         <div class="col-xs-6 col-sm-4 col-lg-3">
                             <div class="form-group">
                                 <label class="col-sm-4 control-label">网格员:</label>
                                 <div class="col-sm-7">
-                                    <input type="text" name="createAccount" class="form-control" autocomplete="off" class="layui-input">
+                                    <input type="text" name="createAccount" class="form-control" autocomplete="off" >
                                 </div>
                             </div>
                         </div>
@@ -51,7 +51,7 @@
                             <div class="form-group">
                                 <label class="col-sm-4 control-label">省:</label>
                                 <div class="col-sm-7">
-                                    <select class="form-control" id="province" onchange="searchP(this);">
+                                    <select class="form-control" id="province" name="beforeReturnPbm" onchange="searchP(this);">
                                         <option value="">全部</option>
                                         <#list areaList as obj>
                                             <option value="${(obj.id)}">${(obj.pname)!}</option>
@@ -64,7 +64,7 @@
                             <div class="form-group">
                                 <label class="col-sm-4 control-label">市:</label>
                                 <div class="col-sm-7">
-                                    <select id="city" class="form-control" onchange="choseS(this);">
+                                    <select id="city" class="form-control" name="beforeReturnCbm" onchange="choseS(this);">
                                         <option value="">全部</option>
                                     </select>
                                 </div>
@@ -74,7 +74,7 @@
                             <div class="form-group">
                                 <label class="col-sm-4 control-label">县:</label>
                                 <div class="col-sm-7">
-                                    <select id="county" class="form-control" onchange="choseX(this);">
+                                    <select id="county" class="form-control" name="beforeReturnXbm" onchange="choseX(this);">
                                         <option value="">全部</option>
                                     </select>
                                 </div>
@@ -82,7 +82,7 @@
                         </div>
                     </div>
                     <div class="text-center">
-                        <button id="btn-search-taskInfo" class="btn btn-primary"><i class="fa fa-search"></i> 查询
+                        <button id="btn-search-yqfkRegister" class="btn btn-primary"><i class="fa fa-search"></i> 查询
                         </button>
                         <button type="reset" class="btn"><i class="fa fa-minus"></i> 重置</button>
                     </div>
@@ -123,13 +123,6 @@
                     <th data-column-id="phone" data-order="desc" data-visible="true" data-sortable="true">
                         手机号
                     </th>
-                    <#-- <th data-column-id="createTime" data-order="desc" data-visible="true"
-                         data-sortable="true" data-formatter="fun_date">任务时间
-                     </th>
-                     <th data-column-id="state" data-order="desc" data-formatter="fun_state"
-                         data-visible="true" data-sortable="true">
-                         状态
-                     </th>-->
                     <th data-column-id="link" data-width="180px" data-formatter="commands" data-custom="true"
                         data-sortable="false">操作
                     </th>
@@ -476,7 +469,7 @@
     function choseX(obj) {
         var code = $(obj).val();
         if (code == '') {
-            code = $("#township").val();
+            code = $("#county").val();
         }
         $("#areaCode").val(code);
     }
