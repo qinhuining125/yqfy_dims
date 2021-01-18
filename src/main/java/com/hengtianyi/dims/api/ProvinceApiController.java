@@ -35,19 +35,21 @@ public class ProvinceApiController {
     ServiceResult<Object> result = new ServiceResult<>();
     try {
       List<Region> regionList = regionService.getProvince();
-      for (int i = 0; i < regionList.size(); i++) {
-        String code = regionList.get(i).getPcode();
+      List<Region> city = regionService.getCity("4");
+      List<Region> village = regionService.getCounty("288");
+      /*for (int i = 0; i < regionList.size(); i++) {
+        String parent = regionList.get(i).getId();
         regionList.get(i).setChildren(regionList);
-        List<Region> city = regionService.getCity(code);
+        List<Region> city = regionService.getCity(parent);
         // 将城市信息插入省份子列表
         regionList.get(i).setChildren(city);
         for (int j = 0; j < city.size(); j++) {
-          String cityCode = String.valueOf(city.get(j).getPcode());
-          List<Region> county = regionService.getCounty(cityCode);
+          String parents = String.valueOf(city.get(j).getId());
+          List<Region> county = regionService.getCounty(parents);
           // 将区县信息插入城市子列表
           city.get(j).setChildren(county);
         }
-      }
+      }*/
       result.setResult(regionList);
       result.setSuccess(true);
     } catch (Exception e) {

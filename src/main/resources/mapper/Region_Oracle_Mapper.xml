@@ -17,31 +17,32 @@
     <result column="PLEVEL" property="plevel" jdbcType="VARCHAR"/>
     <result column="PARENT" property="parent" jdbcType="VARCHAR"/>
     <result column="VALID" property="valid" jdbcType="VARCHAR"/>
+    <result column="ID" property="id" jdbcType="CHAR"/>
   </resultMap>
 
   <!-- 字段集合 -->
   <sql id="Base_Column_List">
-      "PCODE" , "PNAME" , "PLEVEL" , "PARENT" , "VALID"
+      "ID","PCODE" , "PNAME" , "PLEVEL" , "PARENT" , "VALID"
   </sql>
 
   <select id="getProvince" resultMap="BaseResultMap" parameterType="java.lang.String">
     select
-    t."PCODE" , t."PNAME" , t."PLEVEL" , t."PARENT" , t."VALID"
+    t."ID", t."PCODE" , t."PNAME" , t."PLEVEL" , t."PARENT" , t."VALID"
     from "YQFK_PCX" t where t."PARENT"=0 and t."PLEVEL"=1
 
   </select>
 
   <select id="getCity" resultMap="BaseResultMap" parameterType="java.lang.String">
     select
-    t."PCODE" , t."PNAME" , t."PLEVEL" , t."PARENT" , t."VALID"
-    from "YQFK_PCX" t  where t."PARENT"=#{pcode,jdbcType=VARCHAR} and t."PLEVEL"=2
+    t."ID", t."PCODE" , t."PNAME" , t."PLEVEL" , t."PARENT" , t."VALID"
+    from "YQFK_PCX" t  where t."PARENT"=#{parent,jdbcType=VARCHAR} and t."PLEVEL"=2
 
   </select>
 
   <select id="getCounty" resultMap="BaseResultMap" parameterType="java.lang.String">
     select
-    t."PCODE" , t."PNAME" , t."PLEVEL" , t."PARENT" , t."VALID"
-    from "YQFK_PCX" t where t."PARENT"=#{pcode,jdbcType=VARCHAR} and t."PLEVEL"=3
+    t."ID", t."PCODE" , t."PNAME" , t."PLEVEL" , t."PARENT" , t."VALID"
+    from "YQFK_PCX" t where t."PARENT"=#{parent,jdbcType=VARCHAR} and t."PLEVEL"=3
 
   </select>
 </mapper>

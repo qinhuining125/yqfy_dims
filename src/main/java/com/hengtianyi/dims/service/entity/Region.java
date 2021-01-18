@@ -8,12 +8,21 @@ import java.util.List;
 
 public class Region extends BaseEntity implements Serializable {
 
+    private String id;
     private String pcode;
     private String pname;
     private String parent;
     private Integer plevel;
     private String valid;
     private List<Region> children = new ArrayList<>();
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getPcode() {
         return pcode;

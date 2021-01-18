@@ -89,13 +89,13 @@ public class RegionServiceImpl extends AbstractGenericServiceImpl<Region, String
   }
 
   @Override
-  public List<Region> getCity(String pcode) {
-    return regionDao.getCity(pcode);
+  public List<Region> getCity(String parent) {
+    return regionDao.getCity(parent);
   }
 
   @Override
-  public List<Region> getCounty(String pcode) {
-    return regionDao.getCounty(pcode);
+  public List<Region> getCounty(String parent) {
+    return regionDao.getCounty(parent);
   }
 
 
