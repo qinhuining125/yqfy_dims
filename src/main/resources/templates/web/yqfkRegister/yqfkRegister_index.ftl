@@ -10,11 +10,11 @@
                 <div class="ibox-tools"><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></div>
             </div>
             <div class="ibox-content">
-            <#--    <form class="form-horizontal" id="frm-search-taskInfo">
+                <form class="form-horizontal" id="frm-search-yqfkRegister">
                     <div class="row">
                         <div class="col-xs-6 col-sm-4 col-lg-3">
                             <div class="form-group">
-                                <label class="col-sm-4 control-label">时间段：</label>
+                                <label class="col-sm-4 control-label">返乡时间段：</label>
                                 <div class="col-sm-7">
                                     <div class="input-group">
                                         <input type="text" class="form-control" id="timeRange"
@@ -28,7 +28,7 @@
                         </div>
                         <div class="col-xs-6 col-sm-4 col-lg-3">
                             <div class="form-group">
-                                <label class="col-sm-4 control-label">状态</label>
+                                <label class="col-sm-4 control-label">返乡状态</label>
                                 <div class="col-sm-7">
                                     <select name="state" class="form-control">
                                         <option value="">全部</option>
@@ -41,22 +41,40 @@
                         </div>
                         <div class="col-xs-6 col-sm-4 col-lg-3">
                             <div class="form-group">
-                                <label class="col-sm-4 control-label">乡镇:</label>
+                                <label class="col-sm-4 control-label">网格员:</label>
                                 <div class="col-sm-7">
-                                    <select class="form-control" id="township" onchange="searchVillage(this);">
+                                    <input type="text" name="createAccount" class="form-control" autocomplete="off" class="layui-input">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-6 col-sm-4 col-lg-3">
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label">省:</label>
+                                <div class="col-sm-7">
+                                    <select class="form-control" id="province" onchange="searchP(this);">
                                         <option value="">全部</option>
                                         <#list areaList as obj>
-                                            <option value="${(obj.areaCode!)}">${(obj.areaName)!}</option>
+                                            <option value="${(obj.id)}">${(obj.pname)!}</option>
                                         </#list>
                                     </select>
                                 </div>
                             </div>
                         </div>
-                        <<div class="col-xs-6 col-sm-4 col-lg-3">
+                        <div class="col-xs-6 col-sm-4 col-lg-3">
                             <div class="form-group">
-                                <label class="col-sm-4 control-label">村:</label>
+                                <label class="col-sm-4 control-label">市:</label>
                                 <div class="col-sm-7">
-                                    <select id="valliage" class="form-control" onchange="choseArea(this);">
+                                    <select id="city" class="form-control" onchange="choseS(this);">
+                                        <option value="">全部</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-6 col-sm-4 col-lg-3">
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label">县:</label>
+                                <div class="col-sm-7">
+                                    <select id="county" class="form-control" onchange="choseX(this);">
                                         <option value="">全部</option>
                                     </select>
                                 </div>
@@ -68,16 +86,16 @@
                         </button>
                         <button type="reset" class="btn"><i class="fa fa-minus"></i> 重置</button>
                     </div>
-                </form>-->
+                </form>
             </div>
         </div>
         <div class="table-responsive ibox-content">
             <div class="clearfix" style="margin-bottom:10px;">
                 <div class="pull-left">
-                    <button type="button" class="btn btn-primary" id="btn-add-taskInfo"><i
+                    <#--<button type="button" class="btn btn-primary" id="btn-add-taskInfo"><i
                                 class="fa fa-plus"></i> 新增
                     </button>
-                    <!--<button type="button" class="btn btn-danger" id="btn-del-taskInfo"><i
+                    <button type="button" class="btn btn-danger" id="btn-del-taskInfo"><i
                                 class="fa fa-remove"></i> 删除
                     </button>-->
                 </div>
@@ -91,18 +109,27 @@
                         data-identifier="true">序号
                     </th>
                     <th data-column-id="name" data-order="desc" data-visible="true" data-sortable="true">
-                        用户
+                        姓名
                     </th>
                     <th data-column-id="sex" data-order="desc" data-visible="true" data-sortable="true">
                         性别
                     </th>
-                   <#-- <th data-column-id="createTime" data-order="desc" data-visible="true"
-                        data-sortable="true" data-formatter="fun_date">任务时间
+                    <th data-column-id="age" data-order="desc" data-visible="true" data-sortable="true">
+                        年龄
                     </th>
-                    <th data-column-id="state" data-order="desc" data-formatter="fun_state"
-                        data-visible="true" data-sortable="true">
-                        状态
-                    </th>-->
+                    <th data-column-id="returnState" data-order="desc" data-visible="true" data-sortable="true">
+                        是否返乡
+                    </th>
+                    <th data-column-id="phone" data-order="desc" data-visible="true" data-sortable="true">
+                        手机号
+                    </th>
+                    <#-- <th data-column-id="createTime" data-order="desc" data-visible="true"
+                         data-sortable="true" data-formatter="fun_date">任务时间
+                     </th>
+                     <th data-column-id="state" data-order="desc" data-formatter="fun_state"
+                         data-visible="true" data-sortable="true">
+                         状态
+                     </th>-->
                     <th data-column-id="link" data-width="180px" data-formatter="commands" data-custom="true"
                         data-sortable="false">操作
                     </th>
@@ -127,17 +154,22 @@
         {{/fun_equals_one}}
     </td>
 </script>
-<#--<script id="template-villages" type="text/x-handlebars-template">
+<script id="template-province" type="text/x-handlebars-template">
     <option value="">--请选择--</option>
     {{#each this}}
-    <option value="{{areaCode}}">{{areaName}}</option>
+    <option value="{{id}}">{{pname}}</option>
     {{/each}}
-</script>-->
-
+</script>
+<script id="template-city" type="text/x-handlebars-template">
+    <option value="">--请选择--</option>
+    {{#each this}}
+    <option value="{{id}}">{{pname}}</option>
+    {{/each}}
+</script>
 <script id="template-view-yqfkRegister" type="text/x-handlebars-template">
     <div class="form-horizontal" style="margin: 20px;">
         <div class="form-group">
-            <label class="col-xs-4 control-label">用户：</label>
+            <label class="col-xs-4 control-label">姓名：</label>
             <div class="col-xs-8">
                 <div class="form-control-static">{{name}}</div>
             </div>
@@ -148,55 +180,235 @@
                 <div class="form-control-static">{{sex}}</div>
             </div>
         </div>
-      <#--  <div class="form-group">
-            <label class="col-xs-4 control-label">任务时间：</label>
+        <div class="form-group">
+            <label class="col-xs-4 control-label">年龄：</label>
+            <div class="col-xs-8">
+                <div class="form-control-static">{{age}}</div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-4 control-label">身份证：</label>
+            <div class="col-xs-8">
+                <div class="form-control-static">{{card}}</div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-4 control-label">户籍所在地：</label>
+            <div class="col-xs-8">
+                <div class="form-control-static">{{hj}}</div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-4 control-label">是否常驻：</label>
+            <div class="col-xs-8">
+                <div class="form-control-static">{{sfcz}}</div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-4 control-label">与户主关系1：</label>
+            <div class="col-xs-8">
+                <div class="form-control-static">{{relation}}</div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-4 control-label">联系电话：</label>
+            <div class="col-xs-8">
+                <div class="form-control-static">{{phone}}</div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-4 control-label">工作单位：</label>
+            <div class="col-xs-8">
+                <div class="form-control-static">{{workSchool}}</div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-4 control-label">行业：</label>
+            <div class="col-xs-8">
+                <div class="form-control-static">{{industray}}</div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-4 control-label">是否返乡：</label>
+            <div class="col-xs-8">
+                <div class="form-control-static">{{returnState}}</div>
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <label class="col-xs-4 control-label">返乡日期：</label>
+            <div class="col-xs-8">
+                <div class="form-control-static">{{formatDate returnTime "yyyy-MM-dd hh:mm:ss"}}</div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-4 control-label">返乡方式：</label>
+            <div class="col-xs-8">
+                <div class="form-control-static">{{returnWay}}</div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-4 control-label">返乡车牌号：</label>
+            <div class="col-xs-8">
+                <div class="form-control-static">{{returnCarnum}}</div>
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <label class="col-xs-4 control-label">拟返乡日期：</label>
+            <div class="col-xs-8">
+                <div class="form-control-static">{{formatDate expReturnTime "yyyy-MM-dd hh:mm:ss"}}</div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-4 control-label">拟返乡方式：</label>
+            <div class="col-xs-8">
+                <div class="form-control-static">{{expReturnWay}}</div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-4 control-label">拟返乡车牌号：</label>
+            <div class="col-xs-8">
+                <div class="form-control-static">{{expReturnCarnum}}</div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-4 control-label">返乡前详细地址：</label>
+            <div class="col-xs-8">
+                <div class="form-control-static">{{beforeReturnAddress}}</div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-4 control-label">返乡后详细地址：</label>
+            <div class="col-xs-8">
+                <div class="form-control-static">{{afterReturnAddress}}</div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-4 control-label">是否本地租户：</label>
+            <div class="col-xs-8">
+                <div class="form-control-static">{{localState}}</div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-4 control-label">核酸检测日期：</label>
+            <div class="col-xs-8">
+                <div class="form-control-static">{{formatDate natTime "yyyy-MM-dd hh:mm:ss"}}</div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-4 control-label">核酸检测结果：</label>
+            <div class="col-xs-8">
+                <div class="form-control-static">{{natResult}}</div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-4 control-label">是否接触：</label>
+            <div class="col-xs-8">
+                <div class="form-control-static">{{touchState}}</div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-4 control-label">是否居家隔离：</label>
+            <div class="col-xs-8">
+                <div class="form-control-static">{{isLateStete}}</div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-4 control-label">隔离开始日期：</label>
+            <div class="col-xs-8">
+                <div class="form-control-static">{{formatDate isLateStateTime "yyyy-MM-dd hh:mm:ss"}}</div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-4 control-label">当前健康状态是否异常：</label>
+            <div class="col-xs-8">
+                <div class="form-control-static">{{healthState}}</div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-4 control-label">异常说明：</label>
+            <div class="col-xs-8">
+                <div class="form-control-static">{{remark}}</div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-4 control-label">录入信息的网格员账号：</label>
+            <div class="col-xs-8">
+                <div class="form-control-static">{{createAccount}}</div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-4 control-label">创建时间：</label>
             <div class="col-xs-8">
                 <div class="form-control-static">{{formatDate createTime "yyyy-MM-dd hh:mm:ss"}}</div>
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-4 control-label">图片：</label>
-            <div id="localImag">
-                {{#each img}}
-                &lt;#&ndash;        <img src="http://localhost:81/{{imageURL}}" width="200" height="200" />&ndash;&gt;
-                <img src="${global.preUrl!}{{imageURL}}" width="200" height="200" />
-                &lt;#&ndash;        <img src="/getImage?path="{{imageURL}}" width="200" height="200">&ndash;&gt;
-                {{/each}}
+            <label class="col-xs-4 control-label">更新时间：</label>
+            <div class="col-xs-8">
+                <div class="form-control-static">{{formatDate updateTime "yyyy-MM-dd hh:mm:ss"}}</div>
             </div>
-        </div>-->
-      <#--  <table class="table table-condensed table-hover table-striped table-bordered no-margins">
-            <thead>
-            <tr>
-                <td>接受人员</td>
-                <td>状态</td>
-                <td>反馈意见</td>
-                <td>时间</td>
-            </tr>
-            </thead>
-            <tbody>
-            {{#each flows}}
-            <tr>
-                <td>
-                    <div class="form-control-static">{{receiveName}}</div>
-                </td>
-                <td>
-                    <div class="form-control-static">
-                        {{#ifEqual state 0}}未处理{{/ifEqual}}
-                        {{#ifEqual state 1}}已受理{{/ifEqual}}
-                        {{#ifEqual state 2}}已办结{{/ifEqual}}
-                        {{#ifEqual state 3}}已指派{{/ifEqual}}
-                    </div>
-                </td>
-                <td>
-                    <div class="form-control-static">{{remark}}</div>
-                </td>
-                <td>
-                    <div class="form-control-static">{{formatDate createTime "yyyy-MM-dd hh:mm:ss"}}</div>
-                </td>
-            </tr>
-            {{/each}}
-            </tbody>
-        </table>-->
+        </div>
+        <div class="form-group">
+            <label class="col-xs-4 control-label">更改信息的网格员账号：</label>
+            <div class="col-xs-8">
+                <div class="form-control-static">{{updateAccount}}</div>
+            </div>
+        </div>
+
+
+        <#--  <div class="form-group">
+              <label class="col-xs-4 control-label">任务时间：</label>
+              <div class="col-xs-8">
+                  <div class="form-control-static">{{formatDate createTime "yyyy-MM-dd hh:mm:ss"}}</div>
+              </div>
+          </div>
+          <div class="form-group">
+              <label class="col-xs-4 control-label">图片：</label>
+              <div id="localImag">
+                  {{#each img}}
+                  &lt;#&ndash;        <img src="http://localhost:81/{{imageURL}}" width="200" height="200" />&ndash;&gt;
+                  <img src="${global.preUrl!}{{imageURL}}" width="200" height="200" />
+                  &lt;#&ndash;        <img src="/getImage?path="{{imageURL}}" width="200" height="200">&ndash;&gt;
+                  {{/each}}
+              </div>
+          </div>-->
+        <#--  <table class="table table-condensed table-hover table-striped table-bordered no-margins">
+              <thead>
+              <tr>
+                  <td>接受人员</td>
+                  <td>状态</td>
+                  <td>反馈意见</td>
+                  <td>时间</td>
+              </tr>
+              </thead>
+              <tbody>
+              {{#each flows}}
+              <tr>
+                  <td>
+                      <div class="form-control-static">{{receiveName}}</div>
+                  </td>
+                  <td>
+                      <div class="form-control-static">
+                          {{#ifEqual state 0}}未处理{{/ifEqual}}
+                          {{#ifEqual state 1}}已受理{{/ifEqual}}
+                          {{#ifEqual state 2}}已办结{{/ifEqual}}
+                          {{#ifEqual state 3}}已指派{{/ifEqual}}
+                      </div>
+                  </td>
+                  <td>
+                      <div class="form-control-static">{{remark}}</div>
+                  </td>
+                  <td>
+                      <div class="form-control-static">{{formatDate createTime "yyyy-MM-dd hh:mm:ss"}}</div>
+                  </td>
+              </tr>
+              {{/each}}
+              </tbody>
+          </table>-->
     </div>
 </script>
 <script>
@@ -217,28 +429,51 @@
         }
     });
 
-    function searchVillage(obj) {
-        const township = $(obj).val();
-        $("#receiveId").val(township);
-        if (township == '') {
+    function searchP(obj) {
+        console.log(obj)
+        const province = $(obj).val();
+        console.log(province)
+        $("#receiveId").val(province);
+        if (province == '') {
             return false;
         }
         $.ajax({
             "type": "GET",
             "cache": false,
-            "url": "/a/village/list.json",
+            "url": "/a/yqfkRegister/listS.json",
             "data": {
-                "areaCode": township
+                "pcode": province
             },
             "dataType": "json",
             "success": function (data) {
-                const template = Handlebars.compile($("#template-villages").html());
-                $("#valliage").html(template(data.result));
+                const template = Handlebars.compile($("#template-province").html());
+                $("#city").html(template(data.result));
             }
         });
     }
-
-    function choseArea(obj) {
+    function choseS(obj) {
+        console.log(obj)
+        const city = $(obj).val();
+        console.log(city)
+        $("#receiveId").val(city);
+        if (city == '') {
+            return false;
+        }
+        $.ajax({
+            "type": "GET",
+            "cache": false,
+            "url": "/a/yqfkRegister/listX.json",
+            "data": {
+                "pcode": city
+            },
+            "dataType": "json",
+            "success": function (data) {
+                const template = Handlebars.compile($("#template-city").html());
+                $("#county").html(template(data.result));
+            }
+        });
+    }
+    function choseX(obj) {
         var code = $(obj).val();
         if (code == '') {
             code = $("#township").val();

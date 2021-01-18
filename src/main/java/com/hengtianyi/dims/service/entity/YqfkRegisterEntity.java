@@ -99,6 +99,8 @@ public class YqfkRegisterEntity extends BaseEntity {
   private String healthState;
   //  异常说明
   private String remark;
+  // 录入信息的网格员账号
+  private String createAccount;
   // 创建时间
   private Date createTime;
   //  更新时间
