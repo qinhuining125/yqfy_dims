@@ -45,4 +45,11 @@
     from "YQFK_PCX" t where t."PARENT"=#{parent,jdbcType=VARCHAR} and t."PLEVEL"=3
 
   </select>
+
+  <select id="findByCode" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select
+     t."ID", t."PCODE" , t."PNAME" , t."PLEVEL" , t."PARENT" , t."VALID"
+    from "YQFK_PCX" t where t."PCODE"=#{pcode,jdbcType=VARCHAR}
+
+  </select>
 </mapper>
