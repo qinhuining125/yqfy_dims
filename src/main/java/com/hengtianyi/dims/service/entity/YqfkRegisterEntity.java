@@ -26,8 +26,6 @@ public class YqfkRegisterEntity extends BaseEntity {
    */
   private String sex;
 
-  private String crateAccount;
-
   private String age;
   //身份证
   private String card;
@@ -101,6 +99,15 @@ public class YqfkRegisterEntity extends BaseEntity {
   private String remark;
   // 录入信息的网格员账号
   private String createAccount;
+
+  public String getCreateAccount() {
+    return createAccount;
+  }
+
+  public void setCreateAccount(String createAccount) {
+    this.createAccount = createAccount;
+  }
+
   // 创建时间
   private Date createTime;
   //  更新时间
@@ -140,14 +147,6 @@ public class YqfkRegisterEntity extends BaseEntity {
 
   public void setSex(String sex) {
     this.sex = sex;
-  }
-
-  public String getCrateAccount() {
-    return crateAccount;
-  }
-
-  public void setCrateAccount(String crateAccount) {
-    this.crateAccount = crateAccount;
   }
 
   public String getAge() {

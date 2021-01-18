@@ -76,7 +76,7 @@ public class YqfkRegisterApiController {
       entity.setId(ids);
       entity.setCreateTime(SystemClock.nowDate());
       entity.setUpdateTime(SystemClock.nowDate());
-      entity.setCrateAccount(WebUtil.getUserIdByToken(request));
+      entity.setCreateAccount(WebUtil.getUserIdByToken(request));
       entity.setUpdateAccount(WebUtil.getUserIdByToken(request));
       int ct = yqfkRegisterService.insertData(entity);
       if(ct > 0){

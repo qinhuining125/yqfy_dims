@@ -145,8 +145,8 @@ public class YqfkRegisterController extends
         YqfkRegisterEntity one = this.getDataByIdCommon(id);
         if (null != one) {
             String ddd = sysUserService.getNameById(one.getUpdateAccount());
-            String dd = sysUserService.getNameById(one.getCrateAccount());
-            one.setCrateAccount(sysUserService.getNameById(one.getCrateAccount()));
+            String dd = sysUserService.getNameById(one.getCreateAccount());
+            one.setCreateAccount(sysUserService.getNameById(one.getCreateAccount()));
             one.setUpdateAccount(sysUserService.getNameById(one.getUpdateAccount()));
             this.clearEntity(one);
       /*SysUserEntity userEntity = sysUserService.searchDataById(one.getUserId());
