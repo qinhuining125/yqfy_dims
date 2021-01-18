@@ -50,4 +50,7 @@ public interface YqfkRegisterService extends
    * @return
    */
   Integer countAdvice(QueryDto dto);
+
+
+  List<YqfkRegisterEntity> checkCard(String card);
 }

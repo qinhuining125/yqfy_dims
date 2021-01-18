@@ -13,6 +13,7 @@ import com.hengtianyi.dims.constant.FrameConstant;
 import com.hengtianyi.dims.service.api.YqfkPlaceService;
 import com.hengtianyi.dims.service.api.YqfkRegisterService;
 import com.hengtianyi.dims.service.dto.QueryDto;
+import com.hengtianyi.dims.service.entity.PatrolInfoEntity;
 import com.hengtianyi.dims.service.entity.YqfkPlaceEntity;
 import com.hengtianyi.dims.service.entity.YqfkRegisterEntity;
 
@@ -123,4 +124,27 @@ public class YqfkRegisterApiController {
     }
     return result.toJson();
   }*/
+
+  /**
+   * 验证此身份证号是否填写过
+   *
+   * @return json
+   */
+  @GetMapping(value = "/isHave.json", produces = BaseConstant.JSON)
+  public String isHaveProcess(HttpServletRequest request,@RequestParam("card") String card) {
+
+    ServiceResult<Object> result = new ServiceResult<>();
+    if(card!=null){
+      List<YqfkRegisterEntity> entity=yqfkRegisterService.checkCard(card);
+      if (entity.size()!=0) {//表示没有这个时间段的
+        result.setResult(false);
+      } else {//表示有正在进行的信息
+        result.setResult(true);
+      }
+    }else{
+      result.setResult("card为空，无法查询");
+    }
+    result.setSuccess(Boolean.TRUE);
+    return result.toJson();
+  }
 }

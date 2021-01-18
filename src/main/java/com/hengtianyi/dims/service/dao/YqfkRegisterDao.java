@@ -44,4 +44,7 @@ public interface YqfkRegisterDao extends AbstractGenericDao<YqfkRegisterEntity, 
    * @return count
    */
   Integer pagecount(@Param("dto") QueryDto dto);
+
+
+  List<YqfkRegisterEntity> checkCard(@Param("card") String card);
 }

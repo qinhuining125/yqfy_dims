@@ -506,4 +506,9 @@
       and s."AREA_CODE" like (#{areaCode,jdbcType=VARCHAR} ||'%')
     </if>
   </select>
+  <select id="checkCard" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from "YQ_YQFK" where CARD=#{card,jdbcType=VARCHAR}
+  </select>
 </mapper>

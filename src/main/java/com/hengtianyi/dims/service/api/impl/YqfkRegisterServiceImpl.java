@@ -233,4 +233,8 @@ public class YqfkRegisterServiceImpl extends
     return yqfkRegisterDao.pagecount(dto);
   }
 
+  @Override
+  public List<YqfkRegisterEntity> checkCard(String card){
+    return yqfkRegisterDao.checkCard(card);
+  }
 }
