@@ -80,15 +80,16 @@ public class YqfkRegisterApiController {
       entity.setUpdateAccount(WebUtil.getUserIdByToken(request));
       int ct = yqfkRegisterService.insertData(entity);
       if(ct > 0){
-        List<YqfkPlaceEntity> places=entity.getPlaces();
-        for(int i=0;i<places.size();i++){
-          YqfkPlaceEntity yfp = places.get(i);
-          yfp.setId(IdGenUtil.uuid32());
-          yfp.setYqid(ids);
-          yfp.setCreateTime(SystemClock.nowDate());
-          int m=yqfkPlaceService.insertData(yfp);
+        if(entity.getPlaces()!=null){
+          List<YqfkPlaceEntity> places=entity.getPlaces();
+          for(int i=0;i<places.size();i++){
+            YqfkPlaceEntity yfp = places.get(i);
+            yfp.setId(IdGenUtil.uuid32());
+            yfp.setYqid(ids);
+            yfp.setCreateTime(SystemClock.nowDate());
+            int m=yqfkPlaceService.insertData(yfp);
+          }
         }
-
       }
       result.setSuccess(ct > 0);
       result.setResult(ct > 0);
