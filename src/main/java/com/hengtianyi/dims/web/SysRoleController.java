@@ -54,7 +54,9 @@ public class SysRoleController {
     RoleEnum[] roleEnums = RoleEnum.values();
     List<KeyValueDto> dtoList = new ArrayList<>();
     for (RoleEnum roleEnum : roleEnums) {
-      dtoList.add(new KeyValueDto(roleEnum.getRoleId().toString(), roleEnum.getName()));
+      if(roleEnum.getRoleId()==1001 || roleEnum.getRoleId()==1007 || roleEnum.getRoleId()==3000 || roleEnum.getRoleId()==4000){
+        dtoList.add(new KeyValueDto(roleEnum.getRoleId().toString(), roleEnum.getName()));
+      }
     }
     model.addAttribute("roleList", dtoList);
     return "web/sysRole/role_index";
@@ -68,7 +70,9 @@ public class SysRoleController {
     RoleEnum[] roleEnums = RoleEnum.values();
     List<KeyValueDto> roleList = new ArrayList<>();
     for (RoleEnum roleEnum : roleEnums) {
-      roleList.add(new KeyValueDto(roleEnum.getRoleId().toString(), roleEnum.getName()));
+      if(roleEnum.getRoleId()==1001 || roleEnum.getRoleId()==1007 || roleEnum.getRoleId()==3000 || roleEnum.getRoleId()==4000){
+        roleList.add(new KeyValueDto(roleEnum.getRoleId().toString(), roleEnum.getName()));
+      }
     }
     // 全部的角色数据
     model.addAttribute("roleList", roleList);

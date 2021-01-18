@@ -4,7 +4,7 @@
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <meta name="renderer" content="webkit"/>
-  <title>纪检监察管理系统</title>
+  <title>寿阳县疫情防控信息平台</title>
   <base href="${springMacroRequestContext.contextPath}/"/>
   <link rel="shortcut icon" href="${global.jsprefix!}/static/favicon.ico"/>
   <link rel="stylesheet"

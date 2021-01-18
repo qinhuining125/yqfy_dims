@@ -38,17 +38,10 @@
                 <div class="col-sm-7">
                   <select name="roleId" class="form-control">
                     <option value="">全部</option>
-                    <option value="1001">村（社）网格员</option>
-                    <option value="1002">纪检监察网格联络员</option>
-                    <option value="1003">乡镇纪委管理员</option>
-                    <option value="1004">县纪委联系室/巡察办</option>
-                    <option value="1005">分管领导</option>
-                    <option value="1006">县级领导班子</option>
+                    <option value="1001">网格员</option>
+                    <option value="3000">乡镇管理员</option>
+                    <option value="4000">县级管理员</option>
                     <option value="1007">超级管理员</option>
-                    <option value="1008">巡察办主任</option>
-                    <option value="1009">巡察一组</option>
-                    <option value="1010">巡察二组</option>
-                    <option value="1011">巡察三组</option>
                   </select>
                 </div>
               </div>
@@ -237,18 +230,10 @@
       <label class="col-xs-4 control-label">角色：</label>
       <div class="col-xs-8">
         <div class="form-control-static">
-          {{#ifEqual roleId 1001}}村（社）网格员{{/ifEqual}}
-          {{#ifEqual roleId 1002}}纪检监察网格联络员{{/ifEqual}}
-          {{#ifEqual roleId 1003}}乡镇纪委管理员{{/ifEqual}}
-          {{#ifEqual roleId 1004}}县纪委联系室/巡察办{{/ifEqual}}
-          {{#ifEqual roleId 1005}}分管领导{{/ifEqual}}
-          {{#ifEqual roleId 1006}}县级领导班子{{/ifEqual}}
+          {{#ifEqual roleId 1001}}网格员{{/ifEqual}}
+          {{#ifEqual roleId 3000}}乡镇管理员{{/ifEqual}}
+          {{#ifEqual roleId 4000}}县级管理员{{/ifEqual}}
           {{#ifEqual roleId 1007}}超级管理员{{/ifEqual}}
-          {{#ifEqual roleId 1008}}巡察办主任{{/ifEqual}}
-          {{#ifEqual roleId 1009}}巡察一组{{/ifEqual}}
-          {{#ifEqual roleId 1010}}巡察二组{{/ifEqual}}
-          {{#ifEqual roleId 1011}}巡察三组{{/ifEqual}}
-          {{#ifEqual roleId 2000}}群众{{/ifEqual}}
         </div>
       </div>
     </div>
@@ -289,27 +274,13 @@
         "fun_name_role": function (column, row) {
           var roleId = row.roleId;
           if (roleId === 1001) {
-            return "村（社）网格员";
-          } else if (roleId === 1002) {
-            return "纪检监察网格联络员";
-          } else if (roleId === 1003) {
-            return "乡镇纪委管理员";
-          } else if (roleId === 1004) {
-            return "县纪委联系室";
-          } else if (roleId === 1005) {
-            return "分管领导";
-          } else if (roleId === 1006) {
-            return "县级领导班子";
+            return "网格员";
+          } else if (roleId === 3000) {
+            return "乡镇管理员";
+          } else if (roleId === 4000) {
+            return "县级管理员";
           } else if (roleId === 1007) {
             return "超级管理员";
-          } else if (roleId === 1008) {
-            return "巡察办主任";
-          } else if (roleId === 1009) {
-            return "巡察一组";
-          } else if (roleId === 1010) {
-            return "巡察二组";
-          } else if (roleId === 1011) {
-            return "巡察三组";
           }
         },
 

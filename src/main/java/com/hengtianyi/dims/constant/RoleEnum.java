@@ -10,7 +10,7 @@ public enum RoleEnum {
   /**
    *
    */
-  WGY("村（社）网格员", 1001),
+  WGY("网格员", 1001),
 
   WGLLY("纪检监察网格联络员", 1002),
 
@@ -32,7 +32,11 @@ public enum RoleEnum {
 
   XC3GROUP("巡察三组", 1011),
 
-  MASSES("群众", 2000);
+  MASSES("群众", 2000),
+
+  TOWNMANAGER("乡镇管理员",3000),
+
+  COUNTYMANAGER("县级管理员",4000);
 
   /**
    * 监测分类

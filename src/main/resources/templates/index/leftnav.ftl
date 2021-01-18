@@ -11,7 +11,7 @@
               <#--<img src="${global.staticPath!}static/img/logos/logo.png"
                    style="border-radius:50%;height:125px;margin-bottom:5px">-->
             <br>
-            <a href="#">纪检监察管理系统</a>
+            <a href="#">寿阳县疫情防控信息平台</a>
           </div>
         </div>
         <div class="logo-element">
@@ -25,38 +25,50 @@
               <li><a class="J_menuItem" href="/a/sysUser/index.html">用户管理</a></li>
               <li><a class="J_menuItem" href="/a/sysRole/index.html">用户角色</a></li>
               <li><a class="J_menuItem" href="/a/sysLog/index.html">系统日志</a></li>
-              <li><a class="J_menuItem" href="/a/reportType/index.html">报送类型</a></li>
+<#--              <li><a class="J_menuItem" href="/a/reportType/index.html">报送类型</a></li>-->
             </ul>
           </li>
         </#if>
+
       <li>
         <a href="#"><i class="fa fa-edit"></i><span class="nav-label">纪检监察管理</span>
           <span class="fa arrow"></span></a>
         <ul class="nav nav-second-level">
           <li><a class="J_menuItem" href="/a/yqfkRegister/index.html">疫情防控</a></li>
-          <li><a class="J_menuItem" href="/a/incorruptAdvice/index.html">廉政建议</a></li>
-          <li><a class="J_menuItem" href="/a/clueReport/index.html">线索上报</a></li>
-          <li><a class="J_menuItem" href="/a/taskInfo/index.html">任务指派</a></li>
+<#--          <li><a class="J_menuItem" href="/a/incorruptAdvice/index.html">廉政建议</a></li>-->
+<#--          <li><a class="J_menuItem" href="/a/clueReport/index.html">线索上报</a></li>-->
+<#--          <li><a class="J_menuItem" href="/a/taskInfo/index.html">任务指派</a></li>-->
         </ul>
       </li>
-      <#if (roleId==1007 || roleId==1008 || roleId==1009 || roleId==1010 || roleId==1011 )>
-        <li>
-          <a href="#"><i class="fa fa-edit"></i><span class="nav-label">巡察工作管理</span>
-            <span class="fa arrow"></span></a>
-          <ul class="nav nav-second-level">
-            <li><a class="J_menuItem" href="/a/inspectionPublicity/index.html">巡察宣传</a></li>
-            <li><a class="J_menuItem" href="/a/revealInfo/index.html">百姓举报</a></li>
-            <li><a class="J_menuItem" href="/a/patrolInfo/index.html">后台管理</a></li>
-          </ul>
-        </li>
-     </#if>
+<#--      <li>-->
+<#--        <a href="#"><i class="fa fa-edit"></i><span class="nav-label">纪检监察管理</span>-->
+<#--          <span class="fa arrow"></span></a>-->
+<#--        <ul class="nav nav-second-level">-->
+<#--          <li><a class="J_menuItem" href="/a/yqfkRegister/index.html">疫情防控</a></li>-->
+<#--          <li><a class="J_menuItem" href="/a/incorruptAdvice/index.html">廉政建议</a></li>-->
+<#--          <li><a class="J_menuItem" href="/a/clueReport/index.html">线索上报</a></li>-->
+<#--          <li><a class="J_menuItem" href="/a/taskInfo/index.html">任务指派</a></li>-->
+<#--        </ul>-->
+<#--      </li>-->
+<#--      <#if (roleId==1007 || roleId==1008 || roleId==1009 || roleId==1010 || roleId==1011 )>-->
+<#--        <li>-->
+<#--          <a href="#"><i class="fa fa-edit"></i><span class="nav-label">巡察工作管理</span>-->
+<#--            <span class="fa arrow"></span></a>-->
+<#--          <ul class="nav nav-second-level">-->
+<#--            <li><a class="J_menuItem" href="/a/inspectionPublicity/index.html">巡察宣传</a></li>-->
+<#--            <li><a class="J_menuItem" href="/a/revealInfo/index.html">百姓举报</a></li>-->
+<#--            <li><a class="J_menuItem" href="/a/patrolInfo/index.html">后台管理</a></li>-->
+<#--          </ul>-->
+<#--        </li>-->
+<#--     </#if>-->
       <li>
         <a href="#"><i class="fa fa-magic"></i><span class="nav-label">流程管理</span>
           <span class="fa arrow"></span></a>
         <ul class="nav nav-second-level">
-          <li><a class="J_menuItem" href="/a/flow/clue.html">上报流程</a></li>
-          <li><a class="J_menuItem" href="/a/flow/advice.html">建议流程</a></li>
-          <li><a class="J_menuItem" href="/a/flow/task.html">任务流程</a></li>
+          <li><a class="J_menuItem" href="/a/flow/yqfkFlow.html">疫情防控管理流程</a></li>
+<#--          <li><a class="J_menuItem" href="/a/flow/clue.html">上报流程</a></li>-->
+<#--          <li><a class="J_menuItem" href="/a/flow/advice.html">建议流程</a></li>-->
+<#--          <li><a class="J_menuItem" href="/a/flow/task.html">任务流程</a></li>-->
         </ul>
       </li>
       <li>
