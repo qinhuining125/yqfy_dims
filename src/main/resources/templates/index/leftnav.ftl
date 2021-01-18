@@ -31,7 +31,7 @@
         </#if>
 
       <li>
-        <a href="#"><i class="fa fa-edit"></i><span class="nav-label">纪检监察管理</span>
+        <a href="#"><i class="fa fa-edit"></i><span class="nav-label">疫情防控管理</span>
           <span class="fa arrow"></span></a>
         <ul class="nav nav-second-level">
           <li><a class="J_menuItem" href="/a/yqfkRegister/index.html">疫情防控</a></li>
