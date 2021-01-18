@@ -31,6 +31,9 @@ public class FlowController {
   @Resource
   private RevealInfoService revealInfoService;
 
+  @Resource
+  private YqfkRegisterService yqfkRegisterService;
+
   /**
    * @param model
    * @return
@@ -50,6 +53,11 @@ public class FlowController {
     return "web/flow/task_index";
   }
 
+  @GetMapping(value = "a/flow/yqfkFlow.html", produces = BaseConstant.HTML)
+  public String yqfkFlow(Model model) {
+    return "web/flow/yqfk_index";
+  }
+
   @GetMapping(value = "a/analysis/clue.html", produces = BaseConstant.HTML)
   public String analysisClue(Model model) {
     model.addAttribute("areaList", townshipService.areaList());
@@ -64,6 +72,28 @@ public class FlowController {
     String start = startTime != null ? TimeUtil.format(startTime, BaseConstant.DATE_FORMAT2) : "";
     String end = endTime != null ? TimeUtil.format(endTime, BaseConstant.DATE_FORMAT2) : "";
     return clueReportService.echartsData(start, end, areaCode);
+  }
+
+  @GetMapping(value = "a/analysis/vehicle.html", produces = BaseConstant.HTML)
+  public String analysisVehicle(Model model) {
+    model.addAttribute("areaList", townshipService.areaList());
+    return "web/analysis/vehicle_index";
+  }
+
+  @ResponseBody
+  @PostMapping(value = "a/analysis/vehicleData.json", produces = BaseConstant.JSON)
+  public String vehicleData(@RequestParam(required = false) Long startTime,
+                            @RequestParam(required = false) Long endTime,
+                            @RequestParam(required = false) String areaCode) {
+    String start = startTime != null ? TimeUtil.format(startTime, BaseConstant.DATE_FORMAT2) : "";
+    String end = endTime != null ? TimeUtil.format(endTime, BaseConstant.DATE_FORMAT2) : "";
+    return yqfkRegisterService.echartsVehicleData(start, end, areaCode);
+  }
+
+  @GetMapping(value = "a/analysis/industry .html", produces = BaseConstant.HTML)
+  public String analysisIndustry(Model model) {
+    model.addAttribute("areaList", townshipService.areaList());
+    return "web/analysis/industry_index";
   }
 
   @GetMapping(value = "a/analysis/advice.html", produces = BaseConstant.HTML)

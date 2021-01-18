@@ -162,24 +162,70 @@ public class YqfkRegisterServiceImpl extends
     return result.toJson();
   }
 
-  private Map<String, Object> count(List<IncorruptAdviceEntity> list) {
-    Map<String, Object> map = new HashMap<>();
-    /*Integer wanggeyuan = 0;
-    Integer lianluoyuan = 0;
-    Integer xiangzhen = 0;
-    for (IncorruptAdviceEntity entity : list) {
-      if (entity.getRoleId() == 1001) {
-        wanggeyuan += 1;
-      } else if (entity.getRoleId() == 1002) {
-        lianluoyuan += 1;
-      } else if (entity.getRoleId() == 1003) {
-        xiangzhen += 1;
+  /**
+   * echart数据
+   *
+   * @param startTime 开始时间
+   * @param endTime   结束时间
+   * @param areaCode  乡镇编号
+   * @return json
+   */
+  @Override
+  public String echartsVehicleData(String startTime, String endTime, String areaCode) {
+    ServiceResult<Object> result = new ServiceResult();
+//    try {
+      /*List<YqfkRegisterEntity> yqfkRegisterEntityList = yqfkRegisterDao.getEchartsData(startTime, endTime, areaCode);
+      Map<String, Object> map = count(yqfkRegisterEntityList);
+      List<VillageEntity> villageList = villageDao.areaList(areaCode);
+      String[] villageNames = new String[villageList.size()];
+      String[] wanggeyuans = new String[villageList.size()];
+      String[] lianluoyuans = new String[villageList.size()];
+      String[] xiangzhens = new String[villageList.size()];
+      for (int i = 0; i < villageList.size(); i++) {
+        VillageEntity village = villageList.get(i);
+        adviceEntityList = incorruptAdviceDao
+            .getEchartsData(startTime, endTime, village.getAreaCode());
+        Map<String, Object> dataMap = count(adviceEntityList);
+        villageNames[i] = village.getAreaName();
+        wanggeyuans[i] = dataMap.get("wanggeyuan").toString();
+        lianluoyuans[i] = dataMap.get("lianluoyuan").toString();
+        xiangzhens[i] = dataMap.get("xiangzhen").toString();
       }
-    }
-    map.put("wanggeyuan", wanggeyuan);
-    map.put("lianluoyuan", lianluoyuan);
-    map.put("xiangzhen", xiangzhen);*/
+      map.put("villageNames", villageNames);
+      map.put("wanggeyuans", wanggeyuans);
+      map.put("lianluoyuans", lianluoyuans);
+      map.put("xiangzhens", xiangzhens);
+      result.setSuccess(true);
+      result.setResult(map);
+    } catch (Exception e) {
+      LOGGER.error("[echartsData]出错,{}", e.getMessage(), e);
+      result.setError("false");
+    }*/
+    return result.toJson();
+  }
+
+  private Map<String, Object> count(List<YqfkRegisterEntity> list) {
+    Map<String, Object> map = new HashMap<>();
+    Integer zj = 0;
+    Integer planej = 0;
+    Integer train = 0;
+    Integer bus = 0;
+    Integer wybus = 0;
+
+//    for (YqfkRegisterEntity entity : list) {
+//      if (entity..getRoleId() == 1001) {
+//        wanggeyuan += 1;
+//      } else if (entity.getRoleId() == 1002) {
+//        lianluoyuan += 1;
+//      } else if (entity.getRoleId() == 1003) {
+//        xiangzhen += 1;
+//      }
+//    }
+//    map.put("wanggeyuan", wanggeyuan);
+//    map.put("lianluoyuan", lianluoyuan);
+//    map.put("xiangzhen", xiangzhen);
     return map;
+
   }
 
   @Override
