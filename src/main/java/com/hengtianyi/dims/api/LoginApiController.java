@@ -5,6 +5,9 @@ import com.hengtianyi.common.core.constant.BaseConstant;
 import com.hengtianyi.common.core.feature.ServiceResult;
 import com.hengtianyi.dims.service.api.SysUserService;
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+
+import com.hengtianyi.dims.utils.WebUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
@@ -41,6 +44,21 @@ public class LoginApiController {
   @GetMapping(value = "/heart", produces = BaseConstant.JSON)
   public String heart() {
     ServiceResult<Object> result = new ServiceResult<>();
+    result.setSuccess(true);
+    return result.toJson();
+  }
+
+  /**
+   * 退出
+   *
+   * @param request HttpServletRequest
+   * @return 重定向至登录页面
+   */
+  @GetMapping(value = "/logout")
+  public String logout(HttpServletRequest request) {
+    ServiceResult<Object> result = new ServiceResult<>();
+    WebUtil.removeUser(request);
+    request.getSession().invalidate();
     result.setSuccess(true);
     return result.toJson();
   }

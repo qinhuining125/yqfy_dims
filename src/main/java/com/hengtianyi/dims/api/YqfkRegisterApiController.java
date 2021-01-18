@@ -1,14 +1,19 @@
 package com.hengtianyi.dims.api;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hengtianyi.common.core.base.CommonEntityDto;
 import com.hengtianyi.common.core.constant.BaseConstant;
 import com.hengtianyi.common.core.feature.ServiceResult;
 import com.hengtianyi.common.core.util.sequence.IdGenUtil;
 import com.hengtianyi.common.core.util.sequence.SystemClock;
 import com.hengtianyi.dims.constant.FrameConstant;
-import com.hengtianyi.dims.service.api.SysUserService;
+import com.hengtianyi.dims.service.api.YqfkPlaceService;
 import com.hengtianyi.dims.service.api.YqfkRegisterService;
 import com.hengtianyi.dims.service.dto.QueryDto;
+import com.hengtianyi.dims.service.entity.YqfkPlaceEntity;
 import com.hengtianyi.dims.service.entity.YqfkRegisterEntity;
 
 import com.hengtianyi.dims.utils.WebUtil;
@@ -18,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * 廉政建议
@@ -32,6 +38,8 @@ public class YqfkRegisterApiController {
 
   @Resource
   private YqfkRegisterService yqfkRegisterService;
+  @Resource
+  private YqfkPlaceService yqfkPlaceService;
 
   /**
    * 分页查询
@@ -64,12 +72,24 @@ public class YqfkRegisterApiController {
   public String saveData(@RequestBody YqfkRegisterEntity entity, HttpServletRequest request) {
     ServiceResult<Object> result = new ServiceResult<>();
     try {
-      entity.setId(IdGenUtil.uuid32());
+      String ids=IdGenUtil.uuid32();
+      entity.setId(ids);
       entity.setCreateTime(SystemClock.nowDate());
       entity.setUpdateTime(SystemClock.nowDate());
       entity.setCrateAccount(WebUtil.getUserIdByToken(request));
       entity.setUpdateAccount(WebUtil.getUserIdByToken(request));
       int ct = yqfkRegisterService.insertData(entity);
+      if(ct > 0){
+        List<YqfkPlaceEntity> places=entity.getPlaces();
+        for(int i=0;i<places.size();i++){
+          YqfkPlaceEntity yfp = places.get(i);
+          yfp.setId(IdGenUtil.uuid32());
+          yfp.setYqid(ids);
+          yfp.setCreateTime(SystemClock.nowDate());
+          int m=yqfkPlaceService.insertData(yfp);
+        }
+
+      }
       result.setSuccess(ct > 0);
       result.setResult(ct > 0);
     } catch (Exception e) {

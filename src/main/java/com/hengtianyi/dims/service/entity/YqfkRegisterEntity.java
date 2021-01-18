@@ -3,6 +3,7 @@ package com.hengtianyi.dims.service.entity;
 import com.hengtianyi.common.core.base.BaseEntity;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * YqfkRegisterEntity实体类
@@ -105,7 +106,15 @@ public class YqfkRegisterEntity extends BaseEntity {
   //  更改信息的网格员账号
   private String updateAccount;
 
+  private List<YqfkPlaceEntity> places;
 
+  public List<YqfkPlaceEntity> getPlaces() {
+    return places;
+  }
+
+  public void setPlaces(List<YqfkPlaceEntity> places) {
+    this.places = places;
+  }
 
   public String getId() {
     return id;

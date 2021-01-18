@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!--
+ Oracle
+ table name  INCORRUPT_ADVICE
+ remarks     廉政建议
+ author      LY
+-->
+<mapper namespace="com.hengtianyi.dims.service.dao.YqfkPlaceDao">
+
+
+  <!-- doc 查询条件，根据实际情况，对where条件进行删减 -->
+  <sql id="sql_where">
+    <where>
+      <if test="id !=null and id !=''">
+        and "ID" = #{id,jdbcType=CHAR}
+      </if>
+    </where>
+  </sql>
+
+  <!-- 字段与实体的映射 -->
+  <resultMap id="BaseResultMap" type="com.hengtianyi.dims.service.entity.YqfkPlaceEntity">
+    <id column="ID" property="id" jdbcType="CHAR"/>
+    <result column="PCODE" property="pcode" jdbcType="VARCHAR"/>
+    <result column="CCODE" property="ccode" jdbcType="VARCHAR"/>
+    <result column="XCODE" property="xcode" jdbcType="VARCHAR"/>
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP"/>
+    <result column="YQID" property="yqid" jdbcType="CHAR"/>
+  </resultMap>
+
+  <!-- 字段集合 -->
+  <sql id="Base_Column_List">
+      "ID" , "PCODE" , "CCODE", "XCODE","YQID","CREATE_TIME"
+  </sql>
+
+  <!-- 根据主键查询 -->
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select
+    <include refid="Base_Column_List"/>
+    from "YQ_YQFK_REL_ZJ" where "ID" = #{id,jdbcType=CHAR} and rownum &lt;= 1
+  </select>
+
+  <!-- 根据条件查询，总数 -->
+  <select id="searchDataCount" resultType="java.lang.Integer"
+    parameterType="com.hengtianyi.dims.service.entity.YqfkPlaceEntity">
+    select count(1) from "YQ_YQFK_REL_ZJ"
+    <include refid="sql_where"/>
+  </select>
+
+  <!-- 根据条件查询，分页 -->
+  <select id="searchData" resultMap="BaseResultMap"
+    parameterType="com.hengtianyi.dims.service.entity.YqfkPlaceEntity">
+    <choose>
+      <when test="orderSql !=''">
+        select
+        <include refid="Base_Column_List"/>
+        from (select ROWNUM as "ROW_ID",
+        <include refid="Base_Column_List"/>
+        from (select
+        <include refid="Base_Column_List"/>
+        from "YQ_YQFK_REL_ZJ"
+        <include refid="sql_where"/>
+        order by ${orderSql})
+        where ROWNUM &lt;= #{pager.end}) "PAGINATION"
+        where "PAGINATION"."ROW_ID" &gt;= #{pager.first}
+      </when>
+      <otherwise>
+        select
+        <include refid="Base_Column_List"/>
+        from (select ROWNUM as "ROW_ID",
+        <include refid="Base_Column_List"/>
+        from "YQ_YQFK_REL_ZJ"
+        <include refid="sql_where"/>
+        and ROWNUM &lt;= #{pager.end}) "PAGINATION"
+        where "PAGINATION"."ROW_ID" &gt;= #{pager.first}
+      </otherwise>
+    </choose>
+  </select>
+
+  <!-- 根据条件查询，全部 -->
+  <select id="searchAllData" resultMap="BaseResultMap"
+    parameterType="com.hengtianyi.dims.service.entity.YqfkPlaceEntity">
+    select
+    <include refid="Base_Column_List"/>
+    from "YQ_YQFK_REL_ZJ"
+    <include refid="sql_where"/>
+    <if test="orderSql !='' ">
+      order by ${orderSql}
+    </if>
+  </select>
+
+  <!-- 单条删除 -->
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from "YQ_YQFK_REL_ZJ" where "ID" = #{id,jdbcType=CHAR}
+  </delete>
+
+  <!-- 多条删除 -->
+  <delete id="deleteByIds" parameterType="java.util.List">
+    delete from "YQ_YQFK_REL_ZJ" where "ID" in
+    <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+      #{item}
+    </foreach>
+  </delete>
+
+  <!-- 选择性删除，根据实际情况，对where条件进行删减 -->
+  <delete id="deleteSelective"
+    parameterType="com.hengtianyi.dims.service.entity.YqfkPlaceEntity">
+    delete from "YQ_YQFK_REL_ZJ"
+    <include refid="sql_where"/>
+  </delete>
+
+  <!-- 添加 -->
+  <insert id="insert" parameterType="com.hengtianyi.dims.service.entity.YqfkPlaceEntity">
+    insert into "YQ_YQFK_REL_ZJ" ("ID" , "NAME" , "SEX", "AGE") values (#{id,jdbcType=CHAR} , #{name,jdbcType=VARCHAR} , #{sex,jdbcType=VARCHAR},#{age,jdbcType=VARCHAR})
+  </insert>
+
+  <!-- 选择性添加 -->
+  <insert id="insertSelective"
+          parameterType="com.hengtianyi.dims.service.entity.YqfkPlaceEntity">
+    insert into "YQ_YQFK_REL_ZJ"
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null and id !=''">
+        "ID",
+      </if>
+      <if test="pcode != null and pcode !=''">
+        "PCODE",
+      </if>
+      <if test="ccode != null and ccode !=''">
+        "CCODE",
+      </if>
+      <if test="xcode != null and xcode !=''">
+        "XCODE",
+      </if>
+      <if test="yqid != null and yqid !=''">
+        "YQID",
+      </if>
+      <if test="createTime != null">
+        "CREATE_TIME",
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null and id !=''">
+        #{id,jdbcType=CHAR},
+      </if>
+      <if test="pcode != null and pcode !=''">
+        #{pcode,jdbcType=VARCHAR},
+      </if>
+      <if test="ccode != null and ccode !=''">
+        #{ccode,jdbcType=VARCHAR},
+      </if>
+      <if test="xcode != null and xcode !=''">
+        #{xcode,jdbcType=VARCHAR},
+      </if>
+      <if test="yqid != null and yqid !=''">
+        #{yqid,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=DATE},
+      </if>
+    </trim>
+  </insert>
+
+
+
+  <!-- 全部更新 -->
+  <update id="updateByPrimaryKey"
+    parameterType="com.hengtianyi.dims.service.entity.YqfkPlaceEntity">
+    update "YQ_YQFK_REL_ZJ" set
+      "NAME" = #{name,jdbcType=VARCHAR} , "SEX" = #{sex,jdbcType=VARCHAR} /*, "CREATE_TIME" = #{createTime,jdbcType=TIMESTAMP}*/
+    where "ID" = #{id,jdbcType=CHAR}
+  </update>
+
+  <!-- 选择性更新 -->
+  <update id="updateByPrimaryKeySelective"
+    parameterType="com.hengtianyi.dims.service.entity.YqfkPlaceEntity">
+    update "YQ_YQFK_REL_ZJ"
+    <set>
+      <if test="name != null">
+        "NAME" = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        "SEX" = #{sex,jdbcType=VARCHAR},
+      </if>
+     <!-- <if test="createTime != null">
+        "CREATE_TIME" = #{createTime,jdbcType=TIMESTAMP},
+      </if>-->
+    </set>
+    where "ID" = #{id,jdbcType=CHAR}
+  </update>
+
+  <!--分页-->
+  <select id="pagelist" resultMap="BaseResultMap"
+    parameterType="com.hengtianyi.dims.service.dto.QueryDto">
+    select
+    p."ID" , p."NAME" , p."SEX", p."CREATE_ACCOUNT"
+    from (select ROWNUM as "ROW_ID",
+    <include refid="Base_Column_List"/>
+    from (select t.* from "YQ_YQFK_REL_ZJ" t
+    order by t.create_time desc)
+    where ROWNUM &lt;= #{dto.end}) p
+    left join "SYS_USER" s on p."CREATE_ACCOUNT"=s."ID"
+    where p."ROW_ID" &gt;= #{dto.first}
+  </select>
+
+  <select id="pagecount" resultType="java.lang.Integer"
+    parameterType="com.hengtianyi.dims.service.dto.QueryDto">
+    select count(1) from "YQ_YQFK_REL_ZJ" t where 1=1
+    <!--<if test="dto.areaCode!=null and dto.areaCode !=''">
+      and t."USER_ID" in (select a.id from sys_user a
+      where a.area_code like (#{dto.areaCode,jdbcType=VARCHAR} ||'%'))
+    </if>-->
+  </select>
+
+
+  <select id="getEchartsData" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    p."ID" , p."USER_ID" , p."CONTENT" , p."CREATE_TIME",
+    s."USER_NAME",s."ROLE_ID"
+    from "INCORRUPT_ADVICE" p
+    inner join "SYS_USER" s on p."USER_ID"=s."ID"
+    where 1=1
+    <choose>
+      <when test="endTime!=null and endTime!=''">
+        and p."CREATE_TIME" >= to_date(#{startTime,jdbcType=VARCHAR},'yyyy-mm-dd hh24:mi:ss')
+        and p."CREATE_TIME" &lt; to_date(#{endTime,jdbcType=VARCHAR},'yyyy-mm-dd hh24:mi:ss')
+      </when>
+      <otherwise>
+        and p."CREATE_TIME" &lt; sysdate
+      </otherwise>
+    </choose>
+    <if test="areaCode!=null and areaCode!=''">
+      and s."AREA_CODE" like (#{areaCode,jdbcType=VARCHAR} ||'%')
+    </if>
+  </select>
+</mapper>
