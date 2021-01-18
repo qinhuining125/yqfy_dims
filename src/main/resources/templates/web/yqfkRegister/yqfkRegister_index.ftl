@@ -21,8 +21,8 @@
                                                readonly="readonly" placeholder="日期"/>
                                     </div>
                                 </div>
-                                <input type="hidden" id="startTime" name="startTime">
-                                <input type="hidden" id="endTime" name="endTime">
+                                <input type="text" id="startTime" name="startTime">
+                                <input type="text" id="endTime" name="endTime">
                                 <input type="hidden" id="areaCode" name="areaCode">
                             </div>
                         </div>
@@ -413,6 +413,7 @@
         "done": function (value, startDate, endDate) {
             if (value) {
                 const array = value.split("至");
+                console.log(array)
                 $("#startTime").val(array[0]);
                 $("#endTime").val(array[1]);
             } else {
