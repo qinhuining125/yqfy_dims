@@ -114,8 +114,8 @@
           parameterType="com.hengtianyi.dims.service.entity.Region">
     update "YQFK_PCX"
     <set>
-      <if test="name != null">
-        "VALID" = #{vaid,jdbcType=VARCHAR},
+      <if test="valid != null">
+        "VALID" = #{valid,jdbcType=VARCHAR},
       </if>
     </set>
     where "ID" = #{id,jdbcType=CHAR}
