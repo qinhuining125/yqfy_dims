@@ -16,6 +16,9 @@
       <if test="createAccount !=null and createAccount !=''">
         and "CREATE_ACCOUNT" = (select ID from SYS_USER where USER_NAME=#{createAccount,jdbcType=VARCHAR})
       </if>
+      <if test="returnState !=null and returnState !=''">
+        and "RETURN_STATE" =#{returnState,jdbcType=VARCHAR}
+      </if>
       <if test="beforeReturnPbm !=null and beforeReturnPbm !=''">
         and "BEFORE_RETURN_PBM" = #{beforeReturnPbm,jdbcType=VARCHAR}
       </if>
@@ -605,16 +608,15 @@
     from (select ROWNUM as "ROW_ID",
     <include refid="Base_Column_List"/>
     from (select t.* from "YQ_YQFK" t
-    <include refid="sql_where"/>
+    <include refid="page_where"/>
     order by t.create_time desc)
     where ROWNUM &lt;= #{dto.end}) p
-    left join "SYS_USER" s on p."CREATE_ACCOUNT"=s."ID"
     where p."ROW_ID" &gt;= #{dto.first}
   </select>
 
   <select id="pagecount" resultType="java.lang.Integer"
     parameterType="com.hengtianyi.dims.service.dto.QueryDto">
-    select count(1) from "YQ_YQFK" t where 1=1
+    select count(1) from "YQ_YQFK" t   <include refid="page_where"/>
     <!--<if test="dto.areaCode!=null and dto.areaCode !=''">
       and t."USER_ID" in (select a.id from sys_user a
       where a.area_code like (#{dto.areaCode,jdbcType=VARCHAR} ||'%'))
@@ -710,4 +712,29 @@
     <include refid="Base_Column_List"/>
     from "YQ_YQFK" where CARD=#{card,jdbcType=VARCHAR}
   </select>
+
+  <sql id="page_where">
+    <where>
+      <choose>
+        <when test="dto.userId != null and dto.userId != ''">
+          <if test="dto.roleId == 3000"><!--乡镇管理员-->
+            and t."CREATE_ACCOUNT" in (
+            select s.id from sys_user s where s.area_code like (#{dto.areaCode,jdbcType=CHAR} ||'%'))
+          </if>
+          <if test="dto.roleId==1001"> <!--网格员，只能查看自己的-->
+            and t."CREATE_ACCOUNT" = #{dto.userId,jdbcType=CHAR}
+          </if>
+        </when>
+        <otherwise>
+            <!--暂时空-->
+        </otherwise>
+      </choose>
+      <!--添加按照返回状态分类，借用地区编码来做-->
+      <if test="dto.returnState !=null">
+        and t."RETURN_STATE" = #{dto.returnState,jdbcType=VARCHAR}
+      </if>
+
+    </where>
+  </sql>
+
 </mapper>

@@ -11,13 +11,11 @@ import com.hengtianyi.common.core.util.StringUtil;
 import com.hengtianyi.common.core.util.sequence.IdGenUtil;
 import com.hengtianyi.common.core.util.sequence.SystemClock;
 import com.hengtianyi.dims.constant.FrameConstant;
+import com.hengtianyi.dims.service.api.SysUserService;
 import com.hengtianyi.dims.service.api.YqfkPlaceService;
 import com.hengtianyi.dims.service.api.YqfkRegisterService;
 import com.hengtianyi.dims.service.dto.QueryDto;
-import com.hengtianyi.dims.service.entity.PatrolInfoEntity;
-import com.hengtianyi.dims.service.entity.YqfkPlaceEntity;
-import com.hengtianyi.dims.service.entity.YqfkPlaceNameEntity;
-import com.hengtianyi.dims.service.entity.YqfkRegisterEntity;
+import com.hengtianyi.dims.service.entity.*;
 
 import com.hengtianyi.dims.utils.WebUtil;
 import org.slf4j.Logger;
@@ -43,6 +41,8 @@ public class YqfkRegisterApiController {
   private YqfkRegisterService yqfkRegisterService;
   @Resource
   private YqfkPlaceService yqfkPlaceService;
+  @Resource
+  private SysUserService sysUserService;
 
   /**
    * 分页查询
@@ -51,12 +51,25 @@ public class YqfkRegisterApiController {
    * @return list
    */
   @PostMapping(value = "/pagelist.json", produces = BaseConstant.JSON)
-  public String pagelist(@RequestBody CommonEntityDto<YqfkRegisterEntity> dto) {
+  public String pagelist(@RequestBody CommonEntityDto<YqfkRegisterEntity> dto,HttpServletRequest request) {
     ServiceResult<Object> result = new ServiceResult<>();
     try {
+
       QueryDto queryDto = new QueryDto();
       queryDto.setFirst((dto.getCurrentPage() - 1) * FrameConstant.PAGE_SIZE);
       queryDto.setEnd(dto.getCurrentPage() * FrameConstant.PAGE_SIZE);
+      //控制了登陆的账号自己只能看自己的
+      SysUserEntity userEntity = sysUserService.searchDataById(WebUtil.getUserIdByToken(request));
+      queryDto.setRoleId(userEntity.getRoleId());
+      queryDto.setUserId(userEntity.getId());
+      queryDto.setAreaCode(userEntity.getAreaCode());
+
+      if (dto.getQuery() != null) { //进行返回类型的判定
+        if (dto.getQuery().getReturnState() != null) {
+          queryDto.setReturnState(dto.getQuery().getReturnState());
+        }
+      }
+      //待开发，中高风险区人员
       CommonEntityDto<YqfkRegisterEntity> cpDto = yqfkRegisterService.pagelist(queryDto);
       result.setResult(cpDto);
       result.setSuccess(true);

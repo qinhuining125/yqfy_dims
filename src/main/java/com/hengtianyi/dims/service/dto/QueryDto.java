@@ -60,6 +60,19 @@ public class QueryDto extends BaseBean {
    */
   private Integer reportRoleId;
 
+  /**
+   * 返回类型，已返乡，拟返乡,疫情防控使用
+   * */
+  private String returnState;
+
+  public String getReturnState() {
+    return returnState;
+  }
+
+  public void setReturnState(String returnState) {
+    this.returnState = returnState;
+  }
+
   public int getFirst() {
     return first;
   }
