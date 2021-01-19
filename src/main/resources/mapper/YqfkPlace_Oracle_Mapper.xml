@@ -242,7 +242,7 @@
   </select>
   <select id="getListByYQID" resultMap="BaseResultMap" parameterType="java.lang.String">
     select
-    t."ID", t."PCODE" , t."CCODE" , t."XCODE" , t."YQID" , t."CREATE_TIME"
+    t."ID", t."PCODE" , t."CCODE" , t."XCODE" , t."YQID" , t."CREATE_TIME", t."NAME"
     from "YQ_YQFK_REL_ZJ" t  where t."YQID"=#{yqid,jdbcType=VARCHAR}
 
   </select>

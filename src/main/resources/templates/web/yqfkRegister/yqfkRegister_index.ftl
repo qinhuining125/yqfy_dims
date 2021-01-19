@@ -47,9 +47,10 @@
                                 </div>
                             </div>
                         </div>
+
                         <div class="col-xs-6 col-sm-4 col-lg-3">
                             <div class="form-group">
-                                <label class="col-sm-4 control-label">省:</label>
+                                <label class="col-sm-4 control-label">返乡前所在省:</label>
                                 <div class="col-sm-7">
                                     <select class="form-control" id="province" name="beforeReturnPbm"
                                             onchange="searchP(this);">
@@ -60,8 +61,6 @@
                                     </select>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-xs-6 col-sm-4 col-lg-3">
                             <div class="form-group">
                                 <label class="col-sm-4 control-label">市:</label>
                                 <div class="col-sm-7">
@@ -71,8 +70,6 @@
                                     </select>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-xs-6 col-sm-4 col-lg-3">
                             <div class="form-group">
                                 <label class="col-sm-4 control-label">县:</label>
                                 <div class="col-sm-7">
@@ -83,6 +80,29 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div class="col-xs-6 col-sm-4 col-lg-3">
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label">返乡后所在乡镇:</label>
+                                <div class="col-sm-7">
+                                    <select class="form-control" id="township" name="afterReturnZhbm" onchange="searchVillage(this);">
+                                        <option value="">全部</option>
+                                        <#list areaListF as obj>
+                                            <option value="${(obj.areaCode!)}">${(obj.areaName)!}</option>
+                                        </#list>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label">村:</label>
+                                <div class="col-sm-7">
+                                    <select id="valliage" class="form-control" name="afterReturnCubm" onchange="choseArea(this);">
+                                        <option value="">全部</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                     <div class="text-center">
                         <button id="btn-search-yqfkRegister" class="btn btn-primary"><i class="fa fa-search"></i> 查询
@@ -160,6 +180,12 @@
     <option value="">--请选择--</option>
     {{#each this}}
     <option value="{{id}}">{{pname}}</option>
+    {{/each}}
+</script>
+<script id="template-villages" type="text/x-handlebars-template">
+    <option value="">--请选择--</option>
+    {{#each this}}
+    <option value="{{areaCode}}">{{areaName}}</option>
     {{/each}}
 </script>
 <script id="template-view-yqfkRegister" type="text/x-handlebars-template">
@@ -354,20 +380,13 @@
                 <div class="form-control-static">{{updateAccount}}</div>
             </div>
         </div>
-        <#list  places as obj>
-            ${(obj.id)}111111
-        </#list>
-        =
-        {{#each places}}
-        {{Pcode}}-{{Ccode}}-{{Xcode}}
-        {{/each}}
+<#--        {{#each places}}-->
+<#--        {{name}}-{{Ccode}}-{{Xcode}}-->
+<#--        {{/each}}-->
 
-        {{#each places}}
-        {{Pcode}}-{{Ccode}}-{{Xcode}}
-        {{/each}}
-
-        ------------------
-        {{places}}
+<#--        {{#each places}}-->
+<#--        {{name}}-{{Ccode}}-{{Xcode}}-->
+<#--        {{/each}}-->
         <table class="table table-condensed table-hover table-striped table-bordered no-margins">
             <thead>
             <tr>
@@ -380,7 +399,7 @@
             <tr>
                 <td>
                     <div class="form-control-static">
-                        {{Pcode}}-{{Ccode}}-{{Xcode}}
+                        {{name}}
                     </div>
                 </td>
                 <td>
@@ -464,7 +483,34 @@
         }
         $("#areaCode").val(code);
     }
+    function searchVillage(obj) {
+        const township = $(obj).val();
+        $("#receiveId").val(township);
+        if (township == '') {
+            return false;
+        }
+        $.ajax({
+            "type": "GET",
+            "cache": false,
+            "url": "/a/village/list.json",
+            "data": {
+                "areaCode": township
+            },
+            "dataType": "json",
+            "success": function (data) {
+                const template = Handlebars.compile($("#template-villages").html());
+                $("#valliage").html(template(data.result));
+            }
+        });
+    }
 
+    function choseArea(obj) {
+        var code = $(obj).val();
+        if (code == '') {
+            code = $("#township").val();
+        }
+        $("#areaCode").val(code);
+    }
     $(document).ready(function () {
         var HBR_TD = Handlebars.compile($("#template-yqfkRegister").html());
         var pageParams = {

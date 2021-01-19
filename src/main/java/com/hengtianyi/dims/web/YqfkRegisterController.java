@@ -48,6 +48,8 @@ public class YqfkRegisterController extends
     private RegionService regionService;
     @Resource
     private YqfkPlaceService yqfkPlaceService;
+    @Resource
+    private TownshipService townshipService;
 
     @Override
     public YqfkRegisterService getService() {
@@ -69,6 +71,7 @@ public class YqfkRegisterController extends
     public String index(Model model) {
         model.addAttribute("mapping", MAPPING);
         model.addAttribute("areaList", regionService.getProvince());
+        model.addAttribute("areaListF", townshipService.areaList());
         return "web/yqfkRegister/yqfkRegister_index";
     }
 
@@ -104,34 +107,40 @@ public class YqfkRegisterController extends
     @PostMapping(value = "/getDataList.json", produces = BaseConstant.JSON)
     public String getDataList(@ModelAttribute CommonPageDto pageDto,
                               @ModelAttribute YqfkRegisterEntity dto) {
-
-        try {
-            dto.setBeforeReturnCbm(dto.getBeforeReturnPbm().trim().replace(" ", ""));
-            dto.setBeforeReturnCbm(dto.getBeforeReturnCbm().trim().replace(" ", ""));
-            dto.setBeforeReturnXbm(dto.getBeforeReturnXbm().trim().replace(" ", ""));
-            int rowsCount = getService().searchDataCount(dto);
-            if (BaseConstant.NUM_1 > rowsCount) {
-                //无数据，返回JSON
-                return BaseConstant.EMPTY_LIST_JSON;
-            }
-            pageDto.setTotal(rowsCount);
-            QueryDto queryDto = new QueryDto();
-            queryDto.setCurrentPage(pageDto.getCurrent());
-            List<YqfkRegisterEntity> listData = getService().listData(queryDto);
-            for (YqfkRegisterEntity one : listData) {
-                this.clearEntity(one);
-            }
-            CommonPageDto cpDto = new CommonPageDto(listData);
-            cpDto.setCurrent(pageDto.getCurrent());
-            cpDto.setRowCount(pageDto.getRowCount());
-            cpDto.setTotal(pageDto.getTotal());
-            return cpDto.toJsonHtml();
-        } catch (Exception ex) {
-            getLogger()
-                    .error("[getDataListCommon]{}, pageDto = {}, dto = {}", ex.getMessage(), pageDto.toJson(),
-                            dto.toJson(), ex);
-        }
-        return BaseConstant.EMPTY_LIST_JSON;
+        return this.getDataListCommon(pageDto, dto);
+//        try {
+//            if (dto.getBeforeReturnPbm()!=null){
+//                dto.setBeforeReturnCbm(dto.getBeforeReturnPbm().replace(" ", ""));
+//            }
+//            if (dto.getBeforeReturnCbm()!=null){
+//                dto.setBeforeReturnCbm(dto.getBeforeReturnCbm().replace(" ", ""));
+//            }
+//            if (dto.getBeforeReturnXbm()!=null){
+//                dto.setBeforeReturnXbm(dto.getBeforeReturnXbm().replace(" ", ""));
+//            }
+//            int rowsCount = getService().searchDataCount(dto);
+//            if (BaseConstant.NUM_1 > rowsCount) {
+//                //无数据，返回JSON
+//                return BaseConstant.EMPTY_LIST_JSON;
+//            }
+//            pageDto.setTotal(rowsCount);
+//            QueryDto queryDto = new QueryDto();
+//            queryDto.setCurrentPage(pageDto.getCurrent());
+//            List<YqfkRegisterEntity> listData = getService().listData(queryDto);
+//            for (YqfkRegisterEntity one : listData) {
+//                this.clearEntity(one);
+//            }
+//            CommonPageDto cpDto = new CommonPageDto(listData);
+//            cpDto.setCurrent(pageDto.getCurrent());
+//            cpDto.setRowCount(pageDto.getRowCount());
+//            cpDto.setTotal(pageDto.getTotal());
+//            return cpDto.toJsonHtml();
+//        } catch (Exception ex) {
+//            getLogger()
+//                    .error("[getDataListCommon]{}, pageDto = {}, dto = {}", ex.getMessage(), pageDto.toJson(),
+//                            dto.toJson(), ex);
+//        }
+//        return BaseConstant.EMPTY_LIST_JSON;
     }
 
     /**

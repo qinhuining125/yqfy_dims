@@ -13,12 +13,25 @@
   <!-- doc 查询条件，根据实际情况，对where条件进行删减 -->
   <sql id="sql_where">
     <where>
-      <if test="id !=null and id !=''">
-        and "ID" = #{id,jdbcType=CHAR}
+      <if test="createAccount !=null and createAccount !=''">
+        and "CREATE_ACCOUNT" = #{dto.createAccount,jdbcType=VARCHAR}
       </if>
-      <if test="name !=null and name !=''">
-        and "NAME" = #{name,jdbcType=VARCHAR}
+      <if test="beforeReturnPbm !=null and beforeReturnPbm !=''">
+        and "BEFORE_RETURN_PBM" = #{beforeReturnPbm,jdbcType=VARCHAR}
       </if>
+      <if test="beforeReturnCbm !=null and beforeReturnCbm !=''">
+        and "BEFORE_RETURN_CBM" = #{beforeReturnCbm,jdbcType=VARCHAR}
+      </if>
+      <if test="beforeReturnXbm !=null and beforeReturnXbm !=''">
+        and "BEFORE_RETURN_XBM" = #{beforeReturnXbm,jdbcType=VARCHAR}
+      </if>
+      <if test="startTime !=null and startTime !=''">
+        and "CREATE_TIME" = #{startTime,jdbcType=VARCHAR}
+      </if>
+      <if test="endTime !=null and endTime !=''">
+        and "CREATE_TIME" = #{endTime,jdbcType=VARCHAR}
+      </if>
+
      <!-- <if test="createTime !=null and createTime !=''">
         and "CREATE_TIME" = #{createTime,jdbcType=TIMESTAMP}
       </if>-->
@@ -470,6 +483,7 @@
     from (select ROWNUM as "ROW_ID",
     <include refid="Base_Column_List"/>
     from (select t.* from "YQ_YQFK" t
+    <include refid="sql_where"/>
     order by t.create_time desc)
     where ROWNUM &lt;= #{dto.end}) p
     left join "SYS_USER" s on p."CREATE_ACCOUNT"=s."ID"
