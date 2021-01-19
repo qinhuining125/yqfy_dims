@@ -1,11 +1,5 @@
 <#include "/common/head.ftl"/>
 <#include "/common/cssfile_list.ftl"/>
-<style>
-  .content {
-    width: 300px;
-    white-space: pre-wrap;
-  }
-</style>
 </head>
 <body class="gray-bg">
 <div class="wrapper wrapper-content row">
@@ -33,9 +27,9 @@
                 <div class="col-sm-7">
                   <select name="areaCode" id="areaCode" class="form-control">
                     <option value="">全部</option>
-                      <#list areaList as obj>
-                        <option value="${(obj.areaCode)!}">${(obj.areaName)!}</option>
-                      </#list>
+                    <#list areaList as obj>
+                      <option value="${(obj.areaCode)!}">${(obj.areaName)!}</option>
+                    </#list>
                   </select>
                 </div>
               </div>
@@ -49,10 +43,10 @@
       </div>
     </div>
     <div>
-      <div style="width: 45%;height: 500px;float: left" id="pieContainer"></div>
-      <div style="width: 45%;height: 500px;float: left" id="barContainer"></div>
-      <div style="width: 45%;height: 500px;float: left" id="llyContainer"></div>
-      <div style="width: 45%;height: 500px;float: left" id="wgyContainer"></div>
+      <div style="width: 45%;height: 500px;float: left" id="pieContainer">
+      </div>
+      <div style="width: 45%;height: 500px;float: left" id="barContainer">
+      </div>
     </div>
   </div>
 </div>
@@ -80,7 +74,7 @@
     $("#btn-cx").on("click", function () {
       const data = $(this).parent().parent().serialize();
       $.ajax({
-        "url": "a/analysis/clueData.json",
+        "url": "a/analysis/industryData.json",
         "type": "POST",
         "data": data,
         "dataType": "json",
@@ -90,8 +84,6 @@
           if (data.success) {
             initPieData(data.result);
             initBarData(data.result);
-            initLlyBarData(data.result);
-            initWgyBarData(data.result);
           }
         }
       });
@@ -112,10 +104,10 @@
       legend: {
         orient: 'horizontal',
         left: 10,
-        data: ['未受理', '已受理', '已办结', '已知晓' , '已转办']
+        data: ['冷链从业人员', '商业从业人员', '货运物流', '学生' , '机关事业单位', '无业', '其它']
       },
       title: [{
-        text: '总量',
+        text: '总量10',
         top: 'center',
         left: 'center'
       }],
@@ -124,11 +116,13 @@
           type: 'pie',
           radius: ['50%', '70%'],
           data: [
-            {value: pieData.unAccept, name: '未受理'},
-            {value: pieData.accept, name: '已受理'},
-            {value: pieData.complete, name: '已办结'},
-            {value: pieData.knowTask, name: '已知晓'},
-            {value: pieData.turnToOtherTask, name: '已转办'}
+            {value: pieData.lenglian, name: '冷链从业人员'},
+            {value: pieData.business, name: '商业从业人员'},
+            {value: pieData.huoyun, name: '货运物流'},
+            {value: pieData.student, name: '学生'},
+            {value: pieData.jiguan, name: '机关事业单位'},
+            {value: pieData.wuye, name: '无业'},
+            {value: pieData.other, name: '其它'}
           ]
         }
       ]
@@ -150,7 +144,7 @@
         }
       },
       legend: {
-        data: ['未受理', '已受理', '已办结', '已知晓' , '已转办']
+        data: ['冷链从业人员', '商业从业人员', '货运物流', '学生' , '机关事业单位', '无业', '其它']
       },
       grid: {
         left: '3%',
@@ -163,6 +157,8 @@
           type: 'category',
           data: barData.villageNames,
           axisLabel: {
+            interval: 0,
+            inside: true,
             rotate: 30
           }
         }
@@ -172,36 +168,48 @@
           type: 'value'
         }
       ],
+
       series: [
         {
-          name: '未受理',
+          name: '冷链从业人员',
           type: 'bar',
           stack: '数量',
-          data: barData.unAccepts
+          data: barData.lenglians
         },
         {
-          name: '已知晓',
+          name: '商业从业人员',
           type: 'bar',
           stack: '数量',
-          data: barData.knowTasks
+          data: barData.businesss
         },
         {
-          name: '已转办',
+          name: '货运物流',
           type: 'bar',
           stack: '数量',
-          data: barData.turnToOtherTasks
+          data: barData.huoyuns
+        },{
+          name: '学生',
+          type: 'bar',
+          stack: '数量',
+          data: barData.students
         },
         {
-          name: '已受理',
+          name: '机关事业单位',
           type: 'bar',
           stack: '数量',
-          data: barData.accepts
+          data: barData.jiguans
         },
         {
-          name: '已办结',
+          name: '无业',
           type: 'bar',
           stack: '数量',
-          data: barData.completes
+          data: barData.wuyes
+        },
+        {
+          name: '其他',
+          type: 'bar',
+          stack: '数量',
+          data: barData.others
         }
       ]
     };
@@ -209,98 +217,20 @@
       barChart.setOption(barOption, true);
     }
   }
-
-  //联络员
-  function initLlyBarData(barData) {
-    const dom = document.getElementById("llyContainer");
-    const myChart = echarts.init(dom);
-    const option = {
-      title: {
-        text: '联络员上报类型统计'
-      },
-      tooltip: {
-        trigger: 'axis',
-        axisPointer: {
-          type: 'shadow'
-        },
-        formatter: function (params) {
-          return "<div class='content'>"
-              + params[0].name + " : " + params[0].value + '<br/>'
-              + barData.llynrs[params[0].dataIndex] + "</div>";
-        }
-      },
-      grid: {
-        left: '3%',
-        right: '4%',
-        bottom: '3%',
-        containLabel: true
-      },
-      xAxis: {
-        type: 'value',
-        boundaryGap: [0, 1]
-      },
-      yAxis: {
-        type: 'category',
-        data: ["类型1", "类型2", "类型3", "类型4", "类型5", "类型6", "类型7", "类型8", "类型9", "类型10", "类型11"]
-      },
-      series: [
-        {
-          name: '联络员',
-          type: 'bar',
-          data: barData.llys
-        }
-      ]
-    };
-    if (option && typeof option === "object") {
-      myChart.setOption(option, true);
-    }
-  }
-
-  //网格员
-  function initWgyBarData(barData) {
-    const dom = document.getElementById("wgyContainer");
-    const myChart = echarts.init(dom);
-    const option = {
-      title: {
-        text: '网格员上报类型统计'
-      },
-      tooltip: {
-        trigger: 'axis',
-        axisPointer: {
-          type: 'shadow'
-        },
-        formatter: function (params) {
-          return "<div class='content'>"
-              + params[0].name + " : " + params[0].value + '<br/>'
-              + barData.wgynrs[params[0].dataIndex] + "</div>";
-        }
-      },
-      grid: {
-        left: '3%',
-        right: '4%',
-        bottom: '3%',
-        containLabel: true
-      },
-      xAxis: {
-        type: 'value',
-        boundaryGap: [0, 1]
-      },
-      yAxis: {
-        type: 'category',
-        data: ["类型1", "类型2", "类型3", "类型4", "类型5", "类型6", "类型7"]
-      },
-      series: [
-        {
-          name: '网格员',
-          type: 'bar',
-          data: barData.wgys
-        }
-      ]
-    };
-    if (option && typeof option === "object") {
-      myChart.setOption(option, true);
-    }
-  }
 </script>
 </body>
 </html>
+
+<#--"url": "a/analysis/vehicleData.json",-->
+<#--"url": "a/analysis/industryData.json",-->
+
+
+
+
+<#--{value: pieData.zj, name: '自驾'},-->
+<#--{value: pieData.planej, name: '飞机'},-->
+<#--{value: pieData.train, name: '火车'},-->
+<#--{value: pieData.bus, name: '客车'},-->
+<#--{value: pieData.wybus, name: '网约车'}-->
+
+<#--data: ['自驾', '飞机', '火车', '客车' , '网约车']-->

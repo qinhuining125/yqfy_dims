@@ -74,6 +74,41 @@ public class FlowController {
     return clueReportService.echartsData(start, end, areaCode);
   }
 
+  @GetMapping(value = "a/analysis/status.html", produces = BaseConstant.HTML)
+  public String analysisStatus(Model model) {
+    model.addAttribute("areaList", townshipService.areaList());
+    return "web/analysis/status_index";
+  }
+
+  @ResponseBody
+  @PostMapping(value = "a/analysis/statusData.json", produces = BaseConstant.JSON)
+  public String statusData(@RequestParam(required = false) Long startTime,
+                             @RequestParam(required = false) Long endTime,
+                             @RequestParam(required = false) String areaCode) {
+    String start = startTime != null ? TimeUtil.format(startTime, BaseConstant.DATE_FORMAT2) : "";
+    String end = endTime != null ? TimeUtil.format(endTime, BaseConstant.DATE_FORMAT2) : "";
+    return yqfkRegisterService.echartsDataStatus(start, end, areaCode);
+  }
+
+
+
+  @GetMapping(value = "a/analysis/industry.html", produces = BaseConstant.HTML)
+  public String analysisIndustry(Model model) {
+    model.addAttribute("areaList", townshipService.areaList());
+    return "web/analysis/industry_index";
+  }
+
+  @ResponseBody
+  @PostMapping(value = "a/analysis/industryData.json", produces = BaseConstant.JSON)
+  public String industryData(@RequestParam(required = false) Long startTime,
+                             @RequestParam(required = false) Long endTime,
+                             @RequestParam(required = false) String areaCode) {
+    String start = startTime != null ? TimeUtil.format(startTime, BaseConstant.DATE_FORMAT2) : "";
+    String end = endTime != null ? TimeUtil.format(endTime, BaseConstant.DATE_FORMAT2) : "";
+    return yqfkRegisterService.echartsDataIndustry(start, end, areaCode);
+  }
+
+
   @GetMapping(value = "a/analysis/vehicle.html", produces = BaseConstant.HTML)
   public String analysisVehicle(Model model) {
     model.addAttribute("areaList", townshipService.areaList());
@@ -87,13 +122,7 @@ public class FlowController {
                             @RequestParam(required = false) String areaCode) {
     String start = startTime != null ? TimeUtil.format(startTime, BaseConstant.DATE_FORMAT2) : "";
     String end = endTime != null ? TimeUtil.format(endTime, BaseConstant.DATE_FORMAT2) : "";
-    return yqfkRegisterService.echartsVehicleData(start, end, areaCode);
-  }
-
-  @GetMapping(value = "a/analysis/industry .html", produces = BaseConstant.HTML)
-  public String analysisIndustry(Model model) {
-    model.addAttribute("areaList", townshipService.areaList());
-    return "web/analysis/industry_index";
+    return yqfkRegisterService.echartsDataVehicle(start, end, areaCode);
   }
 
   @GetMapping(value = "a/analysis/advice.html", produces = BaseConstant.HTML)

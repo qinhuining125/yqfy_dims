@@ -156,7 +156,7 @@ public class IndexController {
     model.addAttribute("adviceMap", JsonUtil.toJson(adviceMap));
     model.addAttribute("reportMap", JsonUtil.toJson(reportMap));
     model.addAttribute("taskMap", JsonUtil.toJson(taskMap));
-    return "welcome/index2";
+    return "welcome/index";
   }
 
   /**

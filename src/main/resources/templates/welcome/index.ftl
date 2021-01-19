@@ -4,7 +4,7 @@
 <body class="gray-bg"
       style="text-align: center;">
 <p>
-  <img src="${global.staticPath!}static/img/logos/welcome.png" alt=""/>
+  <img src="${global.staticPath!}static/img/logos/yqfk_flow2.png" alt=""/>
 </p>
 </body>
 </html>

@@ -75,10 +75,14 @@
         <a href="#"><i class="fa fa-bar-chart-o"></i><span class="nav-label">统计分析</span>
           <span class="fa arrow"></span></a>
         <ul class="nav nav-second-level">
-          <li><a class="J_menuItem" href="/a/analysis/clue.html">上报统计</a></li>
-          <li><a class="J_menuItem" href="/a/analysis/advice.html">建议统计</a></li>
-          <li><a class="J_menuItem" href="/a/analysis/task.html">任务统计</a></li>
-          <li><a class="J_menuItem" href="/a/analysis/report.html">举报统计</a></li>
+
+          <li><a class="J_menuItem" href="/a/analysis/status.html">按照状态统计</a></li>
+          <li><a class="J_menuItem" href="/a/analysis/industry.html">按照行业统计</a></li>
+          <li><a class="J_menuItem" href="/a/analysis/vehicle.html">按照交通工具统计</a></li>
+<#--          <li><a class="J_menuItem" href="/a/analysis/clue.html">上报统计</a></li>-->
+<#--          <li><a class="J_menuItem" href="/a/analysis/advice.html">建议统计</a></li>-->
+<#--          <li><a class="J_menuItem" href="/a/analysis/task.html">任务统计</a></li>-->
+<#--          <li><a class="J_menuItem" href="/a/analysis/report.html">举报统计</a></li>-->
         </ul>
       </li>
     </ul>

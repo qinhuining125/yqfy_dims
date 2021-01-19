@@ -6,14 +6,13 @@ import com.hengtianyi.common.core.feature.ServiceResult;
 import com.hengtianyi.dims.constant.FrameConstant;
 import com.hengtianyi.dims.constant.RoleEnum;
 import com.hengtianyi.dims.service.api.IncorruptAdviceService;
+import com.hengtianyi.dims.service.api.TownshipService;
 import com.hengtianyi.dims.service.api.YqfkRegisterService;
 import com.hengtianyi.dims.service.dao.IncorruptAdviceDao;
 import com.hengtianyi.dims.service.dao.VillageDao;
 import com.hengtianyi.dims.service.dao.YqfkRegisterDao;
 import com.hengtianyi.dims.service.dto.QueryDto;
-import com.hengtianyi.dims.service.entity.IncorruptAdviceEntity;
-import com.hengtianyi.dims.service.entity.VillageEntity;
-import com.hengtianyi.dims.service.entity.YqfkRegisterEntity;
+import com.hengtianyi.dims.service.entity.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -37,6 +36,9 @@ public class YqfkRegisterServiceImpl extends
 
   @Resource
   private YqfkRegisterDao yqfkRegisterDao;
+
+  @Resource
+  private VillageDao villageDao;
 
   /**
    * 实体与数据表字段的映射
@@ -119,51 +121,76 @@ public class YqfkRegisterServiceImpl extends
     return yqfkRegisterDao.pagelist(dto);
   }
 
-  /**
-   * echart数据
-   *
-   * @param startTime 开始时间
-   * @param endTime   结束时间
-   * @param areaCode  乡镇编号
-   * @return json
-   */
+
   @Override
   public String echartsData(String startTime, String endTime, String areaCode) {
-    ServiceResult<Object> result = new ServiceResult();
-   /* try {
-      List<IncorruptAdviceEntity> adviceEntityList = incorruptAdviceDao
-          .getEchartsData(startTime, endTime, areaCode);
-      Map<String, Object> map = count(adviceEntityList);
-      List<VillageEntity> villageList = villageDao.areaList(areaCode);
-      String[] villageNames = new String[villageList.size()];
-      String[] wanggeyuans = new String[villageList.size()];
-      String[] lianluoyuans = new String[villageList.size()];
-      String[] xiangzhens = new String[villageList.size()];
-      for (int i = 0; i < villageList.size(); i++) {
-        VillageEntity village = villageList.get(i);
-        adviceEntityList = incorruptAdviceDao
-            .getEchartsData(startTime, endTime, village.getAreaCode());
-        Map<String, Object> dataMap = count(adviceEntityList);
-        villageNames[i] = village.getAreaName();
-        wanggeyuans[i] = dataMap.get("wanggeyuan").toString();
-        lianluoyuans[i] = dataMap.get("lianluoyuan").toString();
-        xiangzhens[i] = dataMap.get("xiangzhen").toString();
-      }
-      map.put("villageNames", villageNames);
-      map.put("wanggeyuans", wanggeyuans);
-      map.put("lianluoyuans", lianluoyuans);
-      map.put("xiangzhens", xiangzhens);
-      result.setSuccess(true);
-      result.setResult(map);
-    } catch (Exception e) {
-      LOGGER.error("[echartsData]出错,{}", e.getMessage(), e);
-      result.setError("false");
-    }*/
-    return result.toJson();
+    return "";
   }
 
   /**
-   * echart数据
+   * echartsDataStatus
+   *状态
+   * @param startTime 开始时间
+   * @param endTime   结束时间
+   * @param areaCode  乡镇编号
+   * @return json
+   */
+  @Override
+  public String echartsDataStatus(String startTime, String endTime, String areaCode) {
+    ServiceResult<Object> result = new ServiceResult();
+    try {
+      List<YqfkRegisterEntity> yqfkRegisterEntityList = yqfkRegisterDao.getEchartsDataStatus(startTime, endTime, areaCode);
+      Map<String, Object> map = countStatus(yqfkRegisterEntityList);
+        List<VillageEntity> villageList = villageDao.areaList(areaCode);
+        String[] villageNames = new String[villageList.size()];
+        String[] beenhomes = new String[villageList.size()];
+        String[] planhomes = new String[villageList.size()];
+
+        for (int i = 0; i < villageList.size(); i++) {
+          VillageEntity village = villageList.get(i);
+          yqfkRegisterEntityList = yqfkRegisterDao
+                  .getEchartsDataStatus(startTime, endTime, village.getAreaCode());
+          Map<String, Object> dataMap = countStatus(yqfkRegisterEntityList);
+          villageNames[i] = village.getAreaName();
+          beenhomes[i] = dataMap.get("beenhome").toString();
+          planhomes[i] = dataMap.get("planhome").toString();
+        }
+
+        map.put("villageNames", villageNames);
+        map.put("beenhomes", beenhomes);
+        map.put("planhomes", planhomes);
+        result.setSuccess(true);
+        result.setResult(map);
+      } catch (Exception e) {
+        LOGGER.error("[echartsDataStatus]出错,{}", e.getMessage(), e);
+        result.setError("false");
+      }
+      return result.toJson();
+  }
+
+  private Map<String, Object> countStatus(List<YqfkRegisterEntity> list) {
+    Map<String, Object> map = new HashMap<>();
+    Integer beenhome = 0;
+    Integer planhome = 0;
+
+    for (YqfkRegisterEntity entity : list) {
+      if (entity.getReturnState() == null) {
+        continue;
+      }
+      if (entity.getReturnState().equals("已返乡")) {
+        beenhome += 1;
+      } else if (entity.getReturnState().equals("拟返乡")) {
+        planhome += 1;
+      }
+    }
+    map.put("beenhome", beenhome);
+    map.put("planhome", planhome);
+    return map;
+  }
+
+
+  /**
+   * echartsDataVehicle
    *
    * @param startTime 开始时间
    * @param endTime   结束时间
@@ -171,40 +198,50 @@ public class YqfkRegisterServiceImpl extends
    * @return json
    */
   @Override
-  public String echartsVehicleData(String startTime, String endTime, String areaCode) {
+  public String echartsDataVehicle(String startTime, String endTime, String areaCode) {
     ServiceResult<Object> result = new ServiceResult();
-//    try {
-      /*List<YqfkRegisterEntity> yqfkRegisterEntityList = yqfkRegisterDao.getEchartsData(startTime, endTime, areaCode);
-      Map<String, Object> map = count(yqfkRegisterEntityList);
+    try {
+      List<YqfkRegisterEntity> yqfkRegisterEntityList = yqfkRegisterDao.getEchartsDataVehicle(startTime, endTime, areaCode);
+      Map<String, Object> map = countVehicle(yqfkRegisterEntityList);
       List<VillageEntity> villageList = villageDao.areaList(areaCode);
       String[] villageNames = new String[villageList.size()];
-      String[] wanggeyuans = new String[villageList.size()];
-      String[] lianluoyuans = new String[villageList.size()];
-      String[] xiangzhens = new String[villageList.size()];
+      String[] zjs = new String[villageList.size()];
+      String[] planejs = new String[villageList.size()];
+      String[] trains = new String[villageList.size()];
+      String[] buss = new String[villageList.size()];
+      String[] wybuss = new String[villageList.size()];
+
+
       for (int i = 0; i < villageList.size(); i++) {
         VillageEntity village = villageList.get(i);
-        adviceEntityList = incorruptAdviceDao
-            .getEchartsData(startTime, endTime, village.getAreaCode());
-        Map<String, Object> dataMap = count(adviceEntityList);
+        yqfkRegisterEntityList = yqfkRegisterDao
+                .getEchartsDataVehicle(startTime, endTime, village.getAreaCode());
+        Map<String, Object> dataMap = countVehicle(yqfkRegisterEntityList);
         villageNames[i] = village.getAreaName();
-        wanggeyuans[i] = dataMap.get("wanggeyuan").toString();
-        lianluoyuans[i] = dataMap.get("lianluoyuan").toString();
-        xiangzhens[i] = dataMap.get("xiangzhen").toString();
+        zjs[i] = dataMap.get("zj").toString();
+        planejs[i] = dataMap.get("planej").toString();
+        trains[i] = dataMap.get("train").toString();
+        buss[i] = dataMap.get("bus").toString();
+        wybuss[i] = dataMap.get("wybus").toString();
       }
+
       map.put("villageNames", villageNames);
-      map.put("wanggeyuans", wanggeyuans);
-      map.put("lianluoyuans", lianluoyuans);
-      map.put("xiangzhens", xiangzhens);
+      map.put("zjs", zjs);
+      map.put("planejs", planejs);
+      map.put("trains", trains);
+      map.put("buss", buss);
+      map.put("wybuss", wybuss);
+
       result.setSuccess(true);
       result.setResult(map);
     } catch (Exception e) {
-      LOGGER.error("[echartsData]出错,{}", e.getMessage(), e);
+      LOGGER.error("[echartsDataVehicle]出错,{}", e.getMessage(), e);
       result.setError("false");
-    }*/
+    }
     return result.toJson();
   }
 
-  private Map<String, Object> count(List<YqfkRegisterEntity> list) {
+  private Map<String, Object> countVehicle(List<YqfkRegisterEntity> list) {
     Map<String, Object> map = new HashMap<>();
     Integer zj = 0;
     Integer planej = 0;
@@ -212,21 +249,127 @@ public class YqfkRegisterServiceImpl extends
     Integer bus = 0;
     Integer wybus = 0;
 
-//    for (YqfkRegisterEntity entity : list) {
-//      if (entity..getRoleId() == 1001) {
-//        wanggeyuan += 1;
-//      } else if (entity.getRoleId() == 1002) {
-//        lianluoyuan += 1;
-//      } else if (entity.getRoleId() == 1003) {
-//        xiangzhen += 1;
-//      }
-//    }
-//    map.put("wanggeyuan", wanggeyuan);
-//    map.put("lianluoyuan", lianluoyuan);
-//    map.put("xiangzhen", xiangzhen);
+    for (YqfkRegisterEntity entity : list) {
+      if (entity.getReturnWay().equals("自驾") || entity.getExpReturnWay().equals("自驾") ) {
+        zj += 1;
+      } else if (entity.getReturnWay().equals("飞机") || entity.getExpReturnWay().equals("飞机") ) {
+        planej += 1;
+      } else if (entity.getReturnWay().equals("火车") || entity.getExpReturnWay().equals("火车") ) {
+        train += 1;
+      } else if (entity.getReturnWay().equals("客车") || entity.getExpReturnWay().equals("客车") ) {
+        train += 1;
+      } else if (entity.getReturnWay().equals("网约车") || entity.getExpReturnWay().equals("网约车") ) {
+        train += 1;
+      }
+    }
+    map.put("zj", zj);
+    map.put("planej", planej);
+    map.put("train", train);
+    map.put("bus", bus);
+    map.put("wybus", wybus);
     return map;
-
   }
+
+
+
+
+  /**
+   * echartsDataIndustry
+   *
+   * @param startTime 开始时间
+   * @param endTime   结束时间
+   * @param areaCode  乡镇编号
+   * @return json
+   */
+  @Override
+  public String echartsDataIndustry(String startTime, String endTime, String areaCode) {
+    ServiceResult<Object> result = new ServiceResult();
+    try {
+      List<YqfkRegisterEntity> yqfkRegisterEntityList = yqfkRegisterDao.echartsDataIndustry(startTime, endTime, areaCode);
+      Map<String, Object> map = countStatus(yqfkRegisterEntityList);
+      List<VillageEntity> villageList = villageDao.areaList(areaCode);
+      String[] villageNames = new String[villageList.size()];
+      String[] lenglians = new String[villageList.size()];
+      String[] businesss = new String[villageList.size()];
+      String[] huoyuns = new String[villageList.size()];
+      String[] students = new String[villageList.size()];
+      String[] jiguans = new String[villageList.size()];
+      String[] wuyes = new String[villageList.size()];
+      String[] others = new String[villageList.size()];
+
+      for (int i = 0; i < villageList.size(); i++) {
+        VillageEntity village = villageList.get(i);
+        yqfkRegisterEntityList = yqfkRegisterDao.echartsDataIndustry(startTime, endTime, village.getAreaCode());
+        Map<String, Object> dataMap = countIndustry(yqfkRegisterEntityList);
+        villageNames[i] = village.getAreaName();
+
+        lenglians[i] = dataMap.get("lenglian").toString();
+        businesss[i] = dataMap.get("business").toString();
+        huoyuns[i] = dataMap.get("huoyun").toString();
+        jiguans[i] = dataMap.get("jiguan").toString();
+        wuyes[i] = dataMap.get("wuye").toString();
+        others[i] = dataMap.get("other").toString();
+      }
+      map.put("villageNames", villageNames);
+      map.put("lenglians", lenglians);
+      map.put("businesss", businesss);
+      map.put("huoyuns", huoyuns);
+      map.put("students", students);
+      map.put("jiguans", jiguans);
+      map.put("wuyes", wuyes);
+      map.put("others", others);
+
+
+      result.setSuccess(true);
+      result.setResult(map);
+    } catch (Exception e) {
+      LOGGER.error("[echartsDataIndustry]出错,{}", e.getMessage(), e);
+      result.setError("false");
+    }
+    return result.toJson();
+  }
+
+  private Map<String, Object> countIndustry(List<YqfkRegisterEntity> list) {
+    Map<String, Object> map = new HashMap<>();
+    Integer lenglian = 0;
+    Integer business = 0;
+    Integer huoyun = 0;
+    Integer student = 0;
+    Integer jiguan = 0;
+    Integer wuye = 0;
+    Integer other = 0;
+
+
+    for (YqfkRegisterEntity entity : list) {
+
+        if (entity.getIndustray().equals("冷链从业人员")) {
+          lenglian += 1;
+        } else if (entity.getIndustray().equals("商业从业人员")) {
+          business += 1;
+        } else if (entity.getIndustray().equals("货运物流")) {
+          huoyun += 1;
+        } else if (entity.getIndustray().equals("学生") ) {
+          student += 1;
+        } else if (entity.getIndustray().equals("机关事业单位")) {
+          jiguan += 1;
+        } else if (entity.getIndustray().equals("无业") ) {
+          wuye += 1;
+        } else if (entity.getIndustray().equals("其它") ) {
+          other += 1;
+        }
+
+    }
+    map.put("lenglian", lenglian);
+    map.put("business", business);
+    map.put("huoyun", huoyun);
+    map.put("student", student);
+    map.put("jiguan", jiguan);
+    map.put("wuye", wuye);
+    map.put("other", other);
+    return map;
+  }
+
+
 
   @Override
   public Integer countAdvice(QueryDto dto) {

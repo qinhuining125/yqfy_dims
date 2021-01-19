@@ -41,7 +41,14 @@ public interface YqfkRegisterService extends
    */
   String echartsData(String startTime, String endTime, String areaCode);
 
-  String echartsVehicleData(String startTime, String endTime, String areaCode);
+  String echartsDataStatus(String startTime, String endTime, String areaCode);
+
+  String echartsDataVehicle(String startTime, String endTime, String areaCode);
+
+  String echartsDataIndustry(String startTime, String endTime, String areaCode);
+
+
+
 
   /**
    * 查看建议数量

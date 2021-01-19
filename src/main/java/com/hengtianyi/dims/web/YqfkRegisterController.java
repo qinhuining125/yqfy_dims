@@ -107,9 +107,9 @@ public class YqfkRegisterController extends
                               @ModelAttribute YqfkRegisterEntity dto) {
 
         try {
-            dto.setBeforeReturnCbm(dto.getBeforeReturnPbm().replace(" ", ""));
-            dto.setBeforeReturnCbm(dto.getBeforeReturnCbm().replace(" ", ""));
-            dto.setBeforeReturnXbm(dto.getBeforeReturnXbm().replace(" ", ""));
+            dto.setBeforeReturnCbm(dto.getBeforeReturnPbm().trim().replace(" ", ""));
+            dto.setBeforeReturnCbm(dto.getBeforeReturnCbm().trim().replace(" ", ""));
+            dto.setBeforeReturnXbm(dto.getBeforeReturnXbm().trim().replace(" ", ""));
             int rowsCount = getService().searchDataCount(dto);
             if (BaseConstant.NUM_1 > rowsCount) {
                 //无数据，返回JSON

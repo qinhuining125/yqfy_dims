@@ -486,12 +486,73 @@
   </select>
 
 
-  <select id="getEchartsData" parameterType="java.lang.String" resultMap="BaseResultMap">
+  <select id="getEchartsDataStatus" resultMap="BaseResultMap" parameterType="java.lang.String">
     select
-    p."ID" , p."USER_ID" , p."CONTENT" , p."CREATE_TIME",
-    s."USER_NAME",s."ROLE_ID"
-    from "INCORRUPT_ADVICE" p
-    inner join "SYS_USER" s on p."USER_ID"=s."ID"
+    t."ID" , t."RETURN_STATE"
+    from "YQ_YQFK" t
+    where 1=1
+    <choose>
+      <when test="endTime!=null and endTime!=''">
+        and t."CREATE_TIME" >= to_date(#{startTime,jdbcType=VARCHAR},'yyyy-mm-dd hh24:mi:ss')
+        and t."CREATE_TIME" &lt; to_date(#{endTime,jdbcType=VARCHAR},'yyyy-mm-dd hh24:mi:ss')
+      </when>
+      <otherwise>
+        and t."CREATE_TIME" &lt; sysdate
+      </otherwise>
+    </choose>
+    <if test="areaCode!=null and areaCode!=''">
+      and t."CREATE_ACCOUNT" in (select a.id from sys_user a where a.area_code like
+      (#{areaCode,jdbcType=VARCHAR} ||'%'))
+    </if>
+  </select>
+
+
+
+  <select id="getEchartsDataVehicle" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select
+    t."ID" , t."RETURN_WAY"
+    from "YQ_YQFK" t
+    where 1=1
+    <choose>
+      <when test="endTime!=null and endTime!=''">
+        and t."CREATE_TIME" >= to_date(#{startTime,jdbcType=VARCHAR},'yyyy-mm-dd hh24:mi:ss')
+        and t."CREATE_TIME" &lt; to_date(#{endTime,jdbcType=VARCHAR},'yyyy-mm-dd hh24:mi:ss')
+      </when>
+      <otherwise>
+        and t."CREATE_TIME" &lt; sysdate
+      </otherwise>
+    </choose>
+    <if test="areaCode!=null and areaCode!=''">
+      and t."CREATE_ACCOUNT" in (select a.id from sys_user a where a.area_code like
+      (#{areaCode,jdbcType=VARCHAR} ||'%'))
+    </if>
+  </select>
+
+  <select id="getEchartsDataIndustry" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select
+    t."ID" , t."INDUSTRAY"
+    from "YQ_YQFK" t
+    where 1=1
+    <choose>
+      <when test="endTime!=null and endTime!=''">
+        and t."CREATE_TIME" >= to_date(#{startTime,jdbcType=VARCHAR},'yyyy-mm-dd hh24:mi:ss')
+        and t."CREATE_TIME" &lt; to_date(#{endTime,jdbcType=VARCHAR},'yyyy-mm-dd hh24:mi:ss')
+      </when>
+      <otherwise>
+        and t."CREATE_TIME" &lt; sysdate
+      </otherwise>
+    </choose>
+    <if test="areaCode!=null and areaCode!=''">
+      and t."CREATE_ACCOUNT" in (select a.id from sys_user a where a.area_code like
+      (#{areaCode,jdbcType=VARCHAR} ||'%'))
+    </if>
+  </select>
+
+
+  <!--<select id="getEchartsData" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+     p.* from "YQ_YQFK" p
+    inner join "SYS_USER" s on p."CREATE_ACCOUNT"=s."ID"
     where 1=1
     <choose>
       <when test="endTime!=null and endTime!=''">
@@ -505,7 +566,9 @@
     <if test="areaCode!=null and areaCode!=''">
       and s."AREA_CODE" like (#{areaCode,jdbcType=VARCHAR} ||'%')
     </if>
-  </select>
+  </select>-->
+
+
   <select id="checkCard" parameterType="java.lang.String" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List"/>

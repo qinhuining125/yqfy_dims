@@ -185,23 +185,23 @@
 </script>
 </body>
 </html>
-data: ['冷链从业人员', '商业从业人员', '货运物流', '学生' , '机关事业单位', '无业', '其它']
-"url": "a/analysis/vehicleData.json",
-"url": "a/analysis/industryData.json",
+<#--data: ['冷链从业人员', '商业从业人员', '货运物流', '学生' , '机关事业单位', '无业', '其它']-->
+<#--"url": "a/analysis/vehicleData.json",-->
+<#--"url": "a/analysis/industryData.json",-->
 
-{value: pieData.lenglian, name: '冷链从业人员'},
-{value: pieData.business, name: '商业从业人员'},
-{value: pieData.huoyun, name: '货运物流'},
-{value: pieData.student, name: '学生'},
-{value: pieData.jiguan, name: '机关事业单位'},
-{value: pieData.wuye, name: '无业'},
-{value: pieData.other, name: '其它'}
+<#--{value: pieData.lenglian, name: '冷链从业人员'},-->
+<#--{value: pieData.business, name: '商业从业人员'},-->
+<#--{value: pieData.huoyun, name: '货运物流'},-->
+<#--{value: pieData.student, name: '学生'},-->
+<#--{value: pieData.jiguan, name: '机关事业单位'},-->
+<#--{value: pieData.wuye, name: '无业'},-->
+<#--{value: pieData.other, name: '其它'}-->
 
 
-{value: pieData.zj, name: '自驾'},
-{value: pieData.planej, name: '飞机'},
-{value: pieData.train, name: '火车'},
-{value: pieData.bus, name: '客车'},
-{value: pieData.wybus, name: '网约车'}
+<#--{value: pieData.zj, name: '自驾'},-->
+<#--{value: pieData.planej, name: '飞机'},-->
+<#--{value: pieData.train, name: '火车'},-->
+<#--{value: pieData.bus, name: '客车'},-->
+<#--{value: pieData.wybus, name: '网约车'}-->
 
-data: ['自驾', '飞机', '火车', '客车' , '网约车']
+<#--data: ['自驾', '飞机', '火车', '客车' , '网约车']-->

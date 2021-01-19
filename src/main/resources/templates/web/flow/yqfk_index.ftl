@@ -1,4 +1,3 @@
-@@ -0,0 +1,22 @@
 <#include "/common/head.ftl"/>
 <#include "/common/cssfile_list.ftl"/>
 </head>
