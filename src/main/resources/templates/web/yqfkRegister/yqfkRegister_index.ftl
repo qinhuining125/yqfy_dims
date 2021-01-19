@@ -23,7 +23,11 @@
                                 </div>
                                 <input type="hidden" id="startTime" name="startTime">
                                 <input type="hidden" id="endTime" name="endTime">
-                                <input type="hidden" id="areaCode" name="areaCode">
+                                <input type="hidden" id="beforeReturnPbm" name="beforeReturnPbm">
+                                <input type="hidden" id="beforeReturnCbm" name="beforeReturnCbm">
+                                <input type="hidden" id="beforeReturnXbm" name="beforeReturnXbm">
+                                <input type="hidden" id="afterReturnZhbm" name="afterReturnZhbm">
+                                <input type="hidden" id="afterReturnCubm" name="afterReturnCubm">
                             </div>
                         </div>
                         <#--                        <div class="col-xs-6 col-sm-4 col-lg-3">-->
@@ -52,11 +56,11 @@
                             <div class="form-group">
                                 <label class="col-sm-4 control-label">返乡前所在省:</label>
                                 <div class="col-sm-7">
-                                    <select class="form-control" id="province" name="beforeReturnPbm"
+                                    <select class="form-control" id="province" name=""
                                             onchange="searchP(this);">
                                         <option value="">全部</option>
                                         <#list areaList as obj>
-                                            <option value="${(obj.id)}">${(obj.pname)!}</option>
+                                            <option value="${(obj.id)}-${(obj.pcode)}">${(obj.pname)!}</option>
                                         </#list>
                                     </select>
                                 </div>
@@ -64,7 +68,7 @@
                             <div class="form-group">
                                 <label class="col-sm-4 control-label">市:</label>
                                 <div class="col-sm-7">
-                                    <select id="city" class="form-control" name="beforeReturnCbm"
+                                    <select id="city" class="form-control" name=""
                                             onchange="choseS(this);">
                                         <option value="">全部</option>
                                     </select>
@@ -73,7 +77,7 @@
                             <div class="form-group">
                                 <label class="col-sm-4 control-label">县:</label>
                                 <div class="col-sm-7">
-                                    <select id="county" class="form-control" name="beforeReturnXbm"
+                                    <select id="county" class="form-control" name=""
                                             onchange="choseX(this);">
                                         <option value="">全部</option>
                                     </select>
@@ -85,7 +89,7 @@
                             <div class="form-group">
                                 <label class="col-sm-4 control-label">返乡后所在乡镇:</label>
                                 <div class="col-sm-7">
-                                    <select class="form-control" id="township" name="afterReturnZhbm" onchange="searchVillage(this);">
+                                    <select class="form-control" id="township" name="" onchange="searchVillage(this);">
                                         <option value="">全部</option>
                                         <#list areaListF as obj>
                                             <option value="${(obj.areaCode!)}">${(obj.areaName)!}</option>
@@ -96,7 +100,7 @@
                             <div class="form-group">
                                 <label class="col-sm-4 control-label">村:</label>
                                 <div class="col-sm-7">
-                                    <select id="valliage" class="form-control" name="afterReturnCubm" onchange="choseArea(this);">
+                                    <select id="valliage" class="form-control" name="" onchange="choseArea(this);">
                                         <option value="">全部</option>
                                     </select>
                                 </div>
@@ -173,13 +177,13 @@
 <script id="template-province" type="text/x-handlebars-template">
     <option value="">--请选择--</option>
     {{#each this}}
-    <option value="{{id}}">{{pname}}</option>
+    <option value="{{id}}-{{pcode}}">{{pname}}</option>
     {{/each}}
 </script>
 <script id="template-city" type="text/x-handlebars-template">
     <option value="">--请选择--</option>
     {{#each this}}
-    <option value="{{id}}">{{pname}}</option>
+    <option value="{{id}}-{{pcode}}">{{pname}}</option>
     {{/each}}
 </script>
 <script id="template-villages" type="text/x-handlebars-template">
@@ -227,7 +231,7 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-4 control-label">与户主关系1：</label>
+            <label class="col-xs-4 control-label">与户主关系：</label>
             <div class="col-xs-8">
                 <div class="form-control-static">{{relation}}</div>
             </div>
@@ -431,10 +435,11 @@
     });
 
     function searchP(obj) {
-        console.log(obj)
-        const province = $(obj).val();
-        console.log(province)
-        $("#receiveId").val(province);
+        const provinceArray =  $(obj).val().replace(/\s*/g,"").split("-")
+        console.log(provinceArray)
+        const province=   provinceArray[0]
+        const beforeReturnPbm=   provinceArray[1]
+        $("#beforeReturnPbm").val(beforeReturnPbm);
         if (province == '') {
             return false;
         }
@@ -454,10 +459,11 @@
     }
 
     function choseS(obj) {
-        console.log(obj)
-        const city = $(obj).val();
-        console.log(city)
-        $("#receiveId").val(city);
+        const cityArray =  $(obj).val().replace(/\s*/g,"").split("-")
+        console.log(cityArray)
+        const city=   cityArray[0]
+        const beforeReturnCbm=   cityArray[1]
+        $("#beforeReturnCbm").val(beforeReturnCbm);
         if (city == '') {
             return false;
         }
@@ -477,16 +483,21 @@
     }
 
     function choseX(obj) {
-        var code = $(obj).val();
-        if (code == '') {
-            code = $("#county").val();
-        }
-        $("#areaCode").val(code);
+        const countyArray =  $(obj).val().replace(/\s*/g,"").split("-")
+        console.log(countyArray)
+        const county=   countyArray[0]
+        const beforeReturnXbm=   countyArray[1]
+        $("#beforeReturnXbm").val(beforeReturnXbm);
+        // if (beforeReturnXbm == '') {
+        //     beforeReturnXbm = $("#county").val();
+        // }
+
     }
     function searchVillage(obj) {
-        const township = $(obj).val();
-        $("#receiveId").val(township);
-        if (township == '') {
+        const afterReturnZhbm = $(obj).val();
+        console.log(afterReturnZhbm)
+        $("#afterReturnZhbm").val(afterReturnZhbm);
+        if (afterReturnZhbm == '') {
             return false;
         }
         $.ajax({
@@ -494,7 +505,7 @@
             "cache": false,
             "url": "/a/village/list.json",
             "data": {
-                "areaCode": township
+                "areaCode": afterReturnZhbm
             },
             "dataType": "json",
             "success": function (data) {
@@ -505,11 +516,13 @@
     }
 
     function choseArea(obj) {
-        var code = $(obj).val();
-        if (code == '') {
-            code = $("#township").val();
+
+        var afterReturnCubm = $(obj).val();
+        console.log(afterReturnCubm)
+        if (afterReturnCubm == '') {
+            afterReturnCubm = $("#township").val();
         }
-        $("#areaCode").val(code);
+        $("#afterReturnCubm").val(afterReturnCubm);
     }
     $(document).ready(function () {
         var HBR_TD = Handlebars.compile($("#template-yqfkRegister").html());

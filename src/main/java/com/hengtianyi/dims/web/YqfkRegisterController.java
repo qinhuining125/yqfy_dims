@@ -69,6 +69,7 @@ public class YqfkRegisterController extends
      */
     @GetMapping(value = "/index.html", produces = BaseConstant.HTML)
     public String index(Model model) {
+      List<Region> ddd=  regionService.getProvince();
         model.addAttribute("mapping", MAPPING);
         model.addAttribute("areaList", regionService.getProvince());
         model.addAttribute("areaListF", townshipService.areaList());
@@ -107,6 +108,17 @@ public class YqfkRegisterController extends
     @PostMapping(value = "/getDataList.json", produces = BaseConstant.JSON)
     public String getDataList(@ModelAttribute CommonPageDto pageDto,
                               @ModelAttribute YqfkRegisterEntity dto) {
+        if (dto.getBeforeReturnPbm() != null) {
+            dto.setBeforeReturnPbm(dto.getBeforeReturnPbm().replace(" ", ""));
+        }
+        if (dto.getBeforeReturnCbm() != null) {
+            dto.setBeforeReturnCbm(dto.getBeforeReturnCbm().replace(" ", ""));
+        }
+        if (dto.getBeforeReturnXbm() != null) {
+            dto.setBeforeReturnXbm(dto.getBeforeReturnXbm().replace(" ", ""));
+        }
+        System.out.printf(  this.getDataListCommon(pageDto, dto));
+        this.getDataListCommon(pageDto, dto);
         return this.getDataListCommon(pageDto, dto);
 //        try {
 //            if (dto.getBeforeReturnPbm()!=null){
@@ -225,13 +237,14 @@ public class YqfkRegisterController extends
     @ResponseBody
     @GetMapping(value = "/listS.json", produces = BaseConstant.JSON)
     public String getCity(@RequestParam String pcode) {
-        pcode=pcode.replace(" ", "");
-     List<Region> aa=  regionService.getCity(pcode);
+        pcode = pcode.replace(" ", "");
+        List<Region> aa = regionService.getCity(pcode);
         ServiceResult<Object> result = new ServiceResult<>();
         result.setSuccess(true);
         result.setResult(regionService.getCity(pcode));
         return result.toJson();
     }
+
     /**
      * 通过AJAX获取市列表
      *
@@ -241,8 +254,8 @@ public class YqfkRegisterController extends
     @ResponseBody
     @GetMapping(value = "/listX.json", produces = BaseConstant.JSON)
     public String getCounty(@RequestParam String pcode) {
-        pcode=pcode.replace(" ", "");
-        List<Region> aa=  regionService.getCity(pcode);
+        pcode = pcode.replace(" ", "");
+        List<Region> aa = regionService.getCity(pcode);
         ServiceResult<Object> result = new ServiceResult<>();
         result.setSuccess(true);
         result.setResult(regionService.getCounty(pcode));

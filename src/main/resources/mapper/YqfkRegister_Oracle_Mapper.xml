@@ -14,7 +14,7 @@
   <sql id="sql_where">
     <where>
       <if test="createAccount !=null and createAccount !=''">
-        and "CREATE_ACCOUNT" = #{dto.createAccount,jdbcType=VARCHAR}
+        and "CREATE_ACCOUNT" = (select ID from SYS_USER where USER_NAME=#{createAccount,jdbcType=VARCHAR})
       </if>
       <if test="beforeReturnPbm !=null and beforeReturnPbm !=''">
         and "BEFORE_RETURN_PBM" = #{beforeReturnPbm,jdbcType=VARCHAR}
@@ -25,13 +25,18 @@
       <if test="beforeReturnXbm !=null and beforeReturnXbm !=''">
         and "BEFORE_RETURN_XBM" = #{beforeReturnXbm,jdbcType=VARCHAR}
       </if>
+      <if test="afterReturnZhbm !=null and afterReturnZhbm !=''">
+        and "AFTER_RETURN_ZHBM" = #{afterReturnZhbm,jdbcType=VARCHAR}
+      </if>
+      <if test="afterReturnCubm !=null and afterReturnCubm !=''">
+        and "AFTER_RETURN_CUBM" = #{afterReturnCubm,jdbcType=VARCHAR}
+      </if>
       <if test="startTime !=null and startTime !=''">
-        and "CREATE_TIME" = #{startTime,jdbcType=VARCHAR}
+        and "CREATE_TIME" &gt; to_date(#{startTime,jdbcType=VARCHAR},'yyyy-mm-dd hh24:mi:ss')
       </if>
       <if test="endTime !=null and endTime !=''">
-        and "CREATE_TIME" = #{endTime,jdbcType=VARCHAR}
+        and "CREATE_TIME" &lt; to_date(#{endTime,jdbcType=VARCHAR},'yyyy-mm-dd hh24:mi:ss')
       </if>
-
      <!-- <if test="createTime !=null and createTime !=''">
         and "CREATE_TIME" = #{createTime,jdbcType=TIMESTAMP}
       </if>-->
