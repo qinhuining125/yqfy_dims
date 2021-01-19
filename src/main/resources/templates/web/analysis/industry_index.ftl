@@ -104,7 +104,7 @@
       legend: {
         orient: 'horizontal',
         left: 10,
-        data: ['冷链从业人员', '商业从业人员', '货运物流', '学生' , '机关事业单位', '无业', '其它']
+        data: ['冷链从业人员', '商业从业人员', '货运物流', '学生', '机关事业单位', '无业', '其它']
       },
       title: [{
         text: '总量10',
@@ -144,7 +144,7 @@
         }
       },
       legend: {
-        data: ['冷链从业人员', '商业从业人员', '货运物流', '学生' , '机关事业单位', '无业', '其它']
+        data: ['冷链从业人员', '商业从业人员', '货运物流', '学生', '机关事业单位', '无业', '其它']
       },
       grid: {
         left: '3%',
@@ -187,7 +187,8 @@
           type: 'bar',
           stack: '数量',
           data: barData.huoyuns
-        },{
+        },
+        {
           name: '学生',
           type: 'bar',
           stack: '数量',
@@ -220,17 +221,3 @@
 </script>
 </body>
 </html>
-
-<#--"url": "a/analysis/vehicleData.json",-->
-<#--"url": "a/analysis/industryData.json",-->
-
-
-
-
-<#--{value: pieData.zj, name: '自驾'},-->
-<#--{value: pieData.planej, name: '飞机'},-->
-<#--{value: pieData.train, name: '火车'},-->
-<#--{value: pieData.bus, name: '客车'},-->
-<#--{value: pieData.wybus, name: '网约车'}-->
-
-<#--data: ['自驾', '飞机', '火车', '客车' , '网约车']-->

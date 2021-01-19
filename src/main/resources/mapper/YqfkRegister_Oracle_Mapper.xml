@@ -548,27 +548,6 @@
     </if>
   </select>
 
-
-  <!--<select id="getEchartsData" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select
-     p.* from "YQ_YQFK" p
-    inner join "SYS_USER" s on p."CREATE_ACCOUNT"=s."ID"
-    where 1=1
-    <choose>
-      <when test="endTime!=null and endTime!=''">
-        and p."CREATE_TIME" >= to_date(#{startTime,jdbcType=VARCHAR},'yyyy-mm-dd hh24:mi:ss')
-        and p."CREATE_TIME" &lt; to_date(#{endTime,jdbcType=VARCHAR},'yyyy-mm-dd hh24:mi:ss')
-      </when>
-      <otherwise>
-        and p."CREATE_TIME" &lt; sysdate
-      </otherwise>
-    </choose>
-    <if test="areaCode!=null and areaCode!=''">
-      and s."AREA_CODE" like (#{areaCode,jdbcType=VARCHAR} ||'%')
-    </if>
-  </select>-->
-
-
   <select id="checkCard" parameterType="java.lang.String" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List"/>
