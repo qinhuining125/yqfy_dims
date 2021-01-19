@@ -48,6 +48,8 @@ public class YqfkRegisterController extends
     private RegionService regionService;
     @Resource
     private YqfkPlaceService yqfkPlaceService;
+    @Resource
+    private TownshipService townshipService;
 
     @Override
     public YqfkRegisterService getService() {
@@ -67,8 +69,10 @@ public class YqfkRegisterController extends
      */
     @GetMapping(value = "/index.html", produces = BaseConstant.HTML)
     public String index(Model model) {
+      List<Region> ddd=  regionService.getProvince();
         model.addAttribute("mapping", MAPPING);
         model.addAttribute("areaList", regionService.getProvince());
+        model.addAttribute("areaListF", townshipService.areaList());
         return "web/yqfkRegister/yqfkRegister_index";
     }
 
@@ -104,34 +108,51 @@ public class YqfkRegisterController extends
     @PostMapping(value = "/getDataList.json", produces = BaseConstant.JSON)
     public String getDataList(@ModelAttribute CommonPageDto pageDto,
                               @ModelAttribute YqfkRegisterEntity dto) {
-
-        try {
-            dto.setBeforeReturnCbm(dto.getBeforeReturnPbm().trim().replace(" ", ""));
-            dto.setBeforeReturnCbm(dto.getBeforeReturnCbm().trim().replace(" ", ""));
-            dto.setBeforeReturnXbm(dto.getBeforeReturnXbm().trim().replace(" ", ""));
-            int rowsCount = getService().searchDataCount(dto);
-            if (BaseConstant.NUM_1 > rowsCount) {
-                //无数据，返回JSON
-                return BaseConstant.EMPTY_LIST_JSON;
-            }
-            pageDto.setTotal(rowsCount);
-            QueryDto queryDto = new QueryDto();
-            queryDto.setCurrentPage(pageDto.getCurrent());
-            List<YqfkRegisterEntity> listData = getService().listData(queryDto);
-            for (YqfkRegisterEntity one : listData) {
-                this.clearEntity(one);
-            }
-            CommonPageDto cpDto = new CommonPageDto(listData);
-            cpDto.setCurrent(pageDto.getCurrent());
-            cpDto.setRowCount(pageDto.getRowCount());
-            cpDto.setTotal(pageDto.getTotal());
-            return cpDto.toJsonHtml();
-        } catch (Exception ex) {
-            getLogger()
-                    .error("[getDataListCommon]{}, pageDto = {}, dto = {}", ex.getMessage(), pageDto.toJson(),
-                            dto.toJson(), ex);
+        if (dto.getBeforeReturnPbm() != null) {
+            dto.setBeforeReturnPbm(dto.getBeforeReturnPbm().replace(" ", ""));
         }
-        return BaseConstant.EMPTY_LIST_JSON;
+        if (dto.getBeforeReturnCbm() != null) {
+            dto.setBeforeReturnCbm(dto.getBeforeReturnCbm().replace(" ", ""));
+        }
+        if (dto.getBeforeReturnXbm() != null) {
+            dto.setBeforeReturnXbm(dto.getBeforeReturnXbm().replace(" ", ""));
+        }
+        System.out.printf(  this.getDataListCommon(pageDto, dto));
+        this.getDataListCommon(pageDto, dto);
+        return this.getDataListCommon(pageDto, dto);
+//        try {
+//            if (dto.getBeforeReturnPbm()!=null){
+//                dto.setBeforeReturnCbm(dto.getBeforeReturnPbm().replace(" ", ""));
+//            }
+//            if (dto.getBeforeReturnCbm()!=null){
+//                dto.setBeforeReturnCbm(dto.getBeforeReturnCbm().replace(" ", ""));
+//            }
+//            if (dto.getBeforeReturnXbm()!=null){
+//                dto.setBeforeReturnXbm(dto.getBeforeReturnXbm().replace(" ", ""));
+//            }
+//            int rowsCount = getService().searchDataCount(dto);
+//            if (BaseConstant.NUM_1 > rowsCount) {
+//                //无数据，返回JSON
+//                return BaseConstant.EMPTY_LIST_JSON;
+//            }
+//            pageDto.setTotal(rowsCount);
+//            QueryDto queryDto = new QueryDto();
+//            queryDto.setCurrentPage(pageDto.getCurrent());
+//            List<YqfkRegisterEntity> listData = getService().listData(queryDto);
+//            for (YqfkRegisterEntity one : listData) {
+//                this.clearEntity(one);
+//            }
+//            CommonPageDto cpDto = new CommonPageDto(listData);
+//            cpDto.setCurrent(pageDto.getCurrent());
+//            cpDto.setRowCount(pageDto.getRowCount());
+//            cpDto.setTotal(pageDto.getTotal());
+//            return cpDto.toJsonHtml();
+//        } catch (Exception ex) {
+//            getLogger()
+//                    .error("[getDataListCommon]{}, pageDto = {}, dto = {}", ex.getMessage(), pageDto.toJson(),
+//                            dto.toJson(), ex);
+//        }
+//        return BaseConstant.EMPTY_LIST_JSON;
     }
 
     /**
@@ -216,13 +237,14 @@ public class YqfkRegisterController extends
     @ResponseBody
     @GetMapping(value = "/listS.json", produces = BaseConstant.JSON)
     public String getCity(@RequestParam String pcode) {
-        pcode=pcode.replace(" ", "");
-     List<Region> aa=  regionService.getCity(pcode);
+        pcode = pcode.replace(" ", "");
+        List<Region> aa = regionService.getCity(pcode);
         ServiceResult<Object> result = new ServiceResult<>();
         result.setSuccess(true);
         result.setResult(regionService.getCity(pcode));
         return result.toJson();
     }
+
     /**
      * 通过AJAX获取市列表
      *
@@ -232,8 +254,8 @@ public class YqfkRegisterController extends
     @ResponseBody
     @GetMapping(value = "/listX.json", produces = BaseConstant.JSON)
     public String getCounty(@RequestParam String pcode) {
-        pcode=pcode.replace(" ", "");
-        List<Region> aa=  regionService.getCity(pcode);
+        pcode = pcode.replace(" ", "");
+        List<Region> aa = regionService.getCity(pcode);
         ServiceResult<Object> result = new ServiceResult<>();
         result.setSuccess(true);
         result.setResult(regionService.getCounty(pcode));
