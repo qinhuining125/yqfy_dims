@@ -102,5 +102,10 @@ public class RegionServiceImpl extends AbstractGenericServiceImpl<Region, String
     return regionDao.findByCode(pcode);
   }
 
+  @Override
+  public Region getDataById(String id) {
+    return regionDao.getDataById(id);
+  }
+
 
 }

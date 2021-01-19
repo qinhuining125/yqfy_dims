@@ -13,8 +13,7 @@ import java.util.List;
  *
  * @author LY
  */
-public interface YqfkRegisterService extends
-    AbstractGenericService<YqfkRegisterEntity, String> {
+public interface YqfkRegisterService extends AbstractGenericService<YqfkRegisterEntity, String> {
 
 
   /**

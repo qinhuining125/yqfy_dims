@@ -26,7 +26,7 @@
         and "BEFORE_RETURN_XBM" = #{beforeReturnXbm,jdbcType=VARCHAR}
       </if>
       <if test="afterReturnZhbm !=null and afterReturnZhbm !=''">
-        and "AFTER_RETURN_ZHBM" = #{afterReturnZhbm,jdbcType=VARCHAR}
+        and "AFTER_RETURN_ZBM" = #{afterReturnZhbm,jdbcType=VARCHAR}
       </if>
       <if test="afterReturnCubm !=null and afterReturnCubm !=''">
         and "AFTER_RETURN_CUBM" = #{afterReturnCubm,jdbcType=VARCHAR}
