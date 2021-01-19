@@ -21,29 +21,29 @@
                                                readonly="readonly" placeholder="日期"/>
                                     </div>
                                 </div>
-                                <input type="text" id="startTime" name="startTime">
-                                <input type="text" id="endTime" name="endTime">
+                                <input type="hidden" id="startTime" name="startTime">
+                                <input type="hidden" id="endTime" name="endTime">
                                 <input type="hidden" id="areaCode" name="areaCode">
                             </div>
                         </div>
-<#--                        <div class="col-xs-6 col-sm-4 col-lg-3">-->
-<#--                            <div class="form-group">-->
-<#--                                <label class="col-sm-4 control-label">返乡状态</label>-->
-<#--                                <div class="col-sm-7">-->
-<#--                                    <select name="state" class="form-control">-->
-<#--                                        <option value="">全部</option>-->
-<#--                                        <option value="0">未处理</option>-->
-<#--                                        <option value="1">已受理</option>-->
-<#--                                        <option value="2">已办结</option>-->
-<#--                                    </select>-->
-<#--                                </div>-->
-<#--                            </div>-->
-<#--                        </div>-->
+                        <#--                        <div class="col-xs-6 col-sm-4 col-lg-3">-->
+                        <#--                            <div class="form-group">-->
+                        <#--                                <label class="col-sm-4 control-label">返乡状态</label>-->
+                        <#--                                <div class="col-sm-7">-->
+                        <#--                                    <select name="state" class="form-control">-->
+                        <#--                                        <option value="">全部</option>-->
+                        <#--                                        <option value="0">未处理</option>-->
+                        <#--                                        <option value="1">已受理</option>-->
+                        <#--                                        <option value="2">已办结</option>-->
+                        <#--                                    </select>-->
+                        <#--                                </div>-->
+                        <#--                            </div>-->
+                        <#--                        </div>-->
                         <div class="col-xs-6 col-sm-4 col-lg-3">
                             <div class="form-group">
                                 <label class="col-sm-4 control-label">网格员:</label>
                                 <div class="col-sm-7">
-                                    <input type="text" name="createAccount" class="form-control" autocomplete="off" >
+                                    <input type="text" name="createAccount" class="form-control" autocomplete="off">
                                 </div>
                             </div>
                         </div>
@@ -51,7 +51,8 @@
                             <div class="form-group">
                                 <label class="col-sm-4 control-label">省:</label>
                                 <div class="col-sm-7">
-                                    <select class="form-control" id="province" name="beforeReturnPbm" onchange="searchP(this);">
+                                    <select class="form-control" id="province" name="beforeReturnPbm"
+                                            onchange="searchP(this);">
                                         <option value="">全部</option>
                                         <#list areaList as obj>
                                             <option value="${(obj.id)}">${(obj.pname)!}</option>
@@ -64,7 +65,8 @@
                             <div class="form-group">
                                 <label class="col-sm-4 control-label">市:</label>
                                 <div class="col-sm-7">
-                                    <select id="city" class="form-control" name="beforeReturnCbm" onchange="choseS(this);">
+                                    <select id="city" class="form-control" name="beforeReturnCbm"
+                                            onchange="choseS(this);">
                                         <option value="">全部</option>
                                     </select>
                                 </div>
@@ -74,7 +76,8 @@
                             <div class="form-group">
                                 <label class="col-sm-4 control-label">县:</label>
                                 <div class="col-sm-7">
-                                    <select id="county" class="form-control" name="beforeReturnXbm" onchange="choseX(this);">
+                                    <select id="county" class="form-control" name="beforeReturnXbm"
+                                            onchange="choseX(this);">
                                         <option value="">全部</option>
                                     </select>
                                 </div>
@@ -351,57 +354,42 @@
                 <div class="form-control-static">{{updateAccount}}</div>
             </div>
         </div>
+        <#list  places as obj>
+            ${(obj.id)}111111
+        </#list>
+        =
+        {{#each places}}
+        {{Pcode}}-{{Ccode}}-{{Xcode}}
+        {{/each}}
 
+        {{#each places}}
+        {{Pcode}}-{{Ccode}}-{{Xcode}}
+        {{/each}}
 
-        <#--  <div class="form-group">
-              <label class="col-xs-4 control-label">任务时间：</label>
-              <div class="col-xs-8">
-                  <div class="form-control-static">{{formatDate createTime "yyyy-MM-dd hh:mm:ss"}}</div>
-              </div>
-          </div>
-          <div class="form-group">
-              <label class="col-xs-4 control-label">图片：</label>
-              <div id="localImag">
-                  {{#each img}}
-                  &lt;#&ndash;        <img src="http://localhost:81/{{imageURL}}" width="200" height="200" />&ndash;&gt;
-                  <img src="${global.preUrl!}{{imageURL}}" width="200" height="200" />
-                  &lt;#&ndash;        <img src="/getImage?path="{{imageURL}}" width="200" height="200">&ndash;&gt;
-                  {{/each}}
-              </div>
-          </div>-->
-        <#--  <table class="table table-condensed table-hover table-striped table-bordered no-margins">
-              <thead>
-              <tr>
-                  <td>接受人员</td>
-                  <td>状态</td>
-                  <td>反馈意见</td>
-                  <td>时间</td>
-              </tr>
-              </thead>
-              <tbody>
-              {{#each flows}}
-              <tr>
-                  <td>
-                      <div class="form-control-static">{{receiveName}}</div>
-                  </td>
-                  <td>
-                      <div class="form-control-static">
-                          {{#ifEqual state 0}}未处理{{/ifEqual}}
-                          {{#ifEqual state 1}}已受理{{/ifEqual}}
-                          {{#ifEqual state 2}}已办结{{/ifEqual}}
-                          {{#ifEqual state 3}}已指派{{/ifEqual}}
-                      </div>
-                  </td>
-                  <td>
-                      <div class="form-control-static">{{remark}}</div>
-                  </td>
-                  <td>
-                      <div class="form-control-static">{{formatDate createTime "yyyy-MM-dd hh:mm:ss"}}</div>
-                  </td>
-              </tr>
-              {{/each}}
-              </tbody>
-          </table>-->
+        ------------------
+        {{places}}
+        <table class="table table-condensed table-hover table-striped table-bordered no-margins">
+            <thead>
+            <tr>
+                <td>近14天去过的地区</td>
+                <td>创建时间</td>
+            </tr>
+            </thead>
+            <tbody>
+            {{#each places}}
+            <tr>
+                <td>
+                    <div class="form-control-static">
+                        {{Pcode}}-{{Ccode}}-{{Xcode}}
+                    </div>
+                </td>
+                <td>
+                    <div class="form-control-static">{{formatDate createTime "yyyy-MM-dd hh:mm:ss"}}</div>
+                </td>
+            </tr>
+            {{/each}}
+            </tbody>
+        </table>
     </div>
 </script>
 <script>
@@ -445,6 +433,7 @@
             }
         });
     }
+
     function choseS(obj) {
         console.log(obj)
         const city = $(obj).val();
@@ -467,6 +456,7 @@
             }
         });
     }
+
     function choseX(obj) {
         var code = $(obj).val();
         if (code == '') {

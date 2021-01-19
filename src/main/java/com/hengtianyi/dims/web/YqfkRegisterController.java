@@ -11,10 +11,7 @@ import com.hengtianyi.common.core.util.sequence.IdGenUtil;
 import com.hengtianyi.common.core.util.sequence.SystemClock;
 import com.hengtianyi.dims.exception.ErrorEnum;
 import com.hengtianyi.dims.exception.WebException;
-import com.hengtianyi.dims.service.api.IncorruptAdviceService;
-import com.hengtianyi.dims.service.api.RegionService;
-import com.hengtianyi.dims.service.api.SysUserService;
-import com.hengtianyi.dims.service.api.YqfkRegisterService;
+import com.hengtianyi.dims.service.api.*;
 import com.hengtianyi.dims.service.dto.QueryDto;
 import com.hengtianyi.dims.service.entity.IncorruptAdviceEntity;
 import com.hengtianyi.dims.service.entity.Region;
@@ -49,6 +46,8 @@ public class YqfkRegisterController extends
     private SysUserService sysUserService;
     @Resource
     private RegionService regionService;
+    @Resource
+    private YqfkPlaceService yqfkPlaceService;
 
     @Override
     public YqfkRegisterService getService() {
@@ -147,10 +146,9 @@ public class YqfkRegisterController extends
         ServiceResult<YqfkRegisterEntity> result = new ServiceResult<>();
         YqfkRegisterEntity one = this.getDataByIdCommon(id);
         if (null != one) {
-            String ddd = sysUserService.getNameById(one.getUpdateAccount());
-            String dd = sysUserService.getNameById(one.getCreateAccount());
             one.setCreateAccount(sysUserService.getNameById(one.getCreateAccount()));
             one.setUpdateAccount(sysUserService.getNameById(one.getUpdateAccount()));
+            one.setPlaces(yqfkPlaceService.getListByYQID(one.getId()));
             this.clearEntity(one);
       /*SysUserEntity userEntity = sysUserService.searchDataById(one.getUserId());
       if (userEntity != null) {

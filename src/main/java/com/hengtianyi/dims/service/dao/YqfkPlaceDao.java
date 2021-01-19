@@ -43,4 +43,10 @@ public interface YqfkPlaceDao extends AbstractGenericDao<YqfkPlaceEntity, String
    * @return count
    */
   Integer pagecount(@Param("dto") QueryDto dto);
+  /**
+   * 获取14天去过地方列表
+   *
+   * @return
+   */
+    List<YqfkPlaceEntity> getListByYQID(String yqid);
 }
