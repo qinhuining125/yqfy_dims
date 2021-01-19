@@ -14,7 +14,6 @@ public class Region extends BaseEntity implements Serializable {
     private String parent;
     private Integer plevel;
     private String valid;
-    private List<Region> children = new ArrayList<>();
 
     public String getId() {
         return id;
@@ -64,11 +63,4 @@ public class Region extends BaseEntity implements Serializable {
         this.valid = valid;
     }
 
-    public List<Region> getChildren() {
-        return children;
-    }
-
-    public void setChildren(List<Region> children) {
-        this.children = children;
-    }
 }

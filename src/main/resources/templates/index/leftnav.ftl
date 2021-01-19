@@ -35,7 +35,7 @@
           <span class="fa arrow"></span></a>
         <ul class="nav nav-second-level">
           <li><a class="J_menuItem" href="/a/yqfkRegister/index.html">疫情防控</a></li>
-<#--          <li><a class="J_menuItem" href="/a/incorruptAdvice/index.html">廉政建议</a></li>-->
+          <li><a class="J_menuItem" href="/a/yqfkPcx/index.html">中高危险地区维护</a></li>
 <#--          <li><a class="J_menuItem" href="/a/clueReport/index.html">线索上报</a></li>-->
 <#--          <li><a class="J_menuItem" href="/a/taskInfo/index.html">任务指派</a></li>-->
         </ul>

@@ -106,7 +106,7 @@ public class YqfkRegisterApiController {
     return result.toJson();
   }
 
-/*  *//**
+  /*  *//**
    * 上报详情
    *
    * @param id id
@@ -166,7 +166,7 @@ public class YqfkRegisterApiController {
     String id = entity.getId();
     //需要添加查询语句，判定数据库中是否有数据
     if (StringUtil.isBlank(id)) {
-       //返回错误，表示没有该参数
+      //返回错误，表示没有该参数
       result.setResult(false);
       result.setSuccess(false);
     } else {
