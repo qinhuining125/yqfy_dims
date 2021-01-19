@@ -22,6 +22,15 @@ public class YqfkPlaceEntity extends BaseEntity {
   private String xcode;
   private String yqid;
   private Date createTime;
+  private String name;
+
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
 
   public String getId() {
     return id;

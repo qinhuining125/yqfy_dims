@@ -15,6 +15,7 @@ import com.hengtianyi.dims.service.api.YqfkRegisterService;
 import com.hengtianyi.dims.service.dto.QueryDto;
 import com.hengtianyi.dims.service.entity.PatrolInfoEntity;
 import com.hengtianyi.dims.service.entity.YqfkPlaceEntity;
+import com.hengtianyi.dims.service.entity.YqfkPlaceNameEntity;
 import com.hengtianyi.dims.service.entity.YqfkRegisterEntity;
 
 import com.hengtianyi.dims.utils.WebUtil;
@@ -83,11 +84,14 @@ public class YqfkRegisterApiController {
       if(ct > 0){
         if(entity.getPlaces()!=null){
           List<YqfkPlaceEntity> places=entity.getPlaces();
+          List<YqfkPlaceNameEntity> ch_14places=entity.getCh_14places();
           for(int i=0;i<places.size();i++){
             YqfkPlaceEntity yfp = places.get(i);
             yfp.setId(IdGenUtil.uuid32());
             yfp.setYqid(ids);
             yfp.setCreateTime(SystemClock.nowDate());
+            YqfkPlaceNameEntity ypn=ch_14places.get(i);
+            yfp.setName(ypn.getA()+ypn.getB()+ypn.getC());
             int m=yqfkPlaceService.insertData(yfp);
           }
         }

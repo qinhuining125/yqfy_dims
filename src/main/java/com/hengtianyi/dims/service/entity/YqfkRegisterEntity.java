@@ -136,7 +136,18 @@ public class YqfkRegisterEntity extends BaseEntity {
   //  查询结束时间
   private String endTime;
 
+  //添加地方的列表
   private List<YqfkPlaceEntity> places;
+  //添加地方的名字
+  private List<YqfkPlaceNameEntity> ch_14places;
+
+  public List<YqfkPlaceNameEntity> getCh_14places() {
+    return ch_14places;
+  }
+
+  public void setCh_14places(List<YqfkPlaceNameEntity> ch_14places) {
+    this.ch_14places = ch_14places;
+  }
 
   public List<YqfkPlaceEntity> getPlaces() {
     return places;

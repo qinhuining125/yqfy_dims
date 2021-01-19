@@ -27,11 +27,12 @@
     <result column="XCODE" property="xcode" jdbcType="VARCHAR"/>
     <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP"/>
     <result column="YQID" property="yqid" jdbcType="CHAR"/>
+    <result column="NAME" property="name" jdbcType="VARCHAR"/>
   </resultMap>
 
   <!-- 字段集合 -->
   <sql id="Base_Column_List">
-      "ID" , "PCODE" , "CCODE", "XCODE","YQID","CREATE_TIME"
+      "ID" , "PCODE" , "CCODE", "XCODE","YQID","CREATE_TIME","NAME"
   </sql>
 
   <!-- 根据主键查询 -->
@@ -138,6 +139,9 @@
       <if test="createTime != null">
         "CREATE_TIME",
       </if>
+      <if test="name != null and name !=''">
+        "NAME",
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null and id !=''">
@@ -157,6 +161,9 @@
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=DATE},
+      </if>
+      <if test="name != null and name !=''">
+        #{name,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
