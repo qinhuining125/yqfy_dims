@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hengtianyi.common.core.base.CommonEntityDto;
 import com.hengtianyi.common.core.constant.BaseConstant;
 import com.hengtianyi.common.core.feature.ServiceResult;
+import com.hengtianyi.common.core.util.StringUtil;
 import com.hengtianyi.common.core.util.sequence.IdGenUtil;
 import com.hengtianyi.common.core.util.sequence.SystemClock;
 import com.hengtianyi.dims.constant.FrameConstant;
@@ -149,6 +150,50 @@ public class YqfkRegisterApiController {
       result.setResult("card为空，无法查询");
     }
     result.setSuccess(Boolean.TRUE);
+    return result.toJson();
+  }
+
+
+  /**
+   * 更新数据
+   *
+   * @param entity 对象实体
+   * @return JSON
+   */
+  @PostMapping(value = "/updateData.json", produces = BaseConstant.JSON)
+  public String saveData(@RequestBody YqfkRegisterEntity entity) {
+    ServiceResult<Object> result = new ServiceResult<>();
+    String id = entity.getId();
+    //需要添加查询语句，判定数据库中是否有数据
+    if (StringUtil.isBlank(id)) {
+       //返回错误，表示没有该参数
+      result.setResult(false);
+      result.setSuccess(false);
+    } else {
+      int ct= yqfkRegisterService.updateData(entity);
+      if(ct>0){
+        if(entity.getPlaces()!=null){
+          //先进行原有数据的清除掉
+          List<YqfkPlaceEntity> list=yqfkPlaceService.getListByYQID(id);
+          for (YqfkPlaceEntity o : list) {
+            yqfkPlaceService.deleteData(o);
+          }
+          List<YqfkPlaceEntity> places=entity.getPlaces();
+          List<YqfkPlaceNameEntity> ch_14places=entity.getCh_14places();
+          for(int i=0;i<places.size();i++){
+            YqfkPlaceEntity yfp = places.get(i);
+            yfp.setId(IdGenUtil.uuid32());
+            yfp.setYqid(id);
+            yfp.setCreateTime(SystemClock.nowDate());
+            YqfkPlaceNameEntity ypn=ch_14places.get(i);
+            yfp.setName(ypn.getA()+ypn.getB()+ypn.getC());
+            int m=yqfkPlaceService.insertData(yfp);
+          }
+        }
+      }
+      result.setResult( ct > 0);
+      result.setSuccess( ct > 0);
+    }
     return result.toJson();
   }
 }
