@@ -103,7 +103,6 @@
     from "VILLAGE" t
     left join "SYS_USER" s on t."AREA_CODE"=s."AREA_CODE"
     where t."AREA_CODE" like (#{townCode,jdbcType=VARCHAR} ||'%')
-    and s."ROLE_ID"=1002
   </select>
 
   <select id="areaList" parameterType="java.lang.String" resultMap="BaseResultMap">
