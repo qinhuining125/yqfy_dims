@@ -14,7 +14,7 @@
                     <div class="row">
                         <div class="col-xs-6 col-sm-4 col-lg-3">
                             <div class="form-group">
-                                <label class="col-sm-4 control-label">返乡时间段：</label>
+                                <label class="col-sm-4 control-label">登记时间段：</label>
                                 <div class="col-sm-7">
                                     <div class="input-group">
                                         <input type="text" class="form-control" id="timeRange"
