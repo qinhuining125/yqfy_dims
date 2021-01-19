@@ -47,4 +47,10 @@ public interface YqfkPlaceService extends
    * @return
    */
   Integer countAdvice(QueryDto dto);
+  /**
+   * 获取14天去过地方列表
+   *
+   * @return
+   */
+  List<YqfkPlaceEntity> getListByYQID(String yqid);
 }

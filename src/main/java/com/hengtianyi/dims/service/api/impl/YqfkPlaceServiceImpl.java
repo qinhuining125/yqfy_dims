@@ -184,4 +184,9 @@ public class YqfkPlaceServiceImpl extends
     return yqfkPlaceDao.pagecount(dto);
   }
 
+  @Override
+  public List<YqfkPlaceEntity> getListByYQID(String yqid) {
+    return yqfkPlaceDao.getListByYQID(yqid);
+  }
+
 }
