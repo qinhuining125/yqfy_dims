@@ -103,7 +103,7 @@
 <script src="${global.staticPath!}static/plugins/laydate/laydate.js"></script>
 <script src="${global.staticPath!}/static/utils/handlebars-tool.js"></script>
 <script id="template-yqfkRegister" type="text/x-handlebars-template">
-    <td data-id="{{id}}">
+    <td data-id="{{pcode}}">
         <button class="btn btn-primary btn-xs o-ch ops-view"><i class="fa fa-eye"></i> 查看</button>
         <button class="btn btn-warning btn-xs o-c ops-edit"><i class="fa fa-edit"></i> 修改</button>
 

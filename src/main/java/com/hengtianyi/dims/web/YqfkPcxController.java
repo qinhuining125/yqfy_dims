@@ -12,6 +12,7 @@ import com.hengtianyi.dims.exception.ErrorEnum;
 import com.hengtianyi.dims.exception.WebException;
 import com.hengtianyi.dims.service.api.*;
 import com.hengtianyi.dims.service.entity.Region;
+import com.hengtianyi.dims.service.entity.TaskInfoEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -19,6 +20,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -36,8 +38,6 @@ public class YqfkPcxController extends
 
     @Resource
     private RegionService regionService;
-    @Resource
-    private SysUserService sysUserService;
 
     @Override
     public RegionService getService() {
@@ -69,18 +69,20 @@ public class YqfkPcxController extends
      * @param id    主键ID
      * @return 视图
      */
-    @ResponseBody
     @GetMapping(value = "/edit.html", produces = BaseConstant.HTML)
-    public String edit(Model model, @RequestParam(value = "id", required = false) String id) {
-        Region entity = this.getDataByIdCommon(id);
-        if (entity == null) {
-            throw new WebException(ErrorEnum.NO_DATA);
+    public String edit(Model model, @RequestParam(value = "id", required = false) String id,
+                       HttpServletRequest request) {
+        Region entity = null;
+        if (StringUtil.isNoneBlank(id)) {
+            entity = regionService.findByCode(id);
+            if (entity == null) {
+                throw new WebException(ErrorEnum.NO_DATA);
+            }
         }
         model.addAttribute("mapping", MAPPING);
         model.addAttribute("entity", entity);
         return "web/yqfkPcx/yqfkPcx_edit";
     }
-
     /**
      * 通过AJAX获取列表信息[JSON]
      *
@@ -92,7 +94,6 @@ public class YqfkPcxController extends
     @PostMapping(value = "/getDataList.json", produces = BaseConstant.JSON)
     public String getDataList(@ModelAttribute CommonPageDto pageDto,
                               @ModelAttribute Region dto) {
-        System.out.printf("this.getDataListCommon(pageDto, dto)");
         return this.getDataListCommon(pageDto, dto);
     }
 
@@ -106,7 +107,7 @@ public class YqfkPcxController extends
     @PostMapping(value = "/getDataInfo.json", produces = BaseConstant.JSON)
     public String getDataInfo(@RequestParam String id) {
         ServiceResult<Region> result = new ServiceResult<>();
-        Region one = this.getDataByIdCommon(id);
+        Region one = regionService.findByCode(id);
         if (null != one) {
             this.clearEntity(one);
 
