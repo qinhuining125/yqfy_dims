@@ -30,24 +30,32 @@
                                 <input type="hidden" id="afterReturnCubm" name="afterReturnCubm">
                             </div>
                         </div>
-                        <#--                        <div class="col-xs-6 col-sm-4 col-lg-3">-->
-                        <#--                            <div class="form-group">-->
-                        <#--                                <label class="col-sm-4 control-label">返乡状态</label>-->
-                        <#--                                <div class="col-sm-7">-->
-                        <#--                                    <select name="state" class="form-control">-->
-                        <#--                                        <option value="">全部</option>-->
-                        <#--                                        <option value="0">未处理</option>-->
-                        <#--                                        <option value="1">已受理</option>-->
-                        <#--                                        <option value="2">已办结</option>-->
-                        <#--                                    </select>-->
-                        <#--                                </div>-->
-                        <#--                            </div>-->
-                        <#--                        </div>-->
                         <div class="col-xs-6 col-sm-4 col-lg-3">
                             <div class="form-group">
                                 <label class="col-sm-4 control-label">网格员:</label>
                                 <div class="col-sm-7">
                                     <input type="text" name="createAccount" class="form-control" autocomplete="off">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label">风险等级</label>
+                                <div class="col-sm-7">
+                                    <select name="riskLevel" class="form-control">
+                                        <option value="">全部</option>
+                                        <option value="0">低分先</option>
+                                        <option value="1">中风险</option>
+                                        <option value="2">高风险</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label">是否返乡</label>
+                                <div class="col-sm-7">
+                                    <select name="returnState" class="form-control">
+                                        <option value="">全部</option>
+                                        <option value="拟返乡">拟返乡</option>
+                                        <option value="已返乡">已返乡</option>
+                                    </select>
                                 </div>
                             </div>
                         </div>
@@ -210,6 +218,12 @@
             <label class="col-xs-4 control-label">年龄：</label>
             <div class="col-xs-8">
                 <div class="form-control-static">{{age}}</div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-4 control-label">生日：</label>
+            <div class="col-xs-8">
+                <div class="form-control-static">{{formatDate birthday "yyyy-MM-dd "}}</div>
             </div>
         </div>
         <div class="form-group">
@@ -384,13 +398,13 @@
                 <div class="form-control-static">{{updateAccount}}</div>
             </div>
         </div>
-<#--        {{#each places}}-->
-<#--        {{name}}-{{Ccode}}-{{Xcode}}-->
-<#--        {{/each}}-->
+        <#--        {{#each places}}-->
+        <#--        {{name}}-{{Ccode}}-{{Xcode}}-->
+        <#--        {{/each}}-->
 
-<#--        {{#each places}}-->
-<#--        {{name}}-{{Ccode}}-{{Xcode}}-->
-<#--        {{/each}}-->
+        <#--        {{#each places}}-->
+        <#--        {{name}}-{{Ccode}}-{{Xcode}}-->
+        <#--        {{/each}}-->
         <table class="table table-condensed table-hover table-striped table-bordered no-margins">
             <thead>
             <tr>
@@ -435,10 +449,10 @@
     });
 
     function searchP(obj) {
-        const provinceArray =  $(obj).val().replace(/\s*/g,"").split("-")
+        const provinceArray = $(obj).val().replace(/\s*/g, "").split("-")
         console.log(provinceArray)
-        const province=   provinceArray[0]
-        const beforeReturnPbm=   provinceArray[1]
+        const province = provinceArray[0]
+        const beforeReturnPbm = provinceArray[1]
         $("#beforeReturnPbm").val(beforeReturnPbm);
         if (province == '') {
             return false;
@@ -459,10 +473,10 @@
     }
 
     function choseS(obj) {
-        const cityArray =  $(obj).val().replace(/\s*/g,"").split("-")
+        const cityArray = $(obj).val().replace(/\s*/g, "").split("-")
         console.log(cityArray)
-        const city=   cityArray[0]
-        const beforeReturnCbm=   cityArray[1]
+        const city = cityArray[0]
+        const beforeReturnCbm = cityArray[1]
         $("#beforeReturnCbm").val(beforeReturnCbm);
         if (city == '') {
             return false;
@@ -483,16 +497,17 @@
     }
 
     function choseX(obj) {
-        const countyArray =  $(obj).val().replace(/\s*/g,"").split("-")
+        const countyArray = $(obj).val().replace(/\s*/g, "").split("-")
         console.log(countyArray)
-        const county=   countyArray[0]
-        const beforeReturnXbm=   countyArray[1]
+        const county = countyArray[0]
+        const beforeReturnXbm = countyArray[1]
         $("#beforeReturnXbm").val(beforeReturnXbm);
         // if (beforeReturnXbm == '') {
         //     beforeReturnXbm = $("#county").val();
         // }
 
     }
+
     function searchVillage(obj) {
         const afterReturnZhbm = $(obj).val();
         console.log(afterReturnZhbm)
@@ -524,6 +539,7 @@
         }
         $("#afterReturnCubm").val(afterReturnCubm);
     }
+
     $(document).ready(function () {
         var HBR_TD = Handlebars.compile($("#template-yqfkRegister").html());
         var pageParams = {
