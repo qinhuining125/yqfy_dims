@@ -98,11 +98,8 @@ public class YqfkRegisterServiceImpl extends
    */
   @Override
   public CommonEntityDto<YqfkRegisterEntity> pagelist(QueryDto dto) {
-    Integer count = yqfkRegisterDao.searchDataCount(new YqfkRegisterEntity());
+    Integer count = yqfkRegisterDao.pagecount(dto);
     List<YqfkRegisterEntity> list = yqfkRegisterDao.pagelist(dto);
-    /*for (IncorruptAdviceEntity clueReportEntity : list) {
-      clueReportEntity.setRoleName(RoleEnum.getNameByRoleId(clueReportEntity.getRoleId()));
-    }*/
     CommonEntityDto<YqfkRegisterEntity> result = new CommonEntityDto<>(list);
     result.setCurrentPage(dto.getCurrentPage());
     result.setSize(FrameConstant.PAGE_SIZE);

@@ -99,6 +99,16 @@ public class YqfkRegisterEntity extends BaseEntity {
   private String remark;
   // 录入信息的网格员账号
   private String createAccount;
+  //添加风险等级
+  private String riskLevel;
+
+  public String getRiskLevel() {
+    return riskLevel;
+  }
+
+  public void setRiskLevel(String riskLevel) {
+    this.riskLevel = riskLevel;
+  }
 
   public String getCreateAccount() {
     return createAccount;
