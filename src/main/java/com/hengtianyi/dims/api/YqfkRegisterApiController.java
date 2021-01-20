@@ -11,6 +11,7 @@ import com.hengtianyi.common.core.util.StringUtil;
 import com.hengtianyi.common.core.util.sequence.IdGenUtil;
 import com.hengtianyi.common.core.util.sequence.SystemClock;
 import com.hengtianyi.dims.constant.FrameConstant;
+import com.hengtianyi.dims.constant.RoleEnum;
 import com.hengtianyi.dims.service.api.SysUserService;
 import com.hengtianyi.dims.service.api.YqfkPlaceService;
 import com.hengtianyi.dims.service.api.YqfkRegisterService;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -125,29 +127,27 @@ public class YqfkRegisterApiController {
     return result.toJson();
   }
 
-  /*  *//**
-   * 上报详情
+  /*
+   * 疫情防控详情
    *
    * @param id id
    * @return json
-   *//*
+   */
   @GetMapping(value = "/detail.json", produces = BaseConstant.JSON)
   public String detail(@RequestParam String id) {
     ServiceResult<Object> result = new ServiceResult<>();
     try {
-      IncorruptAdviceEntity entity = incorruptAdviceService.searchDataById(id);
-      SysUserEntity userEntity = sysUserService.searchDataById(entity.getUserId());
-      entity.setUserName(userEntity.getUserName());
-      entity.setRoleId(userEntity.getRoleId());
-      entity.setRoleName(RoleEnum.getNameByRoleId(userEntity.getRoleId()));
+      YqfkRegisterEntity entity=yqfkRegisterService.searchDataById(id);
+      List<YqfkPlaceEntity> list=yqfkPlaceService.getListByYQID(id);
+      entity.setPlaces(list);
       result.setResult(entity);
       result.setSuccess(true);
     } catch (Exception e) {
       LOGGER.error("[detail]出错,{}", e.getMessage(), e);
-      result.setError("详情页出错");
+      result.setError("疫情防控的详情页出错");
     }
     return result.toJson();
-  }*/
+  }
 
   /**
    * 验证此身份证号是否填写过
