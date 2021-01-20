@@ -70,6 +70,11 @@ public class YqfkRegisterApiController {
         }
       }
       //待开发，中高风险区人员
+      if (dto.getQuery() != null) { //进行返回类型的判定
+        if (dto.getQuery().getRiskLevel() != null) {
+          queryDto.setRiskLevel(dto.getQuery().getRiskLevel());
+        }
+      }
       CommonEntityDto<YqfkRegisterEntity> cpDto = yqfkRegisterService.pagelist(queryDto);
       result.setResult(cpDto);
       result.setSuccess(true);
@@ -90,6 +95,7 @@ public class YqfkRegisterApiController {
     try {
       String ids=IdGenUtil.uuid32();
       entity.setId(ids);
+      entity.setRiskLevel("0");//初始化默认为无风险
       entity.setCreateTime(SystemClock.nowDate());
       entity.setUpdateTime(SystemClock.nowDate());
       entity.setCreateAccount(WebUtil.getUserIdByToken(request));
@@ -150,20 +156,24 @@ public class YqfkRegisterApiController {
    */
   @GetMapping(value = "/isHave.json", produces = BaseConstant.JSON)
   public String isHaveProcess(HttpServletRequest request,@RequestParam("card") String card) {
-
     ServiceResult<Object> result = new ServiceResult<>();
-    if(card!=null){
-      List<YqfkRegisterEntity> entity=yqfkRegisterService.checkCard(card);
-      if (entity.size()!=0) {//表示没有这个时间段的
-        result.setResult(false);
-      } else {//表示有正在进行的信息
-        result.setResult(true);
+    try {
+      if(card!=null){
+        List<YqfkRegisterEntity> entity=yqfkRegisterService.checkCard(card);
+        if (entity.size()!=0) {//表示没有这个时间段的
+          result.setResult(false);
+        } else {//表示有正在进行的信息
+          result.setResult(true);
+        }
+      }else{
+        result.setResult("card为空，无法查询");
       }
-    }else{
-      result.setResult("card为空，无法查询");
+      result.setSuccess(Boolean.TRUE);
+    } catch (Exception e) {
+      LOGGER.error("[查询身份证是否登记过]出错,{}", e.getMessage(), e);
+      result.setError("查询身份证是否登记过出错");
     }
-    result.setSuccess(Boolean.TRUE);
-    return result.toJson();
+      return result.toJson();
   }
 
 
@@ -174,39 +184,71 @@ public class YqfkRegisterApiController {
    * @return JSON
    */
   @PostMapping(value = "/updateData.json", produces = BaseConstant.JSON)
-  public String saveData(@RequestBody YqfkRegisterEntity entity) {
+  public String updateData(@RequestBody YqfkRegisterEntity entity) {
     ServiceResult<Object> result = new ServiceResult<>();
-    String id = entity.getId();
-    //需要添加查询语句，判定数据库中是否有数据
-    if (StringUtil.isBlank(id)) {
-      //返回错误，表示没有该参数
-      result.setResult(false);
-      result.setSuccess(false);
-    } else {
-      int ct= yqfkRegisterService.updateData(entity);
-      if(ct>0){
-        if(entity.getPlaces()!=null){
-          //先进行原有数据的清除掉
-          List<YqfkPlaceEntity> list=yqfkPlaceService.getListByYQID(id);
-          for (YqfkPlaceEntity o : list) {
-            yqfkPlaceService.deleteData(o);
+    try {
+      String id = entity.getId();
+      //需要添加查询语句，判定数据库中是否有数据
+      if (StringUtil.isBlank(id)) {
+        //返回错误，表示没有该参数
+        result.setResult(false);
+        result.setSuccess(false);
+      } else {
+        YqfkRegisterEntity yre=yqfkRegisterService.searchDataById(id);
+        if(yre!=null){
+          int ct= yqfkRegisterService.updateData(entity);
+          if(ct>0){
+            if(entity.getPlaces()!=null){
+              //先进行原有数据的清除掉
+              List<YqfkPlaceEntity> list=yqfkPlaceService.getListByYQID(id);
+              for (YqfkPlaceEntity o : list) {
+                yqfkPlaceService.deleteData(o);
+              }
+              List<YqfkPlaceEntity> places=entity.getPlaces();
+              List<YqfkPlaceNameEntity> ch_14places=entity.getCh_14places();
+              for(int i=0;i<places.size();i++){
+                YqfkPlaceEntity yfp = places.get(i);
+                yfp.setId(IdGenUtil.uuid32());
+                yfp.setYqid(id);
+                yfp.setCreateTime(SystemClock.nowDate());
+                YqfkPlaceNameEntity ypn=ch_14places.get(i);
+                yfp.setName(ypn.getA()+ypn.getB()+ypn.getC());
+                int m=yqfkPlaceService.insertData(yfp);
+              }
+            }
           }
-          List<YqfkPlaceEntity> places=entity.getPlaces();
-          List<YqfkPlaceNameEntity> ch_14places=entity.getCh_14places();
-          for(int i=0;i<places.size();i++){
-            YqfkPlaceEntity yfp = places.get(i);
-            yfp.setId(IdGenUtil.uuid32());
-            yfp.setYqid(id);
-            yfp.setCreateTime(SystemClock.nowDate());
-            YqfkPlaceNameEntity ypn=ch_14places.get(i);
-            yfp.setName(ypn.getA()+ypn.getB()+ypn.getC());
-            int m=yqfkPlaceService.insertData(yfp);
-          }
+          result.setResult( ct > 0);
+          result.setSuccess( ct > 0);
+        }else{
+          result.setResult(false);
+          result.setSuccess(false);
         }
       }
-      result.setResult( ct > 0);
-      result.setSuccess( ct > 0);
+    } catch (Exception e) {
+      LOGGER.error("[更新登记信息]出错,{}", e.getMessage(), e);
+      result.setError("更新登记信息");
     }
+    return result.toJson();
+  }
+
+  /**
+   * 登陆上来去验证此操作员是否有中高风险提醒
+   *
+   * @return json
+   */
+  @GetMapping(value = "/riskCount.json", produces = BaseConstant.JSON)
+  public String riskCount(HttpServletRequest request) {
+
+    ServiceResult<Object> result = new ServiceResult<>();
+    String userId = WebUtil.getUserIdByToken(request);
+    result.setResult(true);
+    if (userId != null) {
+     /* Integer ct = yqfkRegisterService.getRiskCount(userId);
+      if (ct > 0) {//表示有高风险人群，提醒他去上报
+        result.setResult(false);
+      }*/
+    }
+    result.setSuccess(Boolean.TRUE);
     return result.toJson();
   }
 }

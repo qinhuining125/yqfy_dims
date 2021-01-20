@@ -93,6 +93,7 @@
     <result column="CREATE_TIME" property="createTime" jdbcType="DATE"/>
     <result column="UPDATE_TIME" property="updateTime" jdbcType="DATE"/>
     <result column="UPDATE_ACCOUNT" property="updateAccount" jdbcType="VARCHAR"/>
+    <result column="RISK_LEVEL" property="riskLevel" jdbcType="VARCHAR"/>
     <!-- <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP"/>
      <result column="USER_NAME" property="userName" jdbcType="VARCHAR"/>
      <result column="ROLE_ID" property="roleId" jdbcType="DECIMAL"/>-->
@@ -103,7 +104,7 @@
       "ID" , "NAME" , "SEX", "AGE", "CARD","HJ_PBM" , "HJ_CBM", "HJ_XBM" , "HJ" , "SFCZ", "RELATION" , "PHONE", "WORK_SCHOOL", "INDUSTRAY", "RETURN_STATE",
  "RETURN_TIME", "RETURN_WAY", "RETURN_CARNUM", "EXP_RETURN_TIME", "EXP_RETURN_WAY", "EXP_RETURN_CARNUM", "BEFORE_RETURN_ADDRESS", "AFTER_RETURN_ADDRESS",
   "LOCAL_STATE", "NAT_TIME", "NAT_RESULT", "TOUCH_STATE", "ISOLATE_STATE", "ISOLATE_START_TIME", "HEALTH_STATE", "REMARK",
-    "CREATE_ACCOUNT", "CREATE_TIME", "UPDATE_TIME", "UPDATE_ACCOUNT"
+    "CREATE_ACCOUNT", "CREATE_TIME", "UPDATE_TIME", "UPDATE_ACCOUNT","RISK_LEVEL"
   </sql>
 
   <!-- 根据主键查询 -->
@@ -321,6 +322,9 @@
       <if test="updateAccount != null and updateAccount !=''">
         "UPDATE_ACCOUNT",
       </if>
+      <if test="riskLevel != null and riskLevel !=''">
+        "RISK_LEVEL",
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null and id !=''">
@@ -451,6 +455,9 @@
       </if>
       <if test="updateAccount != null and updateAccount !=''">
         #{updateAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="riskLevel != null and riskLevel !=''">
+        #{riskLevel,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -595,6 +602,9 @@
       <if test="updateAccount != null and updateAccount !=''">
         "UPDATE_ACCOUNT"= #{updateAccount,jdbcType=VARCHAR},
       </if>
+      <if test="riskLevel != null and riskLevel !=''">
+        "RISK_LEVEL"= #{riskLevel,jdbcType=VARCHAR},
+      </if>
     </set>
     where "ID" = #{id,jdbcType=CHAR}
   </update>
@@ -603,8 +613,10 @@
   <select id="pagelist" resultMap="BaseResultMap"
     parameterType="com.hengtianyi.dims.service.dto.QueryDto">
     select
-    p."ID" , p."NAME" , p."SEX", p."AGE",p."CARD",  p."HJ" ,p."PHONE" , p."RETURN_STATE" ,
-    p."CREATE_ACCOUNT"
+     p."ID" , p."NAME" , p."SEX", p."AGE", p."CARD",p."HJ_PBM" , p."HJ_CBM", p."HJ_XBM" , p."HJ" , p."SFCZ", p."RELATION" , p."PHONE", p."WORK_SCHOOL", p."INDUSTRAY", p."RETURN_STATE",
+    p."RETURN_TIME", p."RETURN_WAY", p."RETURN_CARNUM", p."EXP_RETURN_TIME", p."EXP_RETURN_WAY", p."EXP_RETURN_CARNUM", p."BEFORE_RETURN_ADDRESS", p."AFTER_RETURN_ADDRESS",
+    p."LOCAL_STATE", p."NAT_TIME", p."NAT_RESULT", p."TOUCH_STATE", p."ISOLATE_STATE", p."ISOLATE_START_TIME", p."HEALTH_STATE", p."REMARK",
+    p."CREATE_ACCOUNT", p."CREATE_TIME", p."UPDATE_TIME", p."UPDATE_ACCOUNT",p."RISK_LEVEL"
     from (select ROWNUM as "ROW_ID",
     <include refid="Base_Column_List"/>
     from (select t.* from "YQ_YQFK" t
@@ -732,6 +744,9 @@
       <!--添加按照返回状态分类，借用地区编码来做-->
       <if test="dto.returnState !=null">
         and t."RETURN_STATE" = #{dto.returnState,jdbcType=VARCHAR}
+      </if>
+      <if test="dto.riskLevel !=null"> <!--不为0，表示要取的是全部信息，只要有风险的都取出来-->
+        and t."RISK_LEVEL" != 0
       </if>
 
     </where>

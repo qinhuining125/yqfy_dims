@@ -65,6 +65,19 @@ public class QueryDto extends BaseBean {
    * */
   private String returnState;
 
+  /**
+   * 风险等级
+   * **/
+ private String riskLevel;
+
+  public String getRiskLevel() {
+    return riskLevel;
+  }
+
+  public void setRiskLevel(String riskLevel) {
+    this.riskLevel = riskLevel;
+  }
+
   public String getReturnState() {
     return returnState;
   }
