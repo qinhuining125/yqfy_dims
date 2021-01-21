@@ -2,6 +2,7 @@ package com.hengtianyi.dims.service.entity;
 
 import com.hengtianyi.common.core.base.BaseEntity;
 
+import java.beans.Transient;
 import java.util.Date;
 import java.util.List;
 
@@ -103,6 +104,17 @@ public class YqfkRegisterEntity extends BaseEntity {
   private String riskLevel;
   //添加生日
   private Date birthday;
+
+  public String getAreaCode() {
+    return areaCode;
+  }
+
+  public void setAreaCode(String areaCode) {
+    this.areaCode = areaCode;
+  }
+
+  //判断管理员所属
+  private String areaCode;
 
   public Date getBirthday() {
     return birthday;

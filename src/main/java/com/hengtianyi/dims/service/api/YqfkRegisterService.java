@@ -65,4 +65,7 @@ public interface YqfkRegisterService extends AbstractGenericService<YqfkRegister
    * @param userId 登录账号的ID
    * */
   Integer  getRiskCount(String userId);
+
+
+  Integer getExpCount(YqfkRegisterEntity entity);
 }

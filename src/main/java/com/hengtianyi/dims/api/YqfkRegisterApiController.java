@@ -25,7 +25,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -260,16 +262,55 @@ public class YqfkRegisterApiController {
   public String riskCount(HttpServletRequest request) {
 
     ServiceResult<Object> result = new ServiceResult<>();
-    String userId = WebUtil.getUserIdByToken(request);
-    result.setResult(true);
-    if (userId != null) {
-
-     Integer ct = yqfkRegisterService.getRiskCount(userId);
-      if (ct > 0) {//表示有高风险人群，提醒他去上报
-        result.setResult(false);
+    try{
+      String userId = WebUtil.getUserIdByToken(request);
+      //userId="eaf6c1b9ea1f464eb4c3f98e8445bdd6";
+      result.setResult(0);
+      if (userId != null) {
+        Integer ct = yqfkRegisterService.getRiskCount(userId);
+        if (ct > 0) {//表示有高风险人群，提醒他去上报
+          result.setResult(ct);
+        }
       }
+      result.setSuccess(Boolean.TRUE);
+    }catch (Exception e) {
+      LOGGER.error("[查询账号是否存在高风险人]出错,{}", e.getMessage(), e);
+      result.setError("查询账号是否存在高风险人群出错");
     }
-    result.setSuccess(Boolean.TRUE);
+    return result.toJson();
+  }
+
+
+  /**
+   * 登陆上来去验证此操作员是否有拟返乡人群
+   *
+   * @return json
+   */
+  @GetMapping(value = "/expReturnCount.json", produces = BaseConstant.JSON)
+  public String expReturnCount(HttpServletRequest request) {
+
+    ServiceResult<Object> result = new ServiceResult<>();
+    try{
+      String userId = WebUtil.getUserIdByToken(request);
+      YqfkRegisterEntity entity=new YqfkRegisterEntity();
+      entity.setCreateAccount(WebUtil.getUserIdByToken(request));
+      Date d = new Date();
+      SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+      String dateNowStr = sdf.format(d);
+      entity.setExpReturnTime(SystemClock.nowDate());
+      entity.setBeforeReturnAddress(dateNowStr);
+      result.setResult(0);
+      if (userId != null) {
+        Integer ct = yqfkRegisterService.getExpCount(entity);
+        if (ct > 0) {//表示有高风险人群，提醒他去上报
+          result.setResult(ct);
+        }
+      }
+      result.setSuccess(Boolean.TRUE);
+    }catch (Exception e) {
+      LOGGER.error("[查询账号是否存在高风险人]出错,{}", e.getMessage(), e);
+      result.setError("查询账号是否存在高风险人群出错");
+    }
     return result.toJson();
   }
 }

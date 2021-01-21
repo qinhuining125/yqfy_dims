@@ -62,4 +62,14 @@ public interface YqfkRegisterDao extends AbstractGenericDao<YqfkRegisterEntity, 
 
 
   List<YqfkRegisterEntity> checkCard(@Param("card") String card);
+  /**
+   * 中高风险区人数
+   *
+   * @param userId userId
+   * @return count
+   */
+  Integer getRiskCount(@Param("userId") String userId);
+
+
+  Integer getExpCount(@Param("entity") YqfkRegisterEntity entity);
 }

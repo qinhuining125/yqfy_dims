@@ -13,6 +13,9 @@
   <!-- doc 查询条件，根据实际情况，对where条件进行删减 -->
   <sql id="sql_where">
     <where>
+      <if test="areaCode !=null and areaCode !=''">
+        and "AFTER_RETURN_CUBM"  like concat(#{areaCode},'%')
+      </if>
       <if test="createAccount !=null and createAccount !=''">
         and "CREATE_ACCOUNT" = (select ID from SYS_USER where USER_NAME=#{createAccount,jdbcType=VARCHAR})
       </if>
@@ -195,6 +198,7 @@
         <include refid="Base_Column_List"/>
         from "YQ_YQFK"
         <include refid="sql_where"/>
+
         order by ${orderSql})
         where ROWNUM &lt;= #{pager.end}) "PAGINATION"
         where "PAGINATION"."ROW_ID" &gt;= #{pager.first}
@@ -775,6 +779,12 @@
     from "YQ_YQFK" where CARD=#{card,jdbcType=VARCHAR}
   </select>
 
+  <select id="getRiskCount" parameterType="java.lang.String" resultType="java.lang.Integer">
+    select count(1) from YQ_YQFK where create_account = #{userId,jdbcType=VARCHAR} and risk_Level!=0
+  </select>
+  <select id="getExpCount" parameterType="com.hengtianyi.dims.service.entity.YqfkRegisterEntity" resultType="java.lang.Integer">
+    select count(1) from YQ_YQFK where CREATE_ACCOUNT = #{entity.createAccount,jdbcType=VARCHAR} and EXP_RETURN_TIME = TO_DATE(#{entity.beforeReturnAddress,jdbcType=VARCHAR},'yyyy-mm-dd')
+  </select>
   <sql id="page_where">
     <where>
       <choose>

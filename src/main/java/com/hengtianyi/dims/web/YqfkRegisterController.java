@@ -25,6 +25,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -106,7 +107,7 @@ public class YqfkRegisterController extends
      */
     @ResponseBody
     @PostMapping(value = "/getDataList.json", produces = BaseConstant.JSON)
-    public String getDataList(@ModelAttribute CommonPageDto pageDto,
+    public String getDataList(HttpServletRequest request, @ModelAttribute CommonPageDto pageDto,
                               @ModelAttribute YqfkRegisterEntity dto) {
         if (dto.getBeforeReturnPbm() != null) {
             dto.setBeforeReturnPbm(dto.getBeforeReturnPbm().replace(" ", ""));
@@ -117,8 +118,10 @@ public class YqfkRegisterController extends
         if (dto.getBeforeReturnXbm() != null) {
             dto.setBeforeReturnXbm(dto.getBeforeReturnXbm().replace(" ", ""));
         }
+
+        SysUserEntity user = WebUtil.getUser(request);
+        dto.setAreaCode(user.getAreaCode());
         System.out.printf(  this.getDataListCommon(pageDto, dto));
-        this.getDataListCommon(pageDto, dto);
         return this.getDataListCommon(pageDto, dto);
 //        try {
 //            if (dto.getBeforeReturnPbm()!=null){
