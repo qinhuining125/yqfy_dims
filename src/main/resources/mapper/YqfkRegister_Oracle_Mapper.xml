@@ -19,6 +19,9 @@
       <if test="returnState !=null and returnState !=''">
         and "RETURN_STATE" =#{returnState,jdbcType=VARCHAR}
       </if>
+      <if test="riskLevel !=null and riskLevel !=''">
+        and "RISK_LEVEL" =#{riskLevel,jdbcType=VARCHAR}
+      </if>
       <if test="beforeReturnPbm !=null and beforeReturnPbm !=''">
         and "BEFORE_RETURN_PBM" = #{beforeReturnPbm,jdbcType=VARCHAR}
       </if>
@@ -94,6 +97,7 @@
     <result column="UPDATE_TIME" property="updateTime" jdbcType="DATE"/>
     <result column="UPDATE_ACCOUNT" property="updateAccount" jdbcType="VARCHAR"/>
     <result column="RISK_LEVEL" property="riskLevel" jdbcType="VARCHAR"/>
+    <result column="BIRTHDAY" property="birthday" jdbcType="DATE"/>
     <!-- <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP"/>
      <result column="USER_NAME" property="userName" jdbcType="VARCHAR"/>
      <result column="ROLE_ID" property="roleId" jdbcType="DECIMAL"/>-->
@@ -104,7 +108,7 @@
       "ID" , "NAME" , "SEX", "AGE", "CARD","HJ_PBM" , "HJ_CBM", "HJ_XBM" , "HJ" , "SFCZ", "RELATION" , "PHONE", "WORK_SCHOOL", "INDUSTRAY", "RETURN_STATE",
  "RETURN_TIME", "RETURN_WAY", "RETURN_CARNUM", "EXP_RETURN_TIME", "EXP_RETURN_WAY", "EXP_RETURN_CARNUM", "BEFORE_RETURN_ADDRESS", "AFTER_RETURN_ADDRESS",
   "LOCAL_STATE", "NAT_TIME", "NAT_RESULT", "TOUCH_STATE", "ISOLATE_STATE", "ISOLATE_START_TIME", "HEALTH_STATE", "REMARK",
-    "CREATE_ACCOUNT", "CREATE_TIME", "UPDATE_TIME", "UPDATE_ACCOUNT","RISK_LEVEL"
+    "CREATE_ACCOUNT", "CREATE_TIME", "UPDATE_TIME", "UPDATE_ACCOUNT","RISK_LEVEL","BIRTHDAY"
   </sql>
 
   <!-- 根据主键查询 -->
@@ -325,6 +329,9 @@
       <if test="riskLevel != null and riskLevel !=''">
         "RISK_LEVEL",
       </if>
+      <if test="birthday != null ">
+        "BIRTHDAY",
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null and id !=''">
@@ -458,6 +465,9 @@
       </if>
       <if test="riskLevel != null and riskLevel !=''">
         #{riskLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null ">
+        #{birthday,jdbcType=DATE},
       </if>
     </trim>
   </insert>
@@ -605,6 +615,9 @@
       <if test="riskLevel != null and riskLevel !=''">
         "RISK_LEVEL"= #{riskLevel,jdbcType=VARCHAR},
       </if>
+      <if test="birthday != null ">
+        "BIRTHDAY"= #{birthday,jdbcType=DATE},
+      </if>
     </set>
     where "ID" = #{id,jdbcType=CHAR}
   </update>
@@ -616,7 +629,7 @@
      p."ID" , p."NAME" , p."SEX", p."AGE", p."CARD",p."HJ_PBM" , p."HJ_CBM", p."HJ_XBM" , p."HJ" , p."SFCZ", p."RELATION" , p."PHONE", p."WORK_SCHOOL", p."INDUSTRAY", p."RETURN_STATE",
     p."RETURN_TIME", p."RETURN_WAY", p."RETURN_CARNUM", p."EXP_RETURN_TIME", p."EXP_RETURN_WAY", p."EXP_RETURN_CARNUM", p."BEFORE_RETURN_ADDRESS", p."AFTER_RETURN_ADDRESS",
     p."LOCAL_STATE", p."NAT_TIME", p."NAT_RESULT", p."TOUCH_STATE", p."ISOLATE_STATE", p."ISOLATE_START_TIME", p."HEALTH_STATE", p."REMARK",
-    p."CREATE_ACCOUNT", p."CREATE_TIME", p."UPDATE_TIME", p."UPDATE_ACCOUNT",p."RISK_LEVEL"
+    p."CREATE_ACCOUNT", p."CREATE_TIME", p."UPDATE_TIME", p."UPDATE_ACCOUNT",p."RISK_LEVEL" ,p."BIRTHDAY"
     from (select ROWNUM as "ROW_ID",
     <include refid="Base_Column_List"/>
     from (select t.* from "YQ_YQFK" t

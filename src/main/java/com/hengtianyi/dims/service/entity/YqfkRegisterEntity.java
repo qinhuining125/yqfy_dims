@@ -101,6 +101,16 @@ public class YqfkRegisterEntity extends BaseEntity {
   private String createAccount;
   //添加风险等级
   private String riskLevel;
+  //添加生日
+  private Date birthday;
+
+  public Date getBirthday() {
+    return birthday;
+  }
+
+  public void setBirthday(Date birthday) {
+    this.birthday = birthday;
+  }
 
   public String getRiskLevel() {
     return riskLevel;
