@@ -384,4 +384,10 @@ public class YqfkRegisterServiceImpl extends
   public List<YqfkRegisterEntity> checkCard(String card){
     return yqfkRegisterDao.checkCard(card);
   }
+
+  @Override
+  public Integer getRiskCount(String userId) {
+    //return yqfkRegisterDao.getRiskCount(userId);
+    return 0;
+  }
 }

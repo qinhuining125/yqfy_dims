@@ -59,4 +59,10 @@ public interface YqfkRegisterService extends AbstractGenericService<YqfkRegister
 
 
   List<YqfkRegisterEntity> checkCard(String card);
+
+  /**
+   * 获取本账号下的处于中高风险地区的人数
+   * @param userId 登录账号的ID
+   * */
+  Integer  getRiskCount(String userId);
 }

@@ -67,13 +67,13 @@ public class YqfkRegisterApiController {
       queryDto.setAreaCode(userEntity.getAreaCode());
 
       if (dto.getQuery() != null) { //进行返回类型的判定
-        if (dto.getQuery().getReturnState() != null && dto.getQuery().getReturnState() !="") {
+        if (dto.getQuery().getReturnState() != null && !(dto.getQuery().getReturnState().equals("全部"))) {
           queryDto.setReturnState(dto.getQuery().getReturnState());
         }
       }
       //待开发，中高风险区人员
       if (dto.getQuery() != null) { //进行返回类型的判定
-        if (dto.getQuery().getRiskLevel() != null && dto.getQuery().getRiskLevel() !="") {
+        if (dto.getQuery().getRiskLevel() != null && !(dto.getQuery().getRiskLevel().equals("全部"))) {
           queryDto.setRiskLevel(dto.getQuery().getRiskLevel());
         }
       }
@@ -243,10 +243,11 @@ public class YqfkRegisterApiController {
     String userId = WebUtil.getUserIdByToken(request);
     result.setResult(true);
     if (userId != null) {
-     /* Integer ct = yqfkRegisterService.getRiskCount(userId);
+
+     Integer ct = yqfkRegisterService.getRiskCount(userId);
       if (ct > 0) {//表示有高风险人群，提醒他去上报
         result.setResult(false);
-      }*/
+      }
     }
     result.setSuccess(Boolean.TRUE);
     return result.toJson();
