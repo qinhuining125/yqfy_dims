@@ -105,6 +105,16 @@ public class YqfkRegisterEntity extends BaseEntity {
   //添加生日
   private Date birthday;
 
+  public String getAreaCode() {
+    return areaCode;
+  }
+
+  public void setAreaCode(String areaCode) {
+    this.areaCode = areaCode;
+  }
+
+  //判断管理员所属
+  private String areaCode;
 
   public Date getBirthday() {
     return birthday;

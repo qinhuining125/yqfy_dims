@@ -13,6 +13,9 @@
   <!-- doc 查询条件，根据实际情况，对where条件进行删减 -->
   <sql id="sql_where">
     <where>
+      <if test="areaCode !=null and areaCode !=''">
+        and "AFTER_RETURN_CUBM"  like concat(#{areaCode},'%')
+      </if>
       <if test="createAccount !=null and createAccount !=''">
         and "CREATE_ACCOUNT" = (select ID from SYS_USER where USER_NAME=#{createAccount,jdbcType=VARCHAR})
       </if>
@@ -194,6 +197,7 @@
         <include refid="Base_Column_List"/>
         from "YQ_YQFK"
         <include refid="sql_where"/>
+
         order by ${orderSql})
         where ROWNUM &lt;= #{pager.end}) "PAGINATION"
         where "PAGINATION"."ROW_ID" &gt;= #{pager.first}
