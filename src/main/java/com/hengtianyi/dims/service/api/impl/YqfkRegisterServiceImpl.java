@@ -247,15 +247,20 @@ public class YqfkRegisterServiceImpl extends
     Integer wybus = 0;
 
     for (YqfkRegisterEntity entity : list) {
-      if (entity.getReturnWay().equals("自驾") || entity.getExpReturnWay().equals("自驾") ) {
+      if ((entity.getReturnWay()!=null && entity.getReturnWay().equals("自驾")) ||
+              (entity.getExpReturnWay()!=null && entity.getExpReturnWay().equals("自驾")) ) {
         zj += 1;
-      } else if (entity.getReturnWay().equals("飞机") || entity.getExpReturnWay().equals("飞机") ) {
+      } else if((entity.getReturnWay()!=null && entity.getReturnWay().equals("飞机")) ||
+              (entity.getExpReturnWay()!=null && entity.getExpReturnWay().equals("飞机")) )  {
         planej += 1;
-      } else if (entity.getReturnWay().equals("火车") || entity.getExpReturnWay().equals("火车") ) {
+      } else if((entity.getReturnWay()!=null && entity.getReturnWay().equals("火车")) ||
+              (entity.getExpReturnWay()!=null && entity.getExpReturnWay().equals("火车")) ){
         train += 1;
-      } else if (entity.getReturnWay().equals("客车") || entity.getExpReturnWay().equals("客车") ) {
+      } else if ((entity.getReturnWay()!=null && entity.getReturnWay().equals("客车")) ||
+              (entity.getExpReturnWay()!=null && entity.getExpReturnWay().equals("客车")) ){
         train += 1;
-      } else if (entity.getReturnWay().equals("网约车") || entity.getExpReturnWay().equals("网约车") ) {
+      } else if ((entity.getReturnWay()!=null && entity.getReturnWay().equals("网约车")) ||
+              (entity.getExpReturnWay()!=null && entity.getExpReturnWay().equals("网约车")) ) {
         train += 1;
       }
     }
@@ -282,10 +287,11 @@ public class YqfkRegisterServiceImpl extends
   public String echartsDataIndustry(String startTime, String endTime, String areaCode) {
     ServiceResult<Object> result = new ServiceResult();
     try {
-      List<YqfkRegisterEntity> yqfkRegisterEntityList = yqfkRegisterDao.echartsDataIndustry(startTime, endTime, areaCode);
-      Map<String, Object> map = countStatus(yqfkRegisterEntityList);
+      List<YqfkRegisterEntity> yqfkRegisterEntityList = yqfkRegisterDao.getEchartsDataIndustry(startTime, endTime, areaCode);
+      Map<String, Object> map = countIndustry(yqfkRegisterEntityList);
       List<VillageEntity> villageList = villageDao.areaList(areaCode);
       String[] villageNames = new String[villageList.size()];
+
       String[] lenglians = new String[villageList.size()];
       String[] businesss = new String[villageList.size()];
       String[] huoyuns = new String[villageList.size()];
@@ -296,13 +302,14 @@ public class YqfkRegisterServiceImpl extends
 
       for (int i = 0; i < villageList.size(); i++) {
         VillageEntity village = villageList.get(i);
-        yqfkRegisterEntityList = yqfkRegisterDao.echartsDataIndustry(startTime, endTime, village.getAreaCode());
+        yqfkRegisterEntityList = yqfkRegisterDao.getEchartsDataIndustry(startTime, endTime, village.getAreaCode());
         Map<String, Object> dataMap = countIndustry(yqfkRegisterEntityList);
         villageNames[i] = village.getAreaName();
 
         lenglians[i] = dataMap.get("lenglian").toString();
         businesss[i] = dataMap.get("business").toString();
         huoyuns[i] = dataMap.get("huoyun").toString();
+        students[i] = dataMap.get("student").toString();
         jiguans[i] = dataMap.get("jiguan").toString();
         wuyes[i] = dataMap.get("wuye").toString();
         others[i] = dataMap.get("other").toString();
@@ -339,19 +346,19 @@ public class YqfkRegisterServiceImpl extends
 
     for (YqfkRegisterEntity entity : list) {
 
-        if (entity.getIndustray().equals("冷链从业人员")) {
+        if (entity.getIndustray()!=null && entity.getIndustray().equals("冷链从业人员")) {
           lenglian += 1;
-        } else if (entity.getIndustray().equals("商业从业人员")) {
+        } else if (entity.getIndustray()!=null && entity.getIndustray().equals("商业从业人员")) {
           business += 1;
-        } else if (entity.getIndustray().equals("货运物流")) {
+        } else if (entity.getIndustray()!=null && entity.getIndustray().equals("货运物流")) {
           huoyun += 1;
-        } else if (entity.getIndustray().equals("学生") ) {
+        } else if (entity.getIndustray()!=null && entity.getIndustray().equals("学生") ) {
           student += 1;
-        } else if (entity.getIndustray().equals("机关事业单位")) {
+        } else if (entity.getIndustray()!=null && entity.getIndustray().equals("机关事业单位")) {
           jiguan += 1;
-        } else if (entity.getIndustray().equals("无业") ) {
+        } else if (entity.getIndustray()!=null && entity.getIndustray().equals("无业") ) {
           wuye += 1;
-        } else if (entity.getIndustray().equals("其它") ) {
+        } else if (entity.getIndustray()!=null && entity.getIndustray().equals("其它") ) {
           other += 1;
         }
 

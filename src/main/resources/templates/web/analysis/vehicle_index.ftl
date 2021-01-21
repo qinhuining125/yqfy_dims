@@ -74,7 +74,7 @@
     $("#btn-cx").on("click", function () {
       const data = $(this).parent().parent().serialize();
       $.ajax({
-        "url": "a/analysis/statusData.json",
+        "url": "a/analysis/vehicleData.json",
         "type": "POST",
         "data": data,
         "dataType": "json",
@@ -104,7 +104,7 @@
       legend: {
         orient: 'horizontal',
         left: 10,
-        data: ['已返乡', '拟返乡']
+        data: ['自驾', '飞机', '火车', '客车' , '网约车']
       },
       title: [{
         text: '总量10',
@@ -116,8 +116,11 @@
           type: 'pie',
           radius: ['50%', '70%'],
           data: [
-            {value: pieData.beenhome, name: '已返乡'},
-            {value: pieData.planhome, name: '拟返乡'}
+            {value: pieData.zj, name: '自驾'},
+            {value: pieData.planej, name: '飞机'},
+            {value: pieData.train, name: '火车'},
+            {value: pieData.bus, name: '客车'},
+            {value: pieData.wybus, name: '网约车'}
           ]
         }
       ]
@@ -139,7 +142,7 @@
         }
       },
       legend: {
-        data: ['已返乡', '拟返乡']
+        data: ['自驾', '飞机', '火车', '客车' , '网约车']
       },
       grid: {
         left: '3%',
@@ -165,16 +168,34 @@
       ],
       series: [
         {
-          name: '已返乡',
+          name: '自驾',
           type: 'bar',
           stack: '数量',
-          data: barData.beenhomes
+          data: barData.zjs
         },
         {
-          name: '拟返乡',
+          name: '飞机',
           type: 'bar',
           stack: '数量',
-          data: barData.planhomes
+          data: barData.planejs
+        },
+        {
+          name: '火车',
+          type: 'bar',
+          stack: '数量',
+          data: barData.trains
+        },
+        {
+          name: '客车',
+          type: 'bar',
+          stack: '数量',
+          data: barData.buss
+        },
+        {
+          name: '网约车',
+          type: 'bar',
+          stack: '数量',
+          data: barData.wybuss
         }
       ]
     };
@@ -185,23 +206,3 @@
 </script>
 </body>
 </html>
-data: ['冷链从业人员', '商业从业人员', '货运物流', '学生' , '机关事业单位', '无业', '其它']
-"url": "a/analysis/vehicleData.json",
-"url": "a/analysis/industryData.json",
-
-{value: pieData.lenglian, name: '冷链从业人员'},
-{value: pieData.business, name: '商业从业人员'},
-{value: pieData.huoyun, name: '货运物流'},
-{value: pieData.student, name: '学生'},
-{value: pieData.jiguan, name: '机关事业单位'},
-{value: pieData.wuye, name: '无业'},
-{value: pieData.other, name: '其它'}
-
-
-{value: pieData.zj, name: '自驾'},
-{value: pieData.planej, name: '飞机'},
-{value: pieData.train, name: '火车'},
-{value: pieData.bus, name: '客车'},
-{value: pieData.wybus, name: '网约车'}
-
-data: ['自驾', '飞机', '火车', '客车' , '网约车']
