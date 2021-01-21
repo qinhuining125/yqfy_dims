@@ -153,6 +153,26 @@ public class YqfkPcxController extends
             // entity.setCreateTime(SystemClock.nowDate());
             return this.insertDataCommon(entity);
         } else {
+            if (entity.getPlevel()==2){
+                List<Region> regionList = regionService.getListByParent(entity.getId().replace(" ", ""));
+                for (int i=0;i<regionList.size();i++){
+                    regionList.get(i).setValid(entity.getValid());
+                    this.updateDataCommon( regionList.get(i));
+                }
+            }
+            if (entity.getPlevel()==1){
+                List<Region> regionList = regionService.getListByParent(entity.getId().replace(" ", ""));
+                for (int i=0;i<regionList.size();i++){
+                    regionList.get(i).setValid(entity.getValid());
+                    this.updateDataCommon( regionList.get(i));
+                    List<Region> regionList1 = regionService.getListByParent(regionList.get(i).getId().replace(" ", ""));
+                    for (int j=0;j<regionList1.size();j++){
+                        regionList1.get(j).setValid(entity.getValid());
+                        this.updateDataCommon( regionList1.get(j));
+
+                    }
+                }
+            }
             return this.updateDataCommon(entity);
         }
     }

@@ -24,4 +24,6 @@ public interface RegionService extends AbstractGenericService<Region, String> {
   Region findByCode(String pcode);
 
   Region getDataById(String id);
+
+    List<Region> getListByParent(String parent);
 }
