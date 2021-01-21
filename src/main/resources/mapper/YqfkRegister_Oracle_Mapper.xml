@@ -773,6 +773,12 @@
     from "YQ_YQFK" where CARD=#{card,jdbcType=VARCHAR}
   </select>
 
+  <select id="getRiskCount" parameterType="java.lang.String" resultType="java.lang.Integer">
+    select count(1) from YQ_YQFK where create_account = #{userId,jdbcType=VARCHAR} and risk_Level!=0
+  </select>
+  <select id="getExpCount" parameterType="com.hengtianyi.dims.service.entity.YqfkRegisterEntity" resultType="java.lang.Integer">
+    select count(1) from YQ_YQFK where CREATE_ACCOUNT = #{entity.createAccount,jdbcType=VARCHAR} and EXP_RETURN_TIME = TO_DATE(#{entity.beforeReturnAddress,jdbcType=VARCHAR},'yyyy-mm-dd')
+  </select>
   <sql id="page_where">
     <where>
       <choose>

@@ -387,7 +387,12 @@ public class YqfkRegisterServiceImpl extends
 
   @Override
   public Integer getRiskCount(String userId) {
-    //return yqfkRegisterDao.getRiskCount(userId);
-    return 0;
+    return yqfkRegisterDao.getRiskCount(userId);
   }
+  @Override
+  public Integer getExpCount(YqfkRegisterEntity entity) {
+    return yqfkRegisterDao.getExpCount(entity);
+  }
+
+
 }

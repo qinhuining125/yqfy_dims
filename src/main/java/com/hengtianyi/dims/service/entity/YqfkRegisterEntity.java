@@ -2,6 +2,7 @@ package com.hengtianyi.dims.service.entity;
 
 import com.hengtianyi.common.core.base.BaseEntity;
 
+import java.beans.Transient;
 import java.util.Date;
 import java.util.List;
 
@@ -103,6 +104,7 @@ public class YqfkRegisterEntity extends BaseEntity {
   private String riskLevel;
   //添加生日
   private Date birthday;
+
 
   public Date getBirthday() {
     return birthday;
