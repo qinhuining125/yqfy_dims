@@ -151,7 +151,12 @@
 
   </select>
 
+  <select id="getListByParent" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select
+    t."ID", t."PCODE" , t."PNAME" , t."PLEVEL" , t."PARENT" , t."VALID"
+    from "YQFK_PCX" t where t."PARENT"=#{parent,jdbcType=VARCHAR}
 
+  </select>
 
 
 

@@ -227,7 +227,7 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-4 control-label">身份证：</label>
+            <label class·="col-xs-4 control-label">身份证：</label>
             <div class="col-xs-8">
                 <div class="form-control-static">{{card}}</div>
             </div>

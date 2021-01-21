@@ -22,4 +22,6 @@ public interface RegionDao extends AbstractGenericDao<Region, String> {
   public Region findByCode(@Param("pcode") String pcode) ;
 
   public Region getDataById(@Param("id") String id);
+
+    List<Region> getListByParent(@Param("parent") String parent);
 }
