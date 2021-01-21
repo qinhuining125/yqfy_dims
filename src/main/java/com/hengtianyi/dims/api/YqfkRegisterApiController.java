@@ -67,13 +67,13 @@ public class YqfkRegisterApiController {
       queryDto.setAreaCode(userEntity.getAreaCode());
 
       if (dto.getQuery() != null) { //进行返回类型的判定
-        if (dto.getQuery().getReturnState() != null) {
+        if (dto.getQuery().getReturnState() != null && dto.getQuery().getReturnState() !="") {
           queryDto.setReturnState(dto.getQuery().getReturnState());
         }
       }
       //待开发，中高风险区人员
       if (dto.getQuery() != null) { //进行返回类型的判定
-        if (dto.getQuery().getRiskLevel() != null) {
+        if (dto.getQuery().getRiskLevel() != null && dto.getQuery().getRiskLevel() !="") {
           queryDto.setRiskLevel(dto.getQuery().getRiskLevel());
         }
       }
