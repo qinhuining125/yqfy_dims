@@ -107,5 +107,10 @@ public class RegionServiceImpl extends AbstractGenericServiceImpl<Region, String
     return regionDao.getDataById(id);
   }
 
+  @Override
+  public List<Region> getListByParent(String parent) {
+    return regionDao.getListByParent(parent);
+  }
+
 
 }
