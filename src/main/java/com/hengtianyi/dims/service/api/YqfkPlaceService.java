@@ -53,4 +53,6 @@ public interface YqfkPlaceService extends
    * @return
    */
   List<YqfkPlaceEntity> getListByYQID(String yqid);
+
+  List<YqfkPlaceEntity> getListByYQID14(String yqid);
 }

@@ -246,4 +246,12 @@
     from "YQ_YQFK_REL_ZJ" t  where t."YQID"=#{yqid,jdbcType=VARCHAR}
 
   </select>
+
+  <select id="getListByYQID14" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select  t."NAME"
+    from "YQ_YQFK_REL_ZJ" t
+    where t."YQID"=#{yqid,jdbcType=VARCHAR}
+
+  </select>
+
 </mapper>

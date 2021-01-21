@@ -49,4 +49,6 @@ public interface YqfkPlaceDao extends AbstractGenericDao<YqfkPlaceEntity, String
    * @return
    */
     List<YqfkPlaceEntity> getListByYQID(String yqid);
+
+  List<YqfkPlaceEntity> getListByYQID14(String yqid);
 }

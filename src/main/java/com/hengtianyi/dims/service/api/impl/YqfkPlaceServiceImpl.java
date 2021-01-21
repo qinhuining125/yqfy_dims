@@ -189,4 +189,9 @@ public class YqfkPlaceServiceImpl extends
     return yqfkPlaceDao.getListByYQID(yqid);
   }
 
+  @Override
+  public List<YqfkPlaceEntity> getListByYQID14(String yqid) {
+    return yqfkPlaceDao.getListByYQID14(yqid);
+  }
+
 }

@@ -67,13 +67,13 @@ public class YqfkRegisterApiController {
       queryDto.setAreaCode(userEntity.getAreaCode());
 
       if (dto.getQuery() != null) { //进行返回类型的判定
-        if (dto.getQuery().getReturnState() != null && !(dto.getQuery().getReturnState().equals("全部"))) {
+        if (dto.getQuery().getReturnState() != null && !dto.getQuery().getReturnState().equals("") && !(dto.getQuery().getReturnState().equals("全部"))) {
           queryDto.setReturnState(dto.getQuery().getReturnState());
         }
       }
       //待开发，中高风险区人员
       if (dto.getQuery() != null) { //进行返回类型的判定
-        if (dto.getQuery().getRiskLevel() != null && !(dto.getQuery().getRiskLevel().equals("全部"))) {
+        if (dto.getQuery().getRiskLevel() != null && !dto.getQuery().getRiskLevel().equals("") && !(dto.getQuery().getRiskLevel().equals("全部"))) {
           queryDto.setRiskLevel(dto.getQuery().getRiskLevel());
         }
       }
@@ -123,6 +123,26 @@ public class YqfkRegisterApiController {
     } catch (Exception e) {
       LOGGER.error("[saveData]疫情防控信息上报出错,{}", e.getMessage(), e);
       result.setError("疫情防控信息上报出错");
+    }
+    return result.toJson();
+  }
+
+  /*
+   * 疫情防控详情--only 最近14天
+   *
+   * @param id id
+   * @return json
+   */
+  @GetMapping(value = "/detail14.json", produces = BaseConstant.JSON)
+  public String detail14(@RequestParam String id) {
+    ServiceResult<Object> result = new ServiceResult<>();
+    try {
+      List<YqfkPlaceEntity> list=yqfkPlaceService.getListByYQID14(id);
+      result.setResult(list);
+      result.setSuccess(true);
+    } catch (Exception e) {
+      LOGGER.error("[detail]出错,{}", e.getMessage(), e);
+      result.setError("疫情防控的最近14天详情页出错");
     }
     return result.toJson();
   }
