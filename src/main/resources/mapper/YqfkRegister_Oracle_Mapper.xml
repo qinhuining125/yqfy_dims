@@ -103,6 +103,62 @@
      <result column="ROLE_ID" property="roleId" jdbcType="DECIMAL"/>-->
   </resultMap>
 
+
+  <!-- 字段与实体的映射 -->
+  <resultMap id="BaseResultMap2" type="com.hengtianyi.dims.service.entity.YqfkRegisterView">
+    <id column="ID" property="id" jdbcType="CHAR"/>
+    <result column="NAME" property="name" jdbcType="VARCHAR"/>
+    <result column="SEX" property="sex" jdbcType="VARCHAR"/>
+    <result column="AGE" property="age" jdbcType="VARCHAR"/>
+    <result column="CARD" property="card" jdbcType="VARCHAR"/>
+    <result column="HJ_PBM" property="hjPbm" jdbcType="VARCHAR"/>
+    <result column="HJ_CBM" property="hjCbm" jdbcType="VARCHAR"/>
+    <result column="HJ_XBM" property="hjXbm" jdbcType="VARCHAR"/>
+    <result column="HJ" property="hj" jdbcType="VARCHAR"/>
+    <result column="SFCZ" property="sfcz" jdbcType="VARCHAR"/>
+    <result column="RELATION" property="relation" jdbcType="VARCHAR"/>
+    <result column="PHONE" property="phone" jdbcType="VARCHAR"/>
+    <result column="WORK_SCHOOL" property="workSchool" jdbcType="VARCHAR"/>
+    <result column="INDUSTRAY" property="industray" jdbcType="VARCHAR"/>
+    <result column="RETURN_STATE" property="returnState" jdbcType="VARCHAR"/>
+    <result column="RETURN_TIME" property="returnTime" jdbcType="DATE"/>
+    <result column="RETURN_WAY" property="returnWay" jdbcType="VARCHAR"/>
+    <result column="RETURN_CARNUM" property="returnCarnum" jdbcType="VARCHAR"/>
+    <result column="EXP_RETURN_TIME" property="expReturnTime" jdbcType="DATE"/>
+    <result column="EXP_RETURN_WAY" property="expReturnWay" jdbcType="VARCHAR"/>
+    <result column="EXP_RETURN_CARNUM" property="expReturnCarnum" jdbcType="VARCHAR"/>
+    <result column="BEFORE_RETURN_PBM" property="beforeReturnPbm" jdbcType="VARCHAR"/>
+    <result column="BEFORE_RETURN_CBM" property="beforeReturnCbm" jdbcType="VARCHAR"/>
+    <result column="BEFORE_RETURN_XBM" property="beforeReturnXbm" jdbcType="VARCHAR"/>
+    <result column="BEFORE_RETURN_ADDRESS" property="beforeReturnAddress" jdbcType="VARCHAR"/>
+    <result column="AFTER_RETURN_PBM" property="afterReturnPbm" jdbcType="VARCHAR"/>
+    <result column="AFTER_RETURN_CBM" property="afterReturnCbm" jdbcType="VARCHAR"/>
+    <result column="AFTER_RETURN_XBM" property="afterReturnXbm" jdbcType="VARCHAR"/>
+    <result column="AFTER_RETURN_ZHBM" property="afterReturnZhbm" jdbcType="VARCHAR"/>
+    <result column="AFTER_RETURN_CUBM" property="afterReturnCubm" jdbcType="VARCHAR"/>
+    <result column="AFTER_RETURN_ADDRESS" property="afterReturnAddress" jdbcType="VARCHAR"/>
+    <result column="LOCAL_STATE" property="localState" jdbcType="VARCHAR"/>
+    <result column="NAT_TIME" property="natTime" jdbcType="DATE"/>
+    <result column="NAT_RESULT" property="natResult" jdbcType="VARCHAR"/>
+    <result column="TOUCH_STATE" property="touchState" jdbcType="VARCHAR"/>
+    <result column="ISOLATE_STATE" property="isLateStete" jdbcType="VARCHAR"/>
+    <result column="ISOLATE_START_TIME" property="isLateStateTime" jdbcType="DATE"/>
+    <result column="HEALTH_STATE" property="healthState" jdbcType="VARCHAR"/>
+    <result column="REMARK" property="remark" jdbcType="VARCHAR"/>
+
+    <result column="CREATE_ACCOUNT" property="createAccount" jdbcType="VARCHAR"/>
+
+    <result column="CREATE_TIME" property="createTime" jdbcType="DATE"/>
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="DATE"/>
+    <result column="UPDATE_ACCOUNT" property="updateAccount" jdbcType="VARCHAR"/>
+    <result column="RISK_LEVEL" property="riskLevel" jdbcType="VARCHAR"/>
+    <result column="BIRTHDAY" property="birthday" jdbcType="DATE"/>
+    <!-- <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP"/>
+     <result column="USER_NAME" property="userName" jdbcType="VARCHAR"/>
+     <result column="ROLE_ID" property="roleId" jdbcType="DECIMAL"/>-->
+  </resultMap>
+
+
   <!-- 字段集合 -->
   <sql id="Base_Column_List">
       "ID" , "NAME" , "SEX", "AGE", "CARD","HJ_PBM" , "HJ_CBM", "HJ_XBM" , "HJ" , "SFCZ", "RELATION" , "PHONE", "WORK_SCHOOL", "INDUSTRAY", "RETURN_STATE",
@@ -632,7 +688,7 @@
     p."CREATE_ACCOUNT", p."CREATE_TIME", p."UPDATE_TIME", p."UPDATE_ACCOUNT",p."RISK_LEVEL" ,p."BIRTHDAY"
     from (select ROWNUM as "ROW_ID",
     <include refid="Base_Column_List"/>
-    from (select t.* from "YQ_YQFK" t
+    from (select t.* from "VIEW_YQ_YQFK" t
     <include refid="page_where"/>
     order by t.create_time desc)
     where ROWNUM &lt;= #{dto.end}) p
