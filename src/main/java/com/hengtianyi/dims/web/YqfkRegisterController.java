@@ -120,8 +120,6 @@ public class YqfkRegisterController extends
         }
 
         SysUserEntity user = WebUtil.getUser(request);
-        dto.setAreaCode(user.getAreaCode());
-        System.out.printf(  this.getDataListCommon(pageDto, dto));
         return this.getDataListCommon(pageDto, dto);
 //        try {
 //            if (dto.getBeforeReturnPbm()!=null){

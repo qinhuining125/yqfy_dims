@@ -89,15 +89,32 @@
                     <th data-column-id="valid" data-order="desc" data-visible="true" data-sortable="true">
                         风险级别
                     </th>
+<#--                    <th data-field="valid" data-sortable="true" data-formatter="displaycolor"><span>状态</span></th></span>-->
+
                     <th data-column-id="link" data-width="180px" data-formatter="commands" data-custom="true"
                         data-sortable="false">操作
                     </th>
-                </tr>
+               </tr>
                 </thead>
             </table>
         </div>
     </div>
 </div>
+<script>
+    function displaycolor(value,row,index) {
+        var a = "";
+        if(value == "0") {
+            var a = '<span style="color:#00ff00">'+value+'</span>';
+        }else if(value == "1"){
+            var a = '<span style="color:#eae242">'+value+'</span>';
+        }else if(value == "2") {
+            var a = '<span style="color:#FF0000">'+value+'</span>';
+        }else{
+            var a = '<span>'+value+'</span>';
+        }
+        return a;
+    }
+</script>
 <#include "/common/scriptfile.ftl"/>
 <#include "/common/scriptfile_list.ftl"/>
 <script src="${global.staticPath!}static/plugins/laydate/laydate.js"></script>
@@ -119,7 +136,7 @@
     <option value="">--请选择--</option>
     {{#each this}}
     <option value="{{id}}-{{pcode}}">{{pname}}</option>
-    {{/each}}
+    {{/each}}a
 </script>
 <script id="template-view-yqfkRegister" type="text/x-handlebars-template">
     <div class="form-horizontal" style="margin: 20px;">
@@ -151,6 +168,15 @@
             <label class="col-xs-4 control-label">风险级：</label>
             <div class="col-xs-8">
                 <div class="form-control-static">{{valid}}</div>
+<#--                <#if valid == "1">-->
+<#--                    <div class="form-control-static">低风险</div>-->
+<#--                </#if>-->
+<#--                <#if valid == "1">-->
+<#--                    <div class="form-control-static">中风险</div>-->
+<#--                </#if>-->
+<#--                <#if valid == "2">-->
+<#--                    <div class="form-control-static">高风险</div>-->
+<#--                </#if>-->
             </div>
         </div>
     </div>
@@ -164,7 +190,6 @@
         "done": function (value, startDate, endDate) {
             if (value) {
                 const array = value.split("至");
-                console.log(array)
                 $("#startTime").val(array[0]);
                 $("#endTime").val(array[1]);
             } else {
@@ -176,7 +201,6 @@
 
     function searchP(obj) {
         const provinceArray =  $(obj).val().replace(/\s*/g,"").split("-")
-        console.log(provinceArray)
         const province=   provinceArray[0]
         const beforeReturnPbm=   provinceArray[1]
         $("#beforeReturnPbm").val(beforeReturnPbm);
@@ -200,7 +224,6 @@
 
     function choseS(obj) {
         const cityArray =  $(obj).val().replace(/\s*/g,"").split("-")
-        console.log(cityArray)
         const city=   cityArray[0]
         const beforeReturnCbm=   cityArray[1]
         $("#beforeReturnCbm").val(beforeReturnCbm);
@@ -224,7 +247,6 @@
 
     function choseX(obj) {
         const countyArray =  $(obj).val().replace(/\s*/g,"").split("-")
-        console.log(countyArray)
         const county=   countyArray[0]
         const beforeReturnXbm=   countyArray[1]
         $("#beforeReturnXbm").val(beforeReturnXbm);
@@ -235,7 +257,6 @@
     }
     function searchVillage(obj) {
         const afterReturnZhbm = $(obj).val();
-        console.log(afterReturnZhbm)
         $("#afterReturnZhbm").val(afterReturnZhbm);
         if (afterReturnZhbm == '') {
             return false;
@@ -258,7 +279,6 @@
     function choseArea(obj) {
 
         var afterReturnCubm = $(obj).val();
-        console.log(afterReturnCubm)
         if (afterReturnCubm == '') {
             afterReturnCubm = $("#township").val();
         }
