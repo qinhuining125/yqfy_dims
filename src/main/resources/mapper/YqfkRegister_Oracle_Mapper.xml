@@ -696,7 +696,7 @@
     <include refid="Base_Column_List"/>
     from (select t.* from "VIEW_YQ_YQFK" t
     <include refid="page_where"/>
-    order by t.create_time desc)
+    order by t.update_time desc)
     where ROWNUM &lt;= #{dto.end}) p
     where p."ROW_ID" &gt; #{dto.first}
   </select>
