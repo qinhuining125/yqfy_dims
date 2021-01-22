@@ -703,7 +703,7 @@
 
   <select id="pagecount" resultType="java.lang.Integer"
     parameterType="com.hengtianyi.dims.service.dto.QueryDto">
-    select count(1) from "YQ_YQFK" t   <include refid="page_where"/>
+    select count(1) from "VIEW_YQ_YQFK" t   <include refid="page_where"/>
     <!--<if test="dto.areaCode!=null and dto.areaCode !=''">
       and t."USER_ID" in (select a.id from sys_user a
       where a.area_code like (#{dto.areaCode,jdbcType=VARCHAR} ||'%'))
@@ -801,12 +801,12 @@
             <!--暂时空-->
         </otherwise>
       </choose>
-      <!--添加按照返回状态分类，借用地区编码来做-->
+      <!--添加按照返回状态分类，借用地区编码来做    and t."RISK_LEVEL" != 0-->
       <if test="dto.returnState !=null">
         and t."RETURN_STATE" = #{dto.returnState,jdbcType=VARCHAR}
       </if>
       <if test="dto.riskLevel !=null"> <!--不为0，表示要取的是全部信息，只要有风险的都取出来-->
-        and t."RISK_LEVEL" != 0
+        and t."RISK_LEVEL" = #{dto.riskLevel,jdbcType=VARCHAR}
       </if>
 
     </where>

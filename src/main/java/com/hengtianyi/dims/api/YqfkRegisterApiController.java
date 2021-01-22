@@ -1,9 +1,5 @@
 package com.hengtianyi.dims.api;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hengtianyi.common.core.base.CommonEntityDto;
 import com.hengtianyi.common.core.constant.BaseConstant;
 import com.hengtianyi.common.core.feature.ServiceResult;
@@ -11,7 +7,6 @@ import com.hengtianyi.common.core.util.StringUtil;
 import com.hengtianyi.common.core.util.sequence.IdGenUtil;
 import com.hengtianyi.common.core.util.sequence.SystemClock;
 import com.hengtianyi.dims.constant.FrameConstant;
-import com.hengtianyi.dims.constant.RoleEnum;
 import com.hengtianyi.dims.service.api.SysUserService;
 import com.hengtianyi.dims.service.api.YqfkPlaceService;
 import com.hengtianyi.dims.service.api.YqfkRegisterService;
