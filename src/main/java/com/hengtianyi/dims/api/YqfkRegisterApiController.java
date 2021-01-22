@@ -100,7 +100,7 @@ public class YqfkRegisterApiController {
     try {
       String ids=IdGenUtil.uuid32();
       entity.setId(ids);
-      entity.setRiskLevel("1");//初始化默认为无风险
+      entity.setRiskLevel("0");//初始化默认为无风险
       entity.setCreateTime(SystemClock.nowDate());
       entity.setUpdateTime(SystemClock.nowDate());
       entity.setCreateAccount(WebUtil.getUserIdByToken(request));
