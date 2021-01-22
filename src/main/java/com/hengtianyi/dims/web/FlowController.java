@@ -98,13 +98,34 @@ public class FlowController {
     return "web/analysis/industry_index";
   }
 
+  /**
+   * 按照风险等级来统计
+   * */
+  @ResponseBody
+  @PostMapping(value = "a/analysis/riskData.json", produces = BaseConstant.JSON)
+  public String riskData(@RequestParam(required = false) Long startTime,
+                             @RequestParam(required = false) Long endTime,
+                             @RequestParam(required = false) String areaCode) {
+    String start = startTime != null ? TimeUtil.format(startTime, BaseConstant.DATE_FORMAT2) : "";
+    String end = endTime != null ? TimeUtil.format(endTime, BaseConstant.DATE_FORMAT2) : "";
+    return yqfkRegisterService.echartsDataRisk(start, end, areaCode);
+  }
+  /**
+   * 按照风险等级视图
+   * */
+  @GetMapping(value = "a/analysis/risk.html", produces = BaseConstant.HTML)
+  public String analysisRisk(Model model) {
+    model.addAttribute("areaList", townshipService.areaList());
+    return "web/analysis/risk_index";
+  }
+
   @ResponseBody
   @PostMapping(value = "a/analysis/industryData.json", produces = BaseConstant.JSON)
   public String industryData(@RequestParam(required = false) Long startTime,
                              @RequestParam(required = false) Long endTime,
                              @RequestParam(required = false) String areaCode) {
     String start = startTime != null ? TimeUtil.format(startTime, BaseConstant.DATE_FORMAT2) : "";
-    String end = endTime != null ? TimeUtil.format(endTime, BaseConstant.DATE_FORMAT2) : "";
+    String end = endTime != null ? TimeUtil.format(endTime, BaseConstant.DATE_FORMAT2) : "";String df=yqfkRegisterService.echartsDataIndustry(start, end, areaCode);
     return yqfkRegisterService.echartsDataIndustry(start, end, areaCode);
   }
 
