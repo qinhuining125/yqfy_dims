@@ -74,6 +74,12 @@ public class YqfkRegisterApiController {
           queryDto.setRiskLevel(dto.getQuery().getRiskLevel());
         }
       }
+      //添加名字
+     /* if (dto.getQuery() != null) { //进行返回类型的判定
+        if (dto.getQuery().getName() != null && !dto.getQuery().getName().equals("") ) {
+          queryDto.setName(dto.getQuery().getName());
+        }
+      }*/
       CommonEntityDto<YqfkRegisterEntity> cpDto = yqfkRegisterService.pagelist(queryDto);
       result.setResult(cpDto);
       result.setSuccess(true);
@@ -94,7 +100,7 @@ public class YqfkRegisterApiController {
     try {
       String ids=IdGenUtil.uuid32();
       entity.setId(ids);
-      entity.setRiskLevel("0");//初始化默认为无风险
+      entity.setRiskLevel("1");//初始化默认为无风险
       entity.setCreateTime(SystemClock.nowDate());
       entity.setUpdateTime(SystemClock.nowDate());
       entity.setCreateAccount(WebUtil.getUserIdByToken(request));

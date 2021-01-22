@@ -698,7 +698,7 @@
     <include refid="page_where"/>
     order by t.create_time desc)
     where ROWNUM &lt;= #{dto.end}) p
-    where p."ROW_ID" &gt;= #{dto.first}
+    where p."ROW_ID" &gt; #{dto.first}
   </select>
 
   <select id="pagecount" resultType="java.lang.Integer"
@@ -807,6 +807,9 @@
       </if>
       <if test="dto.riskLevel !=null"> <!--不为0，表示要取的是全部信息，只要有风险的都取出来-->
         and t."RISK_LEVEL" = #{dto.riskLevel,jdbcType=VARCHAR}
+      </if>
+      <if test="dto.name !=null"> <!--不为-->
+        and t."NAME" like (#{dto.name,jdbcType=VARCHAR} ||'%'))
       </if>
 
     </where>

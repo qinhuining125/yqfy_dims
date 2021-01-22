@@ -69,8 +69,20 @@ public class QueryDto extends BaseBean {
    * 风险等级
    * **/
  private String riskLevel;
+    /**
+     * 用户姓名
+     * **/
+ private String name;
 
-  public String getRiskLevel() {
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getRiskLevel() {
     return riskLevel;
   }
 
