@@ -1,5 +1,6 @@
 package com.hengtianyi.dims.api;
 
+import cn.afterturn.easypoi.excel.html.HtmlToExcelService;
 import com.hengtianyi.common.core.base.CommonEntityDto;
 import com.hengtianyi.common.core.constant.BaseConstant;
 import com.hengtianyi.common.core.feature.ServiceResult;
@@ -207,7 +208,7 @@ public class YqfkRegisterApiController {
    * @return JSON
    */
   @PostMapping(value = "/updateData.json", produces = BaseConstant.JSON)
-  public String updateData(@RequestBody YqfkRegisterEntity entity) {
+  public String updateData(@RequestBody YqfkRegisterEntity entity, HttpServletRequest request) {
     ServiceResult<Object> result = new ServiceResult<>();
     try {
       String id = entity.getId();
@@ -219,6 +220,8 @@ public class YqfkRegisterApiController {
       } else {
         YqfkRegisterEntity yre=yqfkRegisterService.searchDataById(id);
         if(yre!=null){
+          entity.setUpdateTime(SystemClock.nowDate());
+          entity.setUpdateAccount(WebUtil.getUserIdByToken(request));
           int ct= yqfkRegisterService.updateData(entity);
           if(ct>0){
             if(entity.getPlaces()!=null){

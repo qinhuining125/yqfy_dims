@@ -665,10 +665,10 @@
         "CREATE_ACCOUNT"=#{createAccount,jdbcType=VARCHAR},
       </if>
       <if test="createTime != null">
-        "CREATE_TIME"= #{createTime,jdbcType=Date},
+        "CREATE_TIME"= #{createTime,jdbcType=TIMESTAMP},
       </if>
       <if test="updateTime != null">
-        "UPDATE_TIME" = #{updateTime,jdbcType=Date},
+        "UPDATE_TIME" = #{updateTime,jdbcType=TIMESTAMP},
       </if>
       <if test="updateAccount != null and updateAccount !=''">
         "UPDATE_ACCOUNT"= #{updateAccount,jdbcType=VARCHAR},
@@ -696,7 +696,7 @@
     <include refid="Base_Column_List"/>
     from (select t.* from "VIEW_YQ_YQFK" t
     <include refid="page_where"/>
-    order by t.create_time desc)
+    order by t.UPDATE_TIME desc)
     where ROWNUM &lt;= #{dto.end}) p
     where p."ROW_ID" &gt; #{dto.first}
   </select>
