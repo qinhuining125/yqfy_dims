@@ -665,10 +665,10 @@
         "CREATE_ACCOUNT"=#{createAccount,jdbcType=VARCHAR},
       </if>
       <if test="createTime != null">
-        "CREATE_TIME"= #{createTime,jdbcType=Date},
+        "CREATE_TIME"= #{createTime,jdbcType=TIMESTAMP},
       </if>
       <if test="updateTime != null">
-        "UPDATE_TIME" = #{updateTime,jdbcType=Date},
+        "UPDATE_TIME" = #{updateTime,jdbcType=TIMESTAMP},
       </if>
       <if test="updateAccount != null and updateAccount !=''">
         "UPDATE_ACCOUNT"= #{updateAccount,jdbcType=VARCHAR},
