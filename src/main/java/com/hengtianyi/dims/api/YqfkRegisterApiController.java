@@ -317,4 +317,32 @@ public class YqfkRegisterApiController {
     }
     return result.toJson();
   }
+
+  /**
+   * 登陆上来拟返乡人数
+   *
+   * @return json
+   */
+  @GetMapping(value = "/count.json", produces = BaseConstant.JSON)
+  public String count(HttpServletRequest request) {
+
+    ServiceResult<Object> result = new ServiceResult<>();
+    try{
+      String userId = WebUtil.getUserIdByToken(request);
+      YqfkRegisterEntity entity=new YqfkRegisterEntity();
+      entity.setCreateAccount(WebUtil.getUserIdByToken(request));
+      result.setResult(0);
+      if (userId != null) {
+        Integer ct = yqfkRegisterService.getCount(entity);
+        if (ct > 0) {//表示有高风险人群，提醒他去上报
+          result.setResult(ct);
+        }
+      }
+      result.setSuccess(Boolean.TRUE);
+    }catch (Exception e) {
+      LOGGER.error("[查询待办数量]出错,{}", e.getMessage(), e);
+      result.setError("查询待办数量出错");
+    }
+    return result.toJson();
+  }
 }

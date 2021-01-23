@@ -836,5 +836,8 @@
 
     </where>
   </sql>
+  <select id="getCount" parameterType="com.hengtianyi.dims.service.entity.YqfkRegisterEntity" resultType="java.lang.Integer">
+    select count(1) from YQ_YQFK where CREATE_ACCOUNT = #{entity.createAccount,jdbcType=VARCHAR} and RETURN_STATE ='拟返乡'
+  </select>
 
 </mapper>

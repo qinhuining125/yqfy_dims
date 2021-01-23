@@ -484,6 +484,9 @@ public class YqfkRegisterServiceImpl extends
   public Integer getExpCount(YqfkRegisterEntity entity) {
     return yqfkRegisterDao.getExpCount(entity);
   }
-
+  @Override
+  public Integer getCount(YqfkRegisterEntity entity) {
+    return yqfkRegisterDao.getCount(entity);
+  }
 
 }

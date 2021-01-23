@@ -70,4 +70,6 @@ public interface YqfkRegisterService extends AbstractGenericService<YqfkRegister
 
 
   Integer getExpCount(YqfkRegisterEntity entity);
+
+  Integer getCount(YqfkRegisterEntity entity);
 }

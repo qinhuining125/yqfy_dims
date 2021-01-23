@@ -76,4 +76,6 @@ public interface YqfkRegisterDao extends AbstractGenericDao<YqfkRegisterEntity, 
 
 
   Integer getExpCount(@Param("entity") YqfkRegisterEntity entity);
+
+  Integer getCount(@Param("entity") YqfkRegisterEntity entity);
 }
