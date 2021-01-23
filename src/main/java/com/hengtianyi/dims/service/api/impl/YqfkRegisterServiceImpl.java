@@ -295,8 +295,10 @@ public class YqfkRegisterServiceImpl extends
       String[] lenglians = new String[villageList.size()];
       String[] businesss = new String[villageList.size()];
       String[] huoyuns = new String[villageList.size()];
-      String[] students = new String[villageList.size()];
       String[] jiguans = new String[villageList.size()];
+      String[] kouans = new String[villageList.size()];
+      String[] gelis = new String[villageList.size()];
+      String[] students = new String[villageList.size()];
       String[] wuyes = new String[villageList.size()];
       String[] others = new String[villageList.size()];
 
@@ -309,8 +311,10 @@ public class YqfkRegisterServiceImpl extends
         lenglians[i] = dataMap.get("lenglian").toString();
         businesss[i] = dataMap.get("business").toString();
         huoyuns[i] = dataMap.get("huoyun").toString();
-        students[i] = dataMap.get("student").toString();
         jiguans[i] = dataMap.get("jiguan").toString();
+        kouans[i] = dataMap.get("kouan").toString();
+        gelis[i] = dataMap.get("geli").toString();
+        students[i] = dataMap.get("student").toString();
         wuyes[i] = dataMap.get("wuye").toString();
         others[i] = dataMap.get("other").toString();
       }
@@ -318,8 +322,10 @@ public class YqfkRegisterServiceImpl extends
       map.put("lenglians", lenglians);
       map.put("businesss", businesss);
       map.put("huoyuns", huoyuns);
-      map.put("students", students);
       map.put("jiguans", jiguans);
+      map.put("kouans", kouans);
+      map.put("gelis", gelis);
+      map.put("students", students);
       map.put("wuyes", wuyes);
       map.put("others", others);
 
@@ -338,8 +344,10 @@ public class YqfkRegisterServiceImpl extends
     Integer lenglian = 0;
     Integer business = 0;
     Integer huoyun = 0;
-    Integer student = 0;
     Integer jiguan = 0;
+    Integer kouan = 0;
+    Integer geli = 0;
+    Integer student = 0;
     Integer wuye = 0;
     Integer other = 0;
 
@@ -350,12 +358,16 @@ public class YqfkRegisterServiceImpl extends
           lenglian += 1;
         } else if (entity.getIndustray()!=null && entity.getIndustray().equals("商业从业人员")) {
           business += 1;
-        } else if (entity.getIndustray()!=null && entity.getIndustray().equals("货运物流")) {
+        } else if (entity.getIndustray()!=null && entity.getIndustray().equals("交通运输工具从业人员")) {
           huoyun += 1;
-        } else if (entity.getIndustray()!=null && entity.getIndustray().equals("学生") ) {
-          student += 1;
         } else if (entity.getIndustray()!=null && entity.getIndustray().equals("机关事业单位")) {
           jiguan += 1;
+        }  else if (entity.getIndustray()!=null && entity.getIndustray().equals("学生") ) {
+          student += 1;
+        } else if (entity.getIndustray()!=null && entity.getIndustray().equals("口岸直接接触进口货物从业人员")) {
+          kouan += 1;
+        } else if (entity.getIndustray()!=null && entity.getIndustray().equals("隔离场所工作人员")) {
+          geli += 1;
         } else if (entity.getIndustray()!=null && entity.getIndustray().equals("无业") ) {
           wuye += 1;
         } else if (entity.getIndustray()!=null && entity.getIndustray().equals("其它") ) {
@@ -366,8 +378,10 @@ public class YqfkRegisterServiceImpl extends
     map.put("lenglian", lenglian);
     map.put("business", business);
     map.put("huoyun", huoyun);
-    map.put("student", student);
     map.put("jiguan", jiguan);
+    map.put("kouan", kouan);
+    map.put("geli", geli);
+    map.put("student", student);
     map.put("wuye", wuye);
     map.put("other", other);
     return map;

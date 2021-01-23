@@ -104,7 +104,7 @@
       legend: {
         orient: 'horizontal',
         left: 10,
-        data: ['冷链从业人员', '商业从业人员', '货运物流', '学生', '机关事业单位', '无业', '其它']
+        data: ['冷链从业人员', '商业从业人员', '交通运输工具从业人员', '机关事业单位','口岸直接接触进口货物从业人员','隔离场所工作人员','学生', '无业', '其它']
       },
       title: [{
         text: '总量10',
@@ -118,9 +118,11 @@
           data: [
             {value: pieData.lenglian, name: '冷链从业人员'},
             {value: pieData.business, name: '商业从业人员'},
-            {value: pieData.huoyun, name: '货运物流'},
-            {value: pieData.student, name: '学生'},
+            {value: pieData.huoyun, name: '交通运输工具从业人员'},
             {value: pieData.jiguan, name: '机关事业单位'},
+            {value: pieData.kouan, name: '口岸直接接触进口货物从业人员'},
+            {value: pieData.geli, name: '隔离场所工作人员'},
+            {value: pieData.student, name: '学生'},
             {value: pieData.wuye, name: '无业'},
             {value: pieData.other, name: '其它'}
           ]
@@ -144,7 +146,7 @@
         }
       },
       legend: {
-        data: ['冷链从业人员', '商业从业人员', '货运物流', '学生', '机关事业单位', '无业', '其它']
+        data: ['冷链从业人员', '商业从业人员', '交通运输工具从业人员', '机关事业单位','口岸直接接触进口货物从业人员','隔离场所工作人员','学生', '无业', '其它']
       },
       grid: {
         left: '3%',
@@ -183,22 +185,35 @@
           data: barData.businesss
         },
         {
-          name: '货运物流',
+          name: '交通运输工具从业人员',
           type: 'bar',
           stack: '数量',
           data: barData.huoyuns
-        },
-        {
-          name: '学生',
-          type: 'bar',
-          stack: '数量',
-          data: barData.students
         },
         {
           name: '机关事业单位',
           type: 'bar',
           stack: '数量',
           data: barData.jiguans
+        },
+
+        {
+          name: '口岸直接接触进口货物从业人员',
+          type: 'bar',
+          stack: '数量',
+          data: barData.kouans
+        },
+        {
+          name: '隔离场所工作人员',
+          type: 'bar',
+          stack: '数量',
+          data: barData.gelis
+        },
+        {
+          name: '学生',
+          type: 'bar',
+          stack: '数量',
+          data: barData.students
         },
         {
           name: '无业',
