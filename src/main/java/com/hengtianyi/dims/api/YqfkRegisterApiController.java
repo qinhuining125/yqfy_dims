@@ -4,6 +4,8 @@ import cn.afterturn.easypoi.excel.html.HtmlToExcelService;
 import com.hengtianyi.common.core.base.CommonEntityDto;
 import com.hengtianyi.common.core.constant.BaseConstant;
 import com.hengtianyi.common.core.feature.ServiceResult;
+import com.hengtianyi.common.core.util.CollectionUtil;
+import com.hengtianyi.common.core.util.JsonUtil;
 import com.hengtianyi.common.core.util.StringUtil;
 import com.hengtianyi.common.core.util.sequence.IdGenUtil;
 import com.hengtianyi.common.core.util.sequence.SystemClock;
@@ -15,6 +17,7 @@ import com.hengtianyi.dims.service.dto.QueryDto;
 import com.hengtianyi.dims.service.entity.*;
 
 import com.hengtianyi.dims.utils.WebUtil;
+import org.apache.poi.ss.formula.functions.T;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
@@ -356,4 +359,43 @@ public class YqfkRegisterApiController {
     }
     return result.toJson();
   }
+
+
+  /**
+   * 删除
+   *
+   * @param id
+   * @return
+   */
+  @GetMapping(value = "/delete.json", produces = BaseConstant.JSON)
+  public String close(@RequestParam String id) {
+    ServiceResult<Object> result = new ServiceResult<>();
+    try {
+      if(StringUtil.isEmpty(id)){
+        result.setError("没有待删除的数据");
+        result.setResult(false);
+      }else{
+        YqfkRegisterEntity yre=yqfkRegisterService.searchDataById(id);
+        if(yre!=null){
+          YqfkRegisterEntity obj=new YqfkRegisterEntity();
+          obj.setId(id);
+          int ct=yqfkRegisterService.deleteData(obj);
+          result.setResult(ct>0);
+          result.setSuccess(ct>0);
+        } else {
+          result.setResult(false);
+          result.setError("库中没有该id对应的数据");
+        }
+
+      }
+    } catch (Exception e) {
+      LOGGER.error("删除疫情防控信息出错,{}", e.getMessage());
+      result.setError("删除疫情防控信息出错");
+    }
+    return result.toJson();
+  }
+
+  /**
+   *
+   * */
 }

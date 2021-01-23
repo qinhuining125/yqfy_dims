@@ -46,9 +46,9 @@
       <if test="endTime !=null and endTime !=''">
         and "CREATE_TIME" &lt; to_date(#{endTime,jdbcType=VARCHAR},'yyyy-mm-dd hh24:mi:ss')
       </if>
-     <!-- <if test="createTime !=null and createTime !=''">
-        and "CREATE_TIME" = #{createTime,jdbcType=TIMESTAMP}
-      </if>-->
+      <if test="id !=null and id !=''">
+        and "ID" = #{id,jdbcType=CHAR}
+      </if>
     </where>
   </sql>
 
