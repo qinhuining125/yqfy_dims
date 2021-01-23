@@ -373,6 +373,83 @@ public class YqfkRegisterServiceImpl extends
     return map;
   }
 
+  private Map<String, Object> countRisk(List<YqfkRegisterEntity> list) {
+    Map<String, Object> map = new HashMap<>();
+    Integer wfx = 0;
+    Integer dfx = 0;
+    Integer zfx = 0;
+    Integer gfx = 0;
+
+
+    for (YqfkRegisterEntity entity : list) {
+
+      if (entity.getRiskLevel()!=null && entity.getRiskLevel().equals("0")) {
+        wfx += 1;
+      } else if (entity.getRiskLevel()!=null && entity.getRiskLevel().equals("1")) {
+        dfx += 1;
+      } else if (entity.getRiskLevel()!=null && entity.getRiskLevel().equals("2")) {
+        zfx += 1;
+      } else if (entity.getRiskLevel()!=null && entity.getRiskLevel().equals("3") ) {
+        gfx += 1;
+      }
+
+    }
+    map.put("wfx", wfx);
+    map.put("dfx", dfx);
+    map.put("zfx", zfx);
+    map.put("gfx", gfx);
+    return map;
+  }
+
+
+  /**
+   * echartsDataRisk
+   *
+   * @param startTime 开始时间
+   * @param endTime   结束时间
+   * @param areaCode  乡镇编号
+   * @return json
+   */
+  @Override
+  public String echartsDataRisk(String startTime, String endTime, String areaCode) {
+    ServiceResult<Object> result = new ServiceResult();
+    try {
+      List<YqfkRegisterEntity> yqfkRegisterEntityList = yqfkRegisterDao.getEchartsDataRisk(startTime, endTime, areaCode);
+      Map<String, Object> map = countRisk(yqfkRegisterEntityList);
+      List<VillageEntity> villageList = villageDao.areaList(areaCode);
+      String[] villageNames = new String[villageList.size()];
+
+      String[] wfxs = new String[villageList.size()];
+      String[] dfxs = new String[villageList.size()];
+      String[] zfxs = new String[villageList.size()];
+      String[] gfxs= new String[villageList.size()];
+
+      for (int i = 0; i < villageList.size(); i++) {
+        VillageEntity village = villageList.get(i);
+        yqfkRegisterEntityList = yqfkRegisterDao.getEchartsDataRisk(startTime, endTime, village.getAreaCode());
+        Map<String, Object> dataMap = countRisk(yqfkRegisterEntityList);
+        villageNames[i] = village.getAreaName();
+
+        wfxs[i] = dataMap.get("wfx").toString();
+        dfxs[i] = dataMap.get("dfx").toString();
+        zfxs[i] = dataMap.get("zfx").toString();
+        gfxs[i] = dataMap.get("gfx").toString();
+      }
+      map.put("villageNames", villageNames);
+      map.put("wfxs", wfxs);
+      map.put("dfxs", dfxs);
+      map.put("zfxs", zfxs);
+      map.put("gfxs", gfxs);
+
+      result.setSuccess(true);
+      result.setResult(map);
+    } catch (Exception e) {
+      LOGGER.error("[echartsDataRisk]出错,{}", e.getMessage(), e);
+      result.setError("false");
+    }
+    return result.toJson();
+  }
+
 
 
   @Override

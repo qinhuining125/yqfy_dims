@@ -46,6 +46,8 @@ public interface YqfkRegisterService extends AbstractGenericService<YqfkRegister
 
   String echartsDataIndustry(String startTime, String endTime, String areaCode);
 
+  String echartsDataRisk(String startTime, String endTime, String areaCode);
+
 
 
 

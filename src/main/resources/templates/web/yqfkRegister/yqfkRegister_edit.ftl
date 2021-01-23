@@ -82,11 +82,8 @@
       return false;
     }
     const array = township.split(",");
-    console.log(township)
-    console.log(array)
     $("#receiveId").val(array[0]);
     $("#receiveRoleId").val(1003);
-    console.log(township)
     $.ajax({
       "type": "GET",
       "cache": false,

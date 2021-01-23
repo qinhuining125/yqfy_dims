@@ -226,8 +226,9 @@
                 <div class="form-control-static">{{formatDate birthday "yyyy-MM-dd "}}</div>
             </div>
         </div>
+
         <div class="form-group">
-            <label class·="col-xs-4 control-label">身份证：</label>
+            <label class="col-xs-4 control-label">身份证：</label>
             <div class="col-xs-8">
                 <div class="form-control-static">{{card}}</div>
             </div>
@@ -438,7 +439,6 @@
         "done": function (value, startDate, endDate) {
             if (value) {
                 const array = value.split("至");
-                console.log(array)
                 $("#startTime").val(array[0]);
                 $("#endTime").val(array[1]);
             } else {
@@ -450,7 +450,6 @@
 
     function searchP(obj) {
         const provinceArray = $(obj).val().replace(/\s*/g, "").split("-")
-        console.log(provinceArray)
         const province = provinceArray[0]
         const beforeReturnPbm = provinceArray[1]
         $("#beforeReturnPbm").val(beforeReturnPbm);
@@ -474,7 +473,6 @@
 
     function choseS(obj) {
         const cityArray = $(obj).val().replace(/\s*/g, "").split("-")
-        console.log(cityArray)
         const city = cityArray[0]
         const beforeReturnCbm = cityArray[1]
         $("#beforeReturnCbm").val(beforeReturnCbm);
@@ -498,7 +496,6 @@
 
     function choseX(obj) {
         const countyArray = $(obj).val().replace(/\s*/g, "").split("-")
-        console.log(countyArray)
         const county = countyArray[0]
         const beforeReturnXbm = countyArray[1]
         $("#beforeReturnXbm").val(beforeReturnXbm);
@@ -510,7 +507,6 @@
 
     function searchVillage(obj) {
         const afterReturnZhbm = $(obj).val();
-        console.log(afterReturnZhbm)
         $("#afterReturnZhbm").val(afterReturnZhbm);
         if (afterReturnZhbm == '') {
             return false;
@@ -533,7 +529,6 @@
     function choseArea(obj) {
 
         var afterReturnCubm = $(obj).val();
-        console.log(afterReturnCubm)
         if (afterReturnCubm == '') {
             afterReturnCubm = $("#township").val();
         }
