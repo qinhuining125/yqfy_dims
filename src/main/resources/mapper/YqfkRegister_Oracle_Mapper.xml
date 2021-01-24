@@ -82,7 +82,7 @@
     <result column="AFTER_RETURN_PBM" property="afterReturnPbm" jdbcType="VARCHAR"/>
     <result column="AFTER_RETURN_CBM" property="afterReturnCbm" jdbcType="VARCHAR"/>
     <result column="AFTER_RETURN_XBM" property="afterReturnXbm" jdbcType="VARCHAR"/>
-    <result column="AFTER_RETURN_ZHBM" property="afterReturnZhbm" jdbcType="VARCHAR"/>
+    <result column="AFTER_RETURN_ZBM" property="afterReturnZhbm" jdbcType="VARCHAR"/>
     <result column="AFTER_RETURN_CUBM" property="afterReturnCubm" jdbcType="VARCHAR"/>
     <result column="AFTER_RETURN_ADDRESS" property="afterReturnAddress" jdbcType="VARCHAR"/>
     <result column="LOCAL_STATE" property="localState" jdbcType="VARCHAR"/>
@@ -137,7 +137,7 @@
     <result column="AFTER_RETURN_PBM" property="afterReturnPbm" jdbcType="VARCHAR"/>
     <result column="AFTER_RETURN_CBM" property="afterReturnCbm" jdbcType="VARCHAR"/>
     <result column="AFTER_RETURN_XBM" property="afterReturnXbm" jdbcType="VARCHAR"/>
-    <result column="AFTER_RETURN_ZHBM" property="afterReturnZhbm" jdbcType="VARCHAR"/>
+    <result column="AFTER_RETURN_ZBM" property="afterReturnZhbm" jdbcType="VARCHAR"/>
     <result column="AFTER_RETURN_CUBM" property="afterReturnCubm" jdbcType="VARCHAR"/>
     <result column="AFTER_RETURN_ADDRESS" property="afterReturnAddress" jdbcType="VARCHAR"/>
     <result column="LOCAL_STATE" property="localState" jdbcType="VARCHAR"/>
@@ -167,7 +167,7 @@
       "ID" , "NAME" , "SEX", "AGE", "CARD","HJ_PBM" , "HJ_CBM", "HJ_XBM" , "HJ" , "SFCZ", "RELATION" , "PHONE", "WORK_SCHOOL", "INDUSTRAY", "RETURN_STATE",
  "RETURN_TIME", "RETURN_WAY", "RETURN_CARNUM", "EXP_RETURN_TIME", "EXP_RETURN_WAY", "EXP_RETURN_CARNUM", "BEFORE_RETURN_ADDRESS", "AFTER_RETURN_ADDRESS",
   "LOCAL_STATE", "NAT_TIME", "NAT_RESULT", "TOUCH_STATE", "ISOLATE_STATE", "ISOLATE_START_TIME", "HEALTH_STATE", "REMARK",
-  "BEFORE_RETURN_PBM","BEFORE_RETURN_CBM","BEFORE_RETURN_XBM","AFTER_RETURN_PBM","AFTER_RETURN_CBM","AFTER_RETURN_XBM",
+  "BEFORE_RETURN_PBM","BEFORE_RETURN_CBM","BEFORE_RETURN_XBM","AFTER_RETURN_PBM","AFTER_RETURN_CBM","AFTER_RETURN_XBM","AFTER_RETURN_ZBM","AFTER_RETURN_CUBM",
     "CREATE_ACCOUNT", "CREATE_TIME", "UPDATE_TIME", "UPDATE_ACCOUNT","RISK_LEVEL","BIRTHDAY"
   </sql>
 
@@ -690,7 +690,7 @@
      p."ID" , p."NAME" , p."SEX", p."AGE", p."CARD",p."HJ_PBM" , p."HJ_CBM", p."HJ_XBM" , p."HJ" , p."SFCZ", p."RELATION" , p."PHONE", p."WORK_SCHOOL", p."INDUSTRAY", p."RETURN_STATE",
     p."RETURN_TIME", p."RETURN_WAY", p."RETURN_CARNUM", p."EXP_RETURN_TIME", p."EXP_RETURN_WAY", p."EXP_RETURN_CARNUM", p."BEFORE_RETURN_ADDRESS", p."AFTER_RETURN_ADDRESS",
     p."LOCAL_STATE", p."NAT_TIME", p."NAT_RESULT", p."TOUCH_STATE", p."ISOLATE_STATE", p."ISOLATE_START_TIME", p."HEALTH_STATE", p."REMARK",
-    p."BEFORE_RETURN_PBM",p."BEFORE_RETURN_CBM",p."BEFORE_RETURN_XBM",p."AFTER_RETURN_PBM",p."AFTER_RETURN_CBM",p."AFTER_RETURN_XBM",
+    p."BEFORE_RETURN_PBM",p."BEFORE_RETURN_CBM",p."BEFORE_RETURN_XBM",p."AFTER_RETURN_PBM",p."AFTER_RETURN_CBM",p."AFTER_RETURN_XBM",p."AFTER_RETURN_ZBM",p."AFTER_RETURN_CUBM",
     p."CREATE_ACCOUNT", p."CREATE_TIME", p."UPDATE_TIME", p."UPDATE_ACCOUNT",p."RISK_LEVEL" ,p."BIRTHDAY"
     from (select ROWNUM as "ROW_ID",
     <include refid="Base_Column_List"/>
