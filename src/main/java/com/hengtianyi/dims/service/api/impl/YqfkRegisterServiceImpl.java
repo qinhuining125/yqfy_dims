@@ -247,21 +247,18 @@ public class YqfkRegisterServiceImpl extends
     Integer wybus = 0;
 
     for (YqfkRegisterEntity entity : list) {
-      if ((entity.getReturnWay()!=null && entity.getReturnWay().equals("自驾")) ||
-              (entity.getExpReturnWay()!=null && entity.getExpReturnWay().equals("自驾")) ) {
-        zj += 1;
-      } else if((entity.getReturnWay()!=null && entity.getReturnWay().equals("飞机")) ||
-              (entity.getExpReturnWay()!=null && entity.getExpReturnWay().equals("飞机")) )  {
-        planej += 1;
-      } else if((entity.getReturnWay()!=null && entity.getReturnWay().equals("火车")) ||
-              (entity.getExpReturnWay()!=null && entity.getExpReturnWay().equals("火车")) ){
-        train += 1;
-      } else if ((entity.getReturnWay()!=null && entity.getReturnWay().equals("客车")) ||
-              (entity.getExpReturnWay()!=null && entity.getExpReturnWay().equals("客车")) ){
-        train += 1;
-      } else if ((entity.getReturnWay()!=null && entity.getReturnWay().equals("网约车")) ||
-              (entity.getExpReturnWay()!=null && entity.getExpReturnWay().equals("网约车")) ) {
-        train += 1;
+      if(entity.getReturnState().equals("已返乡")){
+        if (entity.getReturnWay()!=null && entity.getReturnWay().contains("自驾")) {
+          zj += 1;
+        } else if(entity.getReturnWay()!=null && entity.getReturnWay().contains("飞机")){
+          planej += 1;
+        } else if(entity.getReturnWay()!=null && entity.getReturnWay().contains("火车")){
+          train += 1;
+        } else if (entity.getReturnWay()!=null && entity.getReturnWay().contains("客车")){
+          train += 1;
+        } else if (entity.getReturnWay()!=null && entity.getReturnWay().contains("网约车")) {
+          train += 1;
+        }
       }
     }
     map.put("zj", zj);

@@ -102,42 +102,32 @@ public class YqfkRegisterApiController {
   public String saveData(@RequestBody YqfkRegisterEntity entity, HttpServletRequest request) {
     ServiceResult<Object> result = new ServiceResult<>();
     try {
-      //插入之前就行身份证号的check
-      if(entity!=null){
-        if(entity.getCard()!=null){
-          List<YqfkRegisterEntity> obj=yqfkRegisterService.checkCard(entity.getCard());
-          if (obj.size()!=0) {//表示没有这个时间段的
-            result.setMessage("该身份证号已重复提交，不可再提交");
-            result.setResult(false);
-          }else{
-            String ids=IdGenUtil.uuid32();
-            entity.setId(ids);
-            entity.setRiskLevel("0");//初始化默认为无风险
-            entity.setCreateTime(SystemClock.nowDate());
-            entity.setUpdateTime(SystemClock.nowDate());
-            entity.setCreateAccount(WebUtil.getUserIdByToken(request));
-            entity.setUpdateAccount(WebUtil.getUserIdByToken(request));
-            int ct = yqfkRegisterService.insertData(entity);
-            if(ct > 0){
-              if(entity.getPlaces()!=null){
-                List<YqfkPlaceEntity> places=entity.getPlaces();
-                List<YqfkPlaceNameEntity> ch_14places=entity.getCh_14places();
-                for(int i=0;i<places.size();i++){
-                  YqfkPlaceEntity yfp = places.get(i);
-                  yfp.setId(IdGenUtil.uuid32());
-                  yfp.setYqid(ids);
-                  yfp.setCreateTime(SystemClock.nowDate());
-                  YqfkPlaceNameEntity ypn=ch_14places.get(i);
-                  yfp.setName(ypn.getA()+ypn.getB()+ypn.getC());
-                  int m=yqfkPlaceService.insertData(yfp);
-                }
-              }
-            }
-            result.setSuccess(ct > 0);
-            result.setResult(ct > 0);
+      String ids = IdGenUtil.uuid32();
+      entity.setId(ids);
+      entity.setRiskLevel("0");//初始化默认为无风险
+      entity.setCreateTime(SystemClock.nowDate());
+      entity.setUpdateTime(SystemClock.nowDate());
+      entity.setCreateAccount(WebUtil.getUserIdByToken(request));
+      entity.setUpdateAccount(WebUtil.getUserIdByToken(request));
+      int ct = yqfkRegisterService.insertData(entity);
+      if (ct > 0) {
+        if (entity.getPlaces() != null) {
+          List<YqfkPlaceEntity> places = entity.getPlaces();
+          List<YqfkPlaceNameEntity> ch_14places = entity.getCh_14places();
+          for (int i = 0; i < places.size(); i++) {
+            YqfkPlaceEntity yfp = places.get(i);
+            yfp.setId(IdGenUtil.uuid32());
+            yfp.setYqid(ids);
+            yfp.setCreateTime(SystemClock.nowDate());
+            YqfkPlaceNameEntity ypn = ch_14places.get(i);
+            yfp.setName(ypn.getA() + ypn.getB() + ypn.getC());
+            int m = yqfkPlaceService.insertData(yfp);
           }
         }
       }
+      result.setSuccess(ct > 0);
+      result.setResult(ct > 0);
+
     } catch (Exception e) {
       LOGGER.error("[saveData]疫情防控信息上报出错,{}", e.getMessage(), e);
       result.setError("疫情防控信息上报出错");
