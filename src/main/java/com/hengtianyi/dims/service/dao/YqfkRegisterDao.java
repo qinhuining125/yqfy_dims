@@ -46,7 +46,8 @@ public interface YqfkRegisterDao extends AbstractGenericDao<YqfkRegisterEntity, 
 
   List<YqfkRegisterEntity> getEchartsDataVehicle(@Param("startTime") String startTime,
                                                 @Param("endTime") String endTime,
-                                                @Param("areaCode") String areaCode);
+                                                @Param("areaCode") String areaCode,
+                                                 @Param("returnState") String returnState);
 
   List<YqfkRegisterEntity> getEchartsDataIndustry(@Param("startTime") String startTime,
                                                  @Param("endTime") String endTime,

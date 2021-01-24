@@ -22,6 +22,20 @@
               </div>
             </div>
             <div class="col-xs-6 col-sm-4 col-lg-3">
+            <div class="form-group">
+              <label class="col-sm-4 control-label">返乡状态</label>
+              <div class="col-sm-7">
+                <select name="returnState" class="form-control">
+                  <option value="">全部</option>
+                  <option value="已返乡">已返乡</option>
+                  <option value="拟返乡">拟返乡</option>
+                  <option value="不返乡">不返乡</option>
+                  <option value="已上报社区">已上报社区</option>
+                </select>
+              </div>
+            </div>
+            </div>
+            <div class="col-xs-6 col-sm-4 col-lg-3">
               <div class="form-group">
                 <label class="col-sm-4 control-label">乡镇</label>
                 <div class="col-sm-7">

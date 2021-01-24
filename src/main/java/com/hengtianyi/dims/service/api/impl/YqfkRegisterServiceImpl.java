@@ -195,11 +195,11 @@ public class YqfkRegisterServiceImpl extends
    * @return json
    */
   @Override
-  public String echartsDataVehicle(String startTime, String endTime, String areaCode) {
+  public String echartsDataVehicle(String startTime, String endTime, String areaCode, String retrunState) {
     ServiceResult<Object> result = new ServiceResult();
     try {
-      List<YqfkRegisterEntity> yqfkRegisterEntityList = yqfkRegisterDao.getEchartsDataVehicle(startTime, endTime, areaCode);
-      Map<String, Object> map = countVehicle(yqfkRegisterEntityList);
+      List<YqfkRegisterEntity> yqfkRegisterEntityList = yqfkRegisterDao.getEchartsDataVehicle(startTime, endTime, areaCode, retrunState);
+      Map<String, Object> map = countVehicle(yqfkRegisterEntityList,retrunState);
       List<VillageEntity> villageList = villageDao.areaList(areaCode);
       String[] villageNames = new String[villageList.size()];
       String[] zjs = new String[villageList.size()];
@@ -212,8 +212,8 @@ public class YqfkRegisterServiceImpl extends
       for (int i = 0; i < villageList.size(); i++) {
         VillageEntity village = villageList.get(i);
         yqfkRegisterEntityList = yqfkRegisterDao
-                .getEchartsDataVehicle(startTime, endTime, village.getAreaCode());
-        Map<String, Object> dataMap = countVehicle(yqfkRegisterEntityList);
+                .getEchartsDataVehicle(startTime, endTime, village.getAreaCode(), retrunState);
+        Map<String, Object> dataMap = countVehicle(yqfkRegisterEntityList,retrunState);
         villageNames[i] = village.getAreaName();
         zjs[i] = dataMap.get("zj").toString();
         planejs[i] = dataMap.get("planej").toString();
@@ -238,7 +238,7 @@ public class YqfkRegisterServiceImpl extends
     return result.toJson();
   }
 
-  private Map<String, Object> countVehicle(List<YqfkRegisterEntity> list) {
+  private Map<String, Object> countVehicle(List<YqfkRegisterEntity> list, String returnState) {
     Map<String, Object> map = new HashMap<>();
     Integer zj = 0;
     Integer planej = 0;
@@ -246,8 +246,36 @@ public class YqfkRegisterServiceImpl extends
     Integer bus = 0;
     Integer wybus = 0;
 
-    for (YqfkRegisterEntity entity : list) {
-      if(entity.getReturnState().equals("已返乡")){
+    if(returnState.equals("全部") || returnState.equals("")){
+      for (YqfkRegisterEntity entity : list) {
+        if(entity.getReturnState().equals("拟返乡")){
+          if (entity.getExpReturnWay()!=null && entity.getExpReturnWay().contains("自驾")) {
+            zj += 1;
+          } else if(entity.getExpReturnWay()!=null && entity.getExpReturnWay().contains("飞机")){
+            planej += 1;
+          } else if(entity.getExpReturnWay()!=null && entity.getExpReturnWay().contains("火车")){
+            train += 1;
+          } else if (entity.getExpReturnWay()!=null && entity.getExpReturnWay().contains("客车")){
+            train += 1;
+          } else if (entity.getExpReturnWay()!=null && entity.getExpReturnWay().contains("网约车")) {
+            train += 1;
+          }
+        }else {
+          if (entity.getReturnWay()!=null && entity.getReturnWay().contains("自驾")) {
+            zj += 1;
+          } else if(entity.getReturnWay()!=null && entity.getReturnWay().contains("飞机")){
+            planej += 1;
+          } else if(entity.getReturnWay()!=null && entity.getReturnWay().contains("火车")){
+            train += 1;
+          } else if (entity.getReturnWay()!=null && entity.getReturnWay().contains("客车")){
+            train += 1;
+          } else if (entity.getReturnWay()!=null && entity.getReturnWay().contains("网约车")) {
+            train += 1;
+          }
+        }
+      }
+    } else{
+      for (YqfkRegisterEntity entity : list) {
         if (entity.getReturnWay()!=null && entity.getReturnWay().contains("自驾")) {
           zj += 1;
         } else if(entity.getReturnWay()!=null && entity.getReturnWay().contains("飞机")){
@@ -261,6 +289,7 @@ public class YqfkRegisterServiceImpl extends
         }
       }
     }
+
     map.put("zj", zj);
     map.put("planej", planej);
     map.put("train", train);

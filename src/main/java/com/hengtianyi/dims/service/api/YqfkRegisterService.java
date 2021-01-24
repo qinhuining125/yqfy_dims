@@ -42,7 +42,7 @@ public interface YqfkRegisterService extends AbstractGenericService<YqfkRegister
 
   String echartsDataStatus(String startTime, String endTime, String areaCode);
 
-  String echartsDataVehicle(String startTime, String endTime, String areaCode);
+  String echartsDataVehicle(String startTime, String endTime, String areaCode, String retrunState);
 
   String echartsDataIndustry(String startTime, String endTime, String areaCode);
 

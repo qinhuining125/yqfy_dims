@@ -140,10 +140,11 @@ public class FlowController {
   @PostMapping(value = "a/analysis/vehicleData.json", produces = BaseConstant.JSON)
   public String vehicleData(@RequestParam(required = false) Long startTime,
                             @RequestParam(required = false) Long endTime,
-                            @RequestParam(required = false) String areaCode) {
+                            @RequestParam(required = false) String areaCode,
+                            @RequestParam(required = false) String returnState) {
     String start = startTime != null ? TimeUtil.format(startTime, BaseConstant.DATE_FORMAT2) : "";
     String end = endTime != null ? TimeUtil.format(endTime, BaseConstant.DATE_FORMAT2) : "";
-    return yqfkRegisterService.echartsDataVehicle(start, end, areaCode);
+    return yqfkRegisterService.echartsDataVehicle(start, end, areaCode, returnState);
   }
 
   @GetMapping(value = "a/analysis/advice.html", produces = BaseConstant.HTML)
