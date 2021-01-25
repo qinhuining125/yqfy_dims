@@ -324,10 +324,10 @@ public class YqfkRegisterServiceImpl extends
             } else {
                 if (beforeAreaCbm.length() == 0) {
                     Region reg = regionDao.findByCode(beforeAreaPbm);
-                    beforeAreaList = regionDao.getListByParent(reg.getId());
+                    beforeAreaList = regionDao.getListByParent(reg.getId().replace(" ", ""));
                 }else {
                     Region reg = regionDao.findByCode(beforeAreaCbm);
-                    beforeAreaList = regionDao.getListByParent(reg.getId());
+                    beforeAreaList = regionDao.getListByParent(reg.getId().replace(" ", ""));
                 }
             }
             String[] beforeAreaNames = new String[beforeAreaList.size()];
