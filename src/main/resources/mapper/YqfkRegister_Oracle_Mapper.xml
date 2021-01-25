@@ -756,7 +756,7 @@
 
   <select id="getEchartsDataIndustry" resultMap="BaseResultMap" parameterType="java.lang.String">
     select
-    t."ID" , t."INDUSTRAY"
+    t."ID" , t."INDUSTRAY", t."RETURN_STATE"
     from "YQ_YQFK" t
     where 1=1
     <choose>
@@ -772,12 +772,15 @@
       and t."CREATE_ACCOUNT" in (select a.id from sys_user a where a.area_code like
       (#{areaCode,jdbcType=VARCHAR} ||'%'))
     </if>
+    <if test="returnState !=null and returnState!='' ">
+      and t."RETURN_STATE" = #{returnState,jdbcType=VARCHAR}
+    </if>
   </select>
 
 
   <select id="getEchartsDataRisk" resultMap="BaseResultMap" parameterType="java.lang.String">
     select
-    t."ID" , t."RISK_LEVEL"
+    t."ID" , t."RISK_LEVEL", t."RETURN_STATE"
     from "YQ_YQFK" t
     where 1=1
     <choose>
@@ -792,6 +795,9 @@
     <if test="areaCode!=null and areaCode!=''">
       and t."CREATE_ACCOUNT" in (select a.id from sys_user a where a.area_code like
       (#{areaCode,jdbcType=VARCHAR} ||'%'))
+    </if>
+    <if test="returnState !=null and returnState!='' ">
+      and t."RETURN_STATE" = #{returnState,jdbcType=VARCHAR}
     </if>
   </select>
 
@@ -802,9 +808,10 @@
     from "YQ_YQFK" where CARD=#{card,jdbcType=VARCHAR}
   </select>
 
+
   <select id="getEchartsDataBefore" resultMap="BaseResultMap" parameterType="java.lang.String">
     select
-    t."ID" , t."BEFORE_RETURN_PBM"
+    t."ID" , t."BEFORE_RETURN_PBM", t."RETURN_STATE"
     from "YQ_YQFK" t
     where 1=1
     <choose>
@@ -819,6 +826,15 @@
     <if test="areaCode!=null and areaCode!=''">
       and t."CREATE_ACCOUNT" in (select a.id from sys_user a where a.area_code like
       (#{areaCode,jdbcType=VARCHAR} ||'%'))
+    </if>
+    <if test="beforeAreaPbm!=null and beforeAreaPbm!=''">
+      and t."BEFORE_RETURN_PBM" = #{beforeAreaPbm,jdbcType=VARCHAR}
+    </if>
+    <if test="beforeAreaCbm!=null and beforeAreaCbm!=''">
+      and t."BEFORE_RETURN_CBM" = #{beforeAreaCbm,jdbcType=VARCHAR}
+    </if>
+    <if test="beforeAreaXbm!=null and beforeAreaXbm!=''">
+      and t."BEFORE_RETURN_XBM" = #{beforeAreaXbm,jdbcType=VARCHAR}
     </if>
   </select>
 

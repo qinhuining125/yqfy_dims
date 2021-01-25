@@ -17,70 +17,76 @@ import java.util.List;
 @Mapper
 public interface YqfkRegisterDao extends AbstractGenericDao<YqfkRegisterEntity, String> {
 
-  /**
-   * 自定义分页
-   *
-   * @param dto dto
-   * @return list
-   */
-  List<YqfkRegisterEntity> pagelist(@Param("dto") QueryDto dto);
+    /**
+     * 自定义分页
+     *
+     * @param dto dto
+     * @return list
+     */
+    List<YqfkRegisterEntity> pagelist(@Param("dto") QueryDto dto);
 
-  /**
-   * 图标所用数据
-   *
-   * @param startTime 开始时间
-   * @param endTime   结束时间
-   * @param areaCode  乡镇
-   * @return list
-   */
-  List<YqfkRegisterEntity> getEchartsData(@Param("startTime") String startTime,
-      @Param("endTime") String endTime,
-      @Param("areaCode") String areaCode);
-
-
-
-  List<YqfkRegisterEntity> getEchartsDataStatus(@Param("startTime") String startTime,
-                                          @Param("endTime") String endTime,
-                                          @Param("areaCode") String areaCode);
+    /**
+     * 图标所用数据
+     *
+     * @param startTime 开始时间
+     * @param endTime   结束时间
+     * @param areaCode  乡镇
+     * @return list
+     */
+    List<YqfkRegisterEntity> getEchartsData(@Param("startTime") String startTime,
+                                            @Param("endTime") String endTime,
+                                            @Param("areaCode") String areaCode);
 
 
-  List<YqfkRegisterEntity> getEchartsDataVehicle(@Param("startTime") String startTime,
-                                                @Param("endTime") String endTime,
-                                                @Param("areaCode") String areaCode,
-                                                 @Param("returnState") String returnState);
-
-  List<YqfkRegisterEntity> getEchartsDataIndustry(@Param("startTime") String startTime,
-                                                 @Param("endTime") String endTime,
-                                                 @Param("areaCode") String areaCode);
-
-  List<YqfkRegisterEntity> getEchartsDataRisk(@Param("startTime") String startTime,
+    List<YqfkRegisterEntity> getEchartsDataStatus(@Param("startTime") String startTime,
                                                   @Param("endTime") String endTime,
                                                   @Param("areaCode") String areaCode);
-  List<YqfkRegisterEntity> getEchartsDataBefore(@Param("startTime") String startTime,
+
+
+    List<YqfkRegisterEntity> getEchartsDataVehicle(@Param("startTime") String startTime,
+                                                   @Param("endTime") String endTime,
+                                                   @Param("areaCode") String areaCode,
+                                                   @Param("returnState") String returnState);
+
+    List<YqfkRegisterEntity> getEchartsDataIndustry(@Param("startTime") String startTime,
+                                                    @Param("endTime") String endTime,
+                                                    @Param("areaCode") String areaCode,
+                                                    @Param("returnState") String returnState);
+
+    List<YqfkRegisterEntity> getEchartsDataRisk(@Param("startTime") String startTime,
                                                 @Param("endTime") String endTime,
-                                                @Param("areaCode") String areaCode);
+                                                @Param("areaCode") String areaCode,
+                                                @Param("returnState") String returnState);
+
+    List<YqfkRegisterEntity> getEchartsDataBefore(@Param("startTime") String startTime,
+                                                  @Param("endTime") String endTime,
+                                                  @Param("areaCode") String areaCode,
+                                                  @Param("beforeAreaPbm") String beforeAreaPbm,
+                                                  @Param("beforeAreaCbm") String beforeAreaCbm,
+                                                  @Param("beforeAreaXbm") String beforeAreaXbm);
 
 
-  /**
-   * 自定义分页数量
-   *
-   * @param dto dto
-   * @return count
-   */
-  Integer pagecount(@Param("dto") QueryDto dto);
+    /**
+     * 自定义分页数量
+     *
+     * @param dto dto
+     * @return count
+     */
+    Integer pagecount(@Param("dto") QueryDto dto);
 
 
-  List<YqfkRegisterEntity> checkCard(@Param("card") String card);
-  /**
-   * 中高风险区人数
-   *
-   * @param userId userId
-   * @return count
-   */
-  Integer getRiskCount(@Param("userId") String userId);
+    List<YqfkRegisterEntity> checkCard(@Param("card") String card);
+
+    /**
+     * 中高风险区人数
+     *
+     * @param userId userId
+     * @return count
+     */
+    Integer getRiskCount(@Param("userId") String userId);
 
 
-  Integer getExpCount(@Param("entity") YqfkRegisterEntity entity);
+    Integer getExpCount(@Param("entity") YqfkRegisterEntity entity);
 
-  Integer getCount(@Param("entity") YqfkRegisterEntity entity);
+    Integer getCount(@Param("entity") YqfkRegisterEntity entity);
 }

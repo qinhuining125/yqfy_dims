@@ -151,11 +151,11 @@
         {
           type: 'category',
           data: barData.villageNames,
-          axisLabel: {
-            interval: 0,
-            inside: true,
-            rotate: 30
-          }
+          // axisLabel: {
+          //   interval: 0,
+          //   inside: true,
+          //   rotate: 30
+          // }
         }
       ],
       yAxis: [
@@ -168,14 +168,42 @@
           name: '已返乡',
           type: 'bar',
           stack: '数量',
+          emphasis: {
+            focus: 'series'
+          },
           data: barData.beenhomes
         },
         {
           name: '拟返乡',
           type: 'bar',
           stack: '数量',
+          emphasis: {
+            focus: 'series'
+          },
           data: barData.planhomes
+        },
+        //series中push合计的数据
+        {
+          name: '合计',
+          type: 'bar',
+          stack: '数量',
+          label: {
+            normal: {
+              offset:['50', '80'],
+              show: true,
+              position: 'insideBottom',
+              formatter:'{c}',
+              textStyle:{ color:'#000' }
+            }
+          },
+          itemStyle:{
+            normal:{
+              color:'rgba(128, 128, 128, 0)'
+            }
+          },
+          data: barData.sum
         }
+        // data: barData.sum
       ]
     };
     if (barOption && typeof barOption === "object") {

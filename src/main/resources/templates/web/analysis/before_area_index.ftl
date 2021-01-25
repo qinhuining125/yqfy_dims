@@ -21,20 +21,22 @@
                                 <input type="hidden" id="endTime" name="endTime">
                             </div>
                         </div>
-                        <div class="col-xs-6 col-sm-4 col-lg-3">
-                            <div class="form-group">
-                                <label class="col-sm-4 control-label">乡镇</label>
-                                <div class="col-sm-7">
-                                    <select name="areaCode" id="areaCode" class="form-control">
-                                        <option value="">全部</option>
-                                        <#list areaList as obj>
-                                            <option value="${(obj.areaCode)!}">${(obj.areaName)!}</option>
-                                        </#list>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <input type="hidden" id="beforeAreaCode" name="beforeAreaCode">
+                        <#--                        <div class="col-xs-6 col-sm-4 col-lg-3">-->
+                        <#--                            <div class="form-group">-->
+                        <#--                                <label class="col-sm-4 control-label">乡镇</label>-->
+                        <#--                                <div class="col-sm-7">-->
+                        <#--                                    <select name="areaCode" id="areaCode" class="form-control">-->
+                        <#--                                        <option value="">全部</option>-->
+                        <#--                                        <#list areaList as obj>-->
+                        <#--                                            <option value="${(obj.areaCode)!}">${(obj.areaName)!}</option>-->
+                        <#--                                        </#list>-->
+                        <#--                                    </select>-->
+                        <#--                                </div>-->
+                        <#--                            </div>-->
+                        <#--                        </div>-->
+                        <input type="hidden" id="beforeAreaPbm" name="beforeAreaPbm">
+                        <input type="hidden" id="beforeAreaCbm" name="beforeAreaCbm">
+                        <input type="hidden" id="beforeAreaXbm" name="beforeAreaXbm">
                         <div class="col-xs-6 col-sm-4 col-lg-3">
                             <div class="form-group">
                                 <label class="col-sm-4 control-label">返乡前所在省:</label>
@@ -48,6 +50,8 @@
                                     </select>
                                 </div>
                             </div>
+                        </div>
+                        <div class="col-xs-6 col-sm-4 col-lg-3">
                             <div class="form-group">
                                 <label class="col-sm-4 control-label">市:</label>
                                 <div class="col-sm-7">
@@ -57,17 +61,18 @@
                                     </select>
                                 </div>
                             </div>
-                            <#--              <div class="form-group">-->
-                            <#--                <label class="col-sm-4 control-label">县:</label>-->
-                            <#--                <div class="col-sm-7">-->
-                            <#--                  <select id="county" class="form-control" name=""-->
-                            <#--                          onchange="choseX(this);">-->
-                            <#--                    <option value="">全部</option>-->
-                            <#--                  </select>-->
-                            <#--                </div>-->
-                            <#--              </div>-->
                         </div>
-
+<#--                        <div class="col-xs-6 col-sm-4 col-lg-3">-->
+<#--                            <div class="form-group">-->
+<#--                                <label class="col-sm-4 control-label">县:</label>-->
+<#--                                <div class="col-sm-7">-->
+<#--                                    <select id="county" class="form-control" name=""-->
+<#--                                            onchange="choseX(this);">-->
+<#--                                        <option value="">全部</option>-->
+<#--                                    </select>-->
+<#--                                </div>-->
+<#--                            </div>-->
+<#--                        </div>-->
                     </div>
                     <div class="text-center">
                         <button id="btn-cx" class="btn btn-primary"><i class="fa fa-search"></i>&nbsp;查询
@@ -105,7 +110,7 @@
         const provinceArray = $(obj).val().replace(/\s*/g, "").split("-")
         const province = provinceArray[0]
         const beforeReturnPbm = provinceArray[1]
-        $("#beforeAreaCode").val(beforeReturnPbm);
+        $("#beforeAreaPbm").val(beforeReturnPbm);
         if (province == '') {
             return false;
         }
@@ -128,7 +133,7 @@
         const cityArray = $(obj).val().replace(/\s*/g, "").split("-")
         const city = cityArray[0]
         const beforeReturnCbm = cityArray[1]
-        $("#beforeAreaCode").val(beforeReturnCbm);
+        $("#beforeAreaCbm").val(beforeReturnCbm);
         if (city == '') {
             return false;
         }
@@ -146,14 +151,16 @@
             }
         });
     }
-
     function choseX(obj) {
         const countyArray = $(obj).val().replace(/\s*/g, "").split("-")
         const county = countyArray[0]
         const beforeReturnXbm = countyArray[1]
-        $("#beforeAreaCode").val(beforeReturnXbm);
-    }
+        $("#beforeAreaXbm").val(beforeReturnXbm);
+        // if (beforeReturnXbm == '') {
+        //     beforeReturnXbm = $("#county").val();
+        // }
 
+    }
     laydate.render({
         "elem": "#timeRange",
         "range": "至",
@@ -193,14 +200,7 @@
 
     //饼状图
     function initPieData(pieData) {
-        var data = [];
-        var temp = 0;
-        var map = pieData.bingMap;
-        for (var key in map) {
-            // console.log("key : " + key + " value : " + map[key]);//控制台中打印
-            data[temp] = {value: map[key], name: key}
-            temp++
-        }
+        console.log(pieData)
         const piedom = document.getElementById("pieContainer");
         const pieChart = echarts.init(piedom);
         const pieOption = {
@@ -211,18 +211,22 @@
             legend: {
                 orient: 'horizontal',
                 left: 10,
-                data: pieData.provinceNames
+                data: ['已返乡', '拟返乡']
             },
             title: [{
                 text: '总量10',
                 top: 'center',
-                left: 'center'
+                left: 'center',
+
             }],
             series: [
                 {
                     type: 'pie',
                     radius: ['50%', '70%'],
-                    data: data
+                    data: [
+                        {value: pieData.beenhome, name: '已返乡'},
+                        {value: pieData.planhome, name: '拟返乡'}
+                    ]
                 }
             ]
         };
@@ -233,17 +237,6 @@
 
     //柱状图
     function initBarData(barData) {
-        console.log(barData.bingMap)
-        var data = [];
-        var temp = 0;
-        var map = barData.bingMap;
-        for (var key in map) {
-            // console.log("key : " + key + " value : " + map[key]);//控制台中打印
-            data[temp] = map[key]
-            // {value: map[key], name: key}
-            temp++
-        }
-
         const bardom = document.getElementById("barContainer");
         const barChart = echarts.init(bardom);
         const barOption = {
@@ -253,10 +246,9 @@
                     type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
                 }
             },
-            // legend: {
-            //     data: barData.provinceNames
-            //     // data: ['自驾', '飞机', '火车', '客车' , '网约车']
-            // },
+            legend: {
+                data: ['已返乡', '拟返乡']
+            },
             grid: {
                 left: '3%',
                 right: '4%',
@@ -266,19 +258,14 @@
             xAxis: [
                 {
                     type: 'category',
-                    data: barData.provinceNames,
-                    // axisLabel: {
-                    //     interval: 0,
-                    //     inside: true,
-                    //     rotate: 30
-                    // }
+                    data: barData.beforeAreaNames,
                     axisLabel: {
                         interval: 0,
                         inside: true,
                         formatter: function (value) {
-
-                            return value.split("").join("\n")
+                            return value.split("").join("\n");
                         }
+                        // rotate: 50
                     }
                 }
             ],
@@ -289,9 +276,16 @@
             ],
             series: [
                 {
+                    name: '已返乡',
                     type: 'bar',
                     stack: '数量',
-                    data: data
+                    data: barData.beenhomes
+                },
+                {
+                    name: '拟返乡',
+                    type: 'bar',
+                    stack: '数量',
+                    data: barData.planhomes
                 }
             ]
         };
@@ -302,3 +296,23 @@
 </script>
 </body>
 </html>
+<#--data: ['冷链从业人员', '商业从业人员', '货运物流', '学生' , '机关事业单位', '无业', '其它']-->
+<#--"url": "a/analysis/vehicleData.json",-->
+<#--"url": "a/analysis/industryData.json",-->
+
+<#--{value: pieData.lenglian, name: '冷链从业人员'},-->
+<#--{value: pieData.business, name: '商业从业人员'},-->
+<#--{value: pieData.huoyun, name: '货运物流'},-->
+<#--{value: pieData.student, name: '学生'},-->
+<#--{value: pieData.jiguan, name: '机关事业单位'},-->
+<#--{value: pieData.wuye, name: '无业'},-->
+<#--{value: pieData.other, name: '其它'}-->
+
+
+<#--{value: pieData.zj, name: '自驾'},-->
+<#--{value: pieData.planej, name: '飞机'},-->
+<#--{value: pieData.train, name: '火车'},-->
+<#--{value: pieData.bus, name: '客车'},-->
+<#--{value: pieData.wybus, name: '网约车'}-->
+
+<#--data: ['自驾', '飞机', '火车', '客车' , '网约车']-->
