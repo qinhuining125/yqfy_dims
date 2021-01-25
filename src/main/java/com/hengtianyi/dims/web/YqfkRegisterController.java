@@ -178,30 +178,11 @@ public class YqfkRegisterController extends
         if (user.getRoleId()==3000){
             dto.setAreaCode(user.getAreaCode());
         }
-        /* SysUserEntity user = WebUtil.getUser(request);
-        YqfkRegisterEntity dto=new YqfkRegisterEntity();*/
         List<YqfkRegisterEntity> listData = yqfkRegisterService.searchAllData(dto);
         List<YqfkRegisterEntity> resultDate=new ArrayList<YqfkRegisterEntity>();
         if(listData!=null&&listData.size()!=0){
             for(int i=0;i<listData.size();i++) {
                 YqfkRegisterEntity one = listData.get(i);
-                String beforeReturnAddress = this.getPname(one.getBeforeReturnPbm()) +
-                        this.getPname(one.getBeforeReturnCbm()) +
-                        this.getPname(one.getBeforeReturnXbm()) +
-                        this.getAddress(one.getBeforeReturnAddress());
-                one.setBeforeReturnAddress(beforeReturnAddress);
-                String afterReturnAddress = this.getPname(one.getAfterReturnPbm()) +
-                        this.getPname(one.getAfterReturnCbm()) +
-                        this.getPname(one.getAfterReturnXbm()) +
-                        this.getPname(one.getAfterReturnZhbm()) +
-                        this.getPname(one.getAfterReturnCubm()) +
-                        this.getAddress(one.getAfterReturnAddress());
-                one.setAfterReturnAddress(afterReturnAddress);
-                String hj = this.getPname(one.getHjPbm()) +
-                        this.getPname(one.getHjCbm()) +
-                        this.getPname(one.getHjXbm()) +
-                        this.getAddress(one.getHj());
-                one.setHj(hj);
                 List<YqfkPlaceEntity> places=yqfkPlaceService.getListByYQID(one.getId());
                 StringBuilder sb=new StringBuilder();
                 if(places!=null&&places.size()!=0){
@@ -238,7 +219,7 @@ public class YqfkRegisterController extends
             one.setCreateAccount(sysUserService.getNameById(one.getCreateAccount()));
             one.setUpdateAccount(sysUserService.getNameById(one.getUpdateAccount()));
             //设置返乡前、返乡后和户籍地全地址
-            String beforeReturnAddress = this.getPname(one.getBeforeReturnPbm()) +
+           /* String beforeReturnAddress = this.getPname(one.getBeforeReturnPbm()) +
                     this.getPname(one.getBeforeReturnCbm()) +
                     this.getPname(one.getBeforeReturnXbm()) +
                     this.getAddress(one.getBeforeReturnAddress());
@@ -255,7 +236,7 @@ public class YqfkRegisterController extends
                     this.getPname(one.getHjXbm()) +
                     this.getAddress(one.getHj());
             one.setHj(hj);
-
+*/
             one.setPlaces(yqfkPlaceService.getListByYQID(one.getId()));
             this.clearEntity(one);
       /*SysUserEntity userEntity = sysUserService.searchDataById(one.getUserId());

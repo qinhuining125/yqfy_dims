@@ -10,6 +10,7 @@ import com.hengtianyi.common.core.util.StringUtil;
 import com.hengtianyi.common.core.util.sequence.IdGenUtil;
 import com.hengtianyi.common.core.util.sequence.SystemClock;
 import com.hengtianyi.dims.constant.FrameConstant;
+import com.hengtianyi.dims.service.api.RegionService;
 import com.hengtianyi.dims.service.api.SysUserService;
 import com.hengtianyi.dims.service.api.YqfkPlaceService;
 import com.hengtianyi.dims.service.api.YqfkRegisterService;
@@ -46,6 +47,8 @@ public class YqfkRegisterApiController {
   private YqfkPlaceService yqfkPlaceService;
   @Resource
   private SysUserService sysUserService;
+  @Resource
+  private RegionService regionService;
 
   /**
    * 分页查询
@@ -109,6 +112,24 @@ public class YqfkRegisterApiController {
       entity.setUpdateTime(SystemClock.nowDate());
       entity.setCreateAccount(WebUtil.getUserIdByToken(request));
       entity.setUpdateAccount(WebUtil.getUserIdByToken(request));
+      String beforeReturnAddress = this.getPname(entity.getBeforeReturnPbm()) +
+              this.getPname(entity.getBeforeReturnCbm()) +
+              this.getPname(entity.getBeforeReturnXbm()) +
+              this.getAddress(entity.getBeforeReturnAddress());
+      entity.setBeforeReturnAddress(beforeReturnAddress);
+      String afterReturnAddress = this.getPname(entity.getAfterReturnPbm()) +
+              this.getPname(entity.getAfterReturnCbm()) +
+              this.getPname(entity.getAfterReturnXbm()) +
+              this.getPname(entity.getAfterReturnZhbm()) +
+              this.getPname(entity.getAfterReturnCubm()) +
+              this.getAddress(entity.getAfterReturnAddress());
+      entity.setAfterReturnAddress(afterReturnAddress);
+      String hj = this.getPname(entity.getHjPbm()) +
+              this.getPname(entity.getHjCbm()) +
+              this.getPname(entity.getHjXbm()) +
+              this.getAddress(entity.getHj());
+      entity.setHj(hj);
+
       int ct = yqfkRegisterService.insertData(entity);
       if (ct > 0) {
         if (entity.getPlaces() != null) {
@@ -385,7 +406,29 @@ public class YqfkRegisterApiController {
     return result.toJson();
   }
 
-  /**
-   *
-   * */
+  //获取区域名称
+
+  public String getPname(String pcode) {
+    String pname = "";
+    if (pcode == null) {
+      pname = "";
+    } else {
+      Region regin = regionService.findByCode(pcode);
+      if (regin != null) {
+        pname += regionService.findByCode(pcode).getPname();
+      }
+    }
+    return pname;
+  }
+
+  //为null时转为”“
+  public String getAddress(String address) {
+    String addressT = "";
+    if (address == null) {
+      addressT = "";
+    } else {
+      addressT = address;
+    }
+    return addressT;
+  }
 }
