@@ -161,10 +161,10 @@ public class YqfkRegisterController extends
      * @return JSON
      */
     @ResponseBody
-    @GetMapping(value = "/getDataList1.json", produces = BaseConstant.JSON)
-    public String getDataList1(HttpServletRequest request) {
+    @PostMapping(value = "/getDataList1.json", produces = BaseConstant.JSON)
+    public String getDataList1(@RequestBody YqfkRegisterEntity dto) {
         ServiceResult<Object> result = new ServiceResult<>();
-       /* if (dto.getBeforeReturnPbm() != null) {
+        if (dto.getBeforeReturnPbm() != null) {
             dto.setBeforeReturnPbm(dto.getBeforeReturnPbm().replace(" ", ""));
         }
         if (dto.getBeforeReturnCbm() != null) {
@@ -173,9 +173,8 @@ public class YqfkRegisterController extends
         if (dto.getBeforeReturnXbm() != null) {
             dto.setBeforeReturnXbm(dto.getBeforeReturnXbm().replace(" ", ""));
         }
-        */
-        SysUserEntity user = WebUtil.getUser(request);
-        YqfkRegisterEntity dto=new YqfkRegisterEntity();
+        /* SysUserEntity user = WebUtil.getUser(request);
+        YqfkRegisterEntity dto=new YqfkRegisterEntity();*/
         List<YqfkRegisterEntity> listData = yqfkRegisterService.searchAllData(dto);
         result.setResult(listData);
         result.setSuccess(true);

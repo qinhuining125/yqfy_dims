@@ -223,9 +223,7 @@
     <include refid="Base_Column_List"/>
     from "YQ_YQFK"
     <include refid="sql_where"/>
-    <if test="orderSql !='' ">
-      order by ${orderSql}
-    </if>
+    order by CREATE_TIME DESC
   </select>
 
   <!-- 单条删除 -->

@@ -35,15 +35,15 @@
                             <div class="form-group">
                                 <label class="col-sm-4 control-label">网格员:</label>
                                 <div class="col-sm-7">
-                                    <input type="text" name="createAccount" class="form-control" autocomplete="off">
+                                    <input type="text" id="createAccount" name="createAccount" class="form-control" autocomplete="off">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-4 control-label">风险等级</label>
                                 <div class="col-sm-7">
-                                    <select name="riskLevel" class="form-control">
+                                    <select name="riskLevel" class="form-control" id="riskLevel">
                                         <option value="">全部</option>
-                                        <option value="0">低分先</option>
+                                        <option value="0">低风险</option>
                                         <option value="1">中风险</option>
                                         <option value="2">高风险</option>
                                     </select>
@@ -52,7 +52,7 @@
                             <div class="form-group">
                                 <label class="col-sm-4 control-label">是否返乡</label>
                                 <div class="col-sm-7">
-                                    <select name="returnState" class="form-control">
+                                    <select name="returnState" class="form-control" id="returnState">
                                         <option value="">全部</option>
                                         <option value="拟返乡">拟返乡</option>
                                         <option value="已返乡">已返乡</option>
@@ -437,11 +437,27 @@
 
     function exportData(){
         var excel=LAY_EXCEL;
+        //查询参数这里
+        var startTime = $("#startTime").val();
+        var  endTime= $("#endTime").val();
+        var beforeReturnPbm = $("#beforeReturnPbm").val();
+        var beforeReturnCbm = $("#beforeReturnCbm").val();
+        var beforeReturnXbm = $("#beforeReturnXbm").val();
+        var afterReturnZhbm = $("#afterReturnZhbm").val();
+        var afterReturnCubm = $("#afterReturnCubm").val();
+        var riskLevel = $("#riskLevel").val();
+        var createAccount = $("#createAccount").val();
+        var returnState = $("#returnState").val();
+        var Param1 = JSON.stringify({ "startTime": startTime, "endTime": endTime, "beforeReturnPbm": beforeReturnPbm ,
+            "beforeReturnCbm": beforeReturnCbm, "beforeReturnXbm": beforeReturnXbm, "afterReturnZhbm": afterReturnZhbm,
+            "afterReturnCubm": afterReturnCubm, "riskLevel": riskLevel, "createAccount": createAccount,"returnState":returnState}); //必须转换为Json对象
+
         $.ajax({
-            "type": "GET",
+            "type": "post",
             "cache": false,
             "url": "/a/yqfkRegister/getDataList1.json",
-            "dataType": "json",
+            "contentType": "application/json",//必须要有
+            "data": Param1,
             "success": function (res) {
             console.log(res.result);// [{name: 'wang', age: 18, sex: '男'}, {name: 'layui', age: 3, sex: '女'}]
             // 1. 数组头部新增表头
