@@ -33,7 +33,8 @@ public class FlowController {
 
   @Resource
   private YqfkRegisterService yqfkRegisterService;
-
+  @Resource
+  private RegionService regionService;
   /**
    * @param model
    * @return
@@ -192,6 +193,28 @@ public class FlowController {
     String start = startTime != null ? TimeUtil.format(startTime, BaseConstant.DATE_FORMAT2) : "";
     String end = endTime != null ? TimeUtil.format(endTime, BaseConstant.DATE_FORMAT2) : "";
     return taskInfoService.echartsData(start, end, areaCode);
+  }
+  /**
+   * 返乡前区域统计
+   * @param model
+   * @return
+   */
+  @GetMapping(value = "a/analysis/before.html", produces = BaseConstant.HTML)
+  public String analysisbeforeBefore(Model model) {
+    model.addAttribute("areaList", townshipService.areaList());
+    model.addAttribute("areaList1", regionService.getProvince());
+    return "web/analysis/before_area_index";
+  }
+
+  @ResponseBody
+  @PostMapping(value = "a/analysis/beforeData.json", produces = BaseConstant.JSON)
+  public String beforeData(@RequestParam(required = false) Long startTime,
+                           @RequestParam(required = false) Long endTime,
+                           @RequestParam(required = false) String areaCode,
+                           @RequestParam(required = false) String beforeAreaCode) {
+    String start = startTime != null ? TimeUtil.format(startTime, BaseConstant.DATE_FORMAT2) : "";
+    String end = endTime != null ? TimeUtil.format(endTime, BaseConstant.DATE_FORMAT2) : "";
+    return yqfkRegisterService.echartsDataBefore(start, end, areaCode,beforeAreaCode);
   }
 
 }

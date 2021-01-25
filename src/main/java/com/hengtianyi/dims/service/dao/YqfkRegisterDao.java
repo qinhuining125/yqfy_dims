@@ -56,6 +56,10 @@ public interface YqfkRegisterDao extends AbstractGenericDao<YqfkRegisterEntity, 
   List<YqfkRegisterEntity> getEchartsDataRisk(@Param("startTime") String startTime,
                                                   @Param("endTime") String endTime,
                                                   @Param("areaCode") String areaCode);
+  List<YqfkRegisterEntity> getEchartsDataBefore(@Param("startTime") String startTime,
+                                                @Param("endTime") String endTime,
+                                                @Param("areaCode") String areaCode);
+
 
   /**
    * 自定义分页数量

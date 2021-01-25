@@ -120,6 +120,9 @@ public class YqfkRegisterController extends
         }
 
         SysUserEntity user = WebUtil.getUser(request);
+        if (user.getRoleId()==3000){
+            dto.setAreaCode(user.getAreaCode());
+        }
         return this.getDataListCommon(pageDto, dto);
 //        try {
 //            if (dto.getBeforeReturnPbm()!=null){
@@ -194,8 +197,29 @@ public class YqfkRegisterController extends
         ServiceResult<YqfkRegisterEntity> result = new ServiceResult<>();
         YqfkRegisterEntity one = this.getDataByIdCommon(id);
         if (null != one) {
+
+            //设置创建者和更新着名字
             one.setCreateAccount(sysUserService.getNameById(one.getCreateAccount()));
             one.setUpdateAccount(sysUserService.getNameById(one.getUpdateAccount()));
+            //设置返乡前、返乡后和户籍地全地址
+            String beforeReturnAddress = this.getPname(one.getBeforeReturnPbm()) +
+                    this.getPname(one.getBeforeReturnCbm()) +
+                    this.getPname(one.getBeforeReturnXbm()) +
+                    this.getAddress(one.getBeforeReturnAddress());
+            one.setBeforeReturnAddress(beforeReturnAddress);
+            String afterReturnAddress = this.getPname(one.getAfterReturnPbm()) +
+                    this.getPname(one.getAfterReturnCbm()) +
+                    this.getPname(one.getAfterReturnXbm()) +
+                    this.getPname(one.getAfterReturnZhbm()) +
+                    this.getPname(one.getAfterReturnCubm()) +
+                    this.getAddress(one.getAfterReturnAddress());
+            one.setAfterReturnAddress(afterReturnAddress);
+            String hj = this.getPname(one.getHjPbm()) +
+                    this.getPname(one.getHjCbm()) +
+                    this.getPname(one.getHjXbm()) +
+                    this.getAddress(one.getHj());
+            one.setHj(hj);
+
             one.setPlaces(yqfkPlaceService.getListByYQID(one.getId()));
             this.clearEntity(one);
       /*SysUserEntity userEntity = sysUserService.searchDataById(one.getUserId());
@@ -209,6 +233,31 @@ public class YqfkRegisterController extends
         }
         return JsonUtil.toJson(result);
     }
+    //获取区域名称
+    public String getPname(String pcode) {
+        String pname = "";
+        if (pcode == null) {
+            pname = "";
+        } else {
+            Region regin = regionService.findByCode(pcode);
+            if (regin != null) {
+                pname += regionService.findByCode(pcode).getPname();
+            }
+        }
+        return pname;
+    }
+
+    //为null时转为”“
+    public String getAddress(String address) {
+        String addressT = "";
+        if (address == null) {
+            addressT = "";
+        } else {
+            addressT = address;
+        }
+        return addressT;
+    }
+
 
     /**
      * 通过AJAX删除[JSON]
