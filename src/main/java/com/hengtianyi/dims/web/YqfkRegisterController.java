@@ -13,10 +13,7 @@ import com.hengtianyi.dims.exception.ErrorEnum;
 import com.hengtianyi.dims.exception.WebException;
 import com.hengtianyi.dims.service.api.*;
 import com.hengtianyi.dims.service.dto.QueryDto;
-import com.hengtianyi.dims.service.entity.IncorruptAdviceEntity;
-import com.hengtianyi.dims.service.entity.Region;
-import com.hengtianyi.dims.service.entity.SysUserEntity;
-import com.hengtianyi.dims.service.entity.YqfkRegisterEntity;
+import com.hengtianyi.dims.service.entity.*;
 import com.hengtianyi.dims.utils.WebUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -165,7 +163,7 @@ public class YqfkRegisterController extends
      */
     @ResponseBody
     @PostMapping(value = "/getDataList1.json", produces = BaseConstant.JSON)
-    public String getDataList1(@RequestBody YqfkRegisterEntity dto) {
+    public String getDataList1(@RequestBody YqfkRegisterEntity dto,HttpServletRequest request) {
         ServiceResult<Object> result = new ServiceResult<>();
         if (dto.getBeforeReturnPbm() != null) {
             dto.setBeforeReturnPbm(dto.getBeforeReturnPbm().replace(" ", ""));
@@ -176,10 +174,49 @@ public class YqfkRegisterController extends
         if (dto.getBeforeReturnXbm() != null) {
             dto.setBeforeReturnXbm(dto.getBeforeReturnXbm().replace(" ", ""));
         }
+        SysUserEntity user = WebUtil.getUser(request);
+        if (user.getRoleId()==3000){
+            dto.setAreaCode(user.getAreaCode());
+        }
         /* SysUserEntity user = WebUtil.getUser(request);
         YqfkRegisterEntity dto=new YqfkRegisterEntity();*/
         List<YqfkRegisterEntity> listData = yqfkRegisterService.searchAllData(dto);
-        result.setResult(listData);
+        List<YqfkRegisterEntity> resultDate=new ArrayList<YqfkRegisterEntity>();
+        if(listData!=null&&listData.size()!=0){
+            for(int i=0;i<listData.size();i++) {
+                YqfkRegisterEntity one = listData.get(i);
+                String beforeReturnAddress = this.getPname(one.getBeforeReturnPbm()) +
+                        this.getPname(one.getBeforeReturnCbm()) +
+                        this.getPname(one.getBeforeReturnXbm()) +
+                        this.getAddress(one.getBeforeReturnAddress());
+                one.setBeforeReturnAddress(beforeReturnAddress);
+                String afterReturnAddress = this.getPname(one.getAfterReturnPbm()) +
+                        this.getPname(one.getAfterReturnCbm()) +
+                        this.getPname(one.getAfterReturnXbm()) +
+                        this.getPname(one.getAfterReturnZhbm()) +
+                        this.getPname(one.getAfterReturnCubm()) +
+                        this.getAddress(one.getAfterReturnAddress());
+                one.setAfterReturnAddress(afterReturnAddress);
+                String hj = this.getPname(one.getHjPbm()) +
+                        this.getPname(one.getHjCbm()) +
+                        this.getPname(one.getHjXbm()) +
+                        this.getAddress(one.getHj());
+                one.setHj(hj);
+                List<YqfkPlaceEntity> places=yqfkPlaceService.getListByYQID(one.getId());
+                StringBuilder sb=new StringBuilder();
+                if(places!=null&&places.size()!=0){
+                     for(int m=0;m<places.size();m++){
+                         sb.append(places.get(m).getName()) ;
+                         if(m!=places.size()-1){
+                             sb.append(";") ;
+                         }
+                     }
+                }
+                one.setPlaceNames(sb.toString());
+                resultDate.add(one);
+            }
+        }
+        result.setResult(resultDate);
         result.setSuccess(true);
         return result.toJson();
     }

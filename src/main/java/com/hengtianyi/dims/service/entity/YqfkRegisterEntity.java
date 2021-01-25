@@ -531,6 +531,17 @@ public class YqfkRegisterEntity extends BaseEntity {
     this.updateAccount = updateAccount;
   }
 
+  //14天去过的地方名称
+  private String placeNames;
+
+  public String getPlaceNames() {
+    return placeNames;
+  }
+
+  public void setPlaceNames(String placeNames) {
+    this.placeNames = placeNames;
+  }
+
   @Override
   public String toString() {
     return "YqfkRegisterEntity";
