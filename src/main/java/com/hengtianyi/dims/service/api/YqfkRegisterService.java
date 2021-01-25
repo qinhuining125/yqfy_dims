@@ -72,4 +72,10 @@ public interface YqfkRegisterService extends AbstractGenericService<YqfkRegister
   Integer getExpCount(YqfkRegisterEntity entity);
 
   Integer getCount(YqfkRegisterEntity entity);
+
+  /**
+   * 获取导出数据列表
+   * @param dto 前端的查询条件
+   * */
+  List<YqfkRegisterEntity> searchAllData(YqfkRegisterEntity dto);
 }

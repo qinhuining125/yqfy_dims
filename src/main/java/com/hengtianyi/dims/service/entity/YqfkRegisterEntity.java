@@ -1,5 +1,6 @@
 package com.hengtianyi.dims.service.entity;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.hengtianyi.common.core.base.BaseEntity;
 
 import java.beans.Transient;
@@ -51,12 +52,14 @@ public class YqfkRegisterEntity extends BaseEntity {
   //  是否返乡 0：已返乡 1:拟返乡
   private String returnState;
   //  返乡日期
+  @JSONField(format = "yyyy-MM-dd")
   private Date returnTime;
   // 返乡方式1:自驾 2:飞机 3:火车 4:客车 5:网约车
   private String returnWay;
   //  返乡车牌号
   private String returnCarnum;
   //  拟返乡日期
+  @JSONField(format = "yyyy-MM-dd")
   private Date expReturnTime;
   //   拟返乡方式1:自驾 2:飞机 3:火车 4:客车 5:网约车
   private String expReturnWay;
@@ -85,6 +88,7 @@ public class YqfkRegisterEntity extends BaseEntity {
   //  是否本地租户 0:否 1:是
   private String localState;
   //  核酸检测日期
+  @JSONField(format = "yyyy-MM-dd")
   private Date natTime;
   //  核酸检测结果 0:阴性 1:阳性
   private String natResult;
@@ -93,6 +97,7 @@ public class YqfkRegisterEntity extends BaseEntity {
   //  是否居家隔离。0:否 1:是
   private String isLateStete;
   //  隔离开始日期
+  @JSONField(format = "yyyy-MM-dd")
   private Date isLateStateTime;
   //  当前健康状态是否异常。0:否 1:是
   private String healthState;
@@ -141,6 +146,7 @@ public class YqfkRegisterEntity extends BaseEntity {
   }
 
   // 创建时间
+  @JSONField(format = "yyyy-MM-dd HH:mm:ss")
   private Date createTime;
   //  更新时间
   private Date updateTime;

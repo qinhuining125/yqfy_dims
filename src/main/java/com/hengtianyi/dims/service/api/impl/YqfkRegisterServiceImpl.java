@@ -514,5 +514,9 @@ public class YqfkRegisterServiceImpl extends
   public Integer getCount(YqfkRegisterEntity entity) {
     return yqfkRegisterDao.getCount(entity);
   }
+  @Override
+  public List<YqfkRegisterEntity> searchAllData(YqfkRegisterEntity dto) {
+    return yqfkRegisterDao.searchAllData(dto);
+  }
 
 }

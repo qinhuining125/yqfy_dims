@@ -1,5 +1,6 @@
 <#include "/common/head.ftl"/>
 <#include "/common/cssfile_list.ftl"/>
+
 </head>
 <body class="gray-bg">
 <div class="wrapper wrapper-content row">
@@ -129,10 +130,10 @@
                 <div class="pull-left">
                     <#--<button type="button" class="btn btn-primary" id="btn-add-taskInfo"><i
                                 class="fa fa-plus"></i> 新增
-                    </button>
-                    <button type="button" class="btn btn-danger" id="btn-del-taskInfo"><i
-                                class="fa fa-remove"></i> 删除
                     </button>-->
+                    <button type="button" class="btn btn-warning" onclick="exportData(this)"><i
+                                class="fa fa-file-excel-o mr-2"></i>&nbsp;导出
+                    </button>
                 </div>
                 <div class="grid-o pull-right" id="bootgrid-toolbar"></div>
             </div>
@@ -171,6 +172,8 @@
 <#include "/common/scriptfile_list.ftl"/>
 <script src="${global.staticPath!}static/plugins/laydate/laydate.js"></script>
 <script src="${global.staticPath!}/static/utils/handlebars-tool.js"></script>
+<script src="${global.staticPath!}/static/utils/layui.js"></script>
+<script src="${global.staticPath!}/static/utils/excel.js"></script>
 <script id="template-yqfkRegister" type="text/x-handlebars-template">
     <td data-id="{{id}}">
         <button class="btn btn-primary btn-xs o-ch ops-view"><i class="fa fa-eye"></i> 查看</button>
@@ -431,6 +434,95 @@
     </div>
 </script>
 <script>
+
+    function exportData(){
+        var excel=LAY_EXCEL;
+        $.ajax({
+            "type": "GET",
+            "cache": false,
+            "url": "/a/yqfkRegister/getDataList1.json",
+            "dataType": "json",
+            "success": function (res) {
+            console.log(res.result);// [{name: 'wang', age: 18, sex: '男'}, {name: 'layui', age: 3, sex: '女'}]
+            // 1. 数组头部新增表头
+            res.result.unshift({id: '主键ID',name: '姓名', sex: '性别',age: '年龄',card: '身份证',
+                hj: '户籍',sfcz: '是否常住',relation: '与户主关系',
+                phone: '联系电话',workSchool: '工作单位',industray: '行业', returnState: '是否返乡',returnTime: '返乡日期',
+                returnWay: '返乡方式', returnCarnum: '返乡车牌号',expReturnTime: '拟返乡日期',expReturnWay: '拟返乡方式', expReturnCarnum: '拟返乡车牌号',
+                beforeReturnAddress: '返乡前住址', afterReturnAddress: '返乡后住址',localState: '是否本地租户',natTime: '核酸检测日期', natResult: '核酸检测结果',
+                touchState: '否接触过新冠确诊病人或疑似病人', isLateStete: '是否居家隔离',isLateStateTime: '隔离开始日期',healthState: '当前健康状态是否异常', remark: '异常说明',
+                createAccount: '录入者账号', createTime: '创建时间',riskLevel: '风险等级'});
+            // 2. 如果需要调整顺序，请执行梳理函数
+            var data = excel.filterExportData(res.result, [
+                'id',
+                'name',
+                'sex',
+                'age',
+                'card',
+                'hj',
+                'sfcz',
+                'relation',
+                'phone',
+                'workSchool',
+                'industray',
+                'returnState',
+                'returnTime',
+                'returnWay',
+                'returnCarnum',
+                'expReturnTime',
+                'expReturnWay',
+                'expReturnCarnum',
+                'beforeReturnAddress',
+                'afterReturnAddress',
+                'localState',
+                'natTime',
+                'natResult',
+                'touchState',
+                'isLateStete',
+                'isLateStateTime',
+                'healthState',
+                'remark',
+                'createAccount',
+                'createTime',
+                'riskLevel',
+            ]);
+            // 3. 执行导出函数，系统会弹出弹框
+            excel.exportExcel({
+                sheet1: data
+            }, '导出登记表数据.xlsx', 'xlsx');
+        }
+    });
+    }
+
+   /* layui.use(['jquery', 'excel', 'layer'], function() {
+        var $ = layui.jquery;
+        var excel = layui.excel;
+        $.ajax({
+            url: '/a/yqfkRegister/getDataList1.json', //导出数据的url
+            dataType: 'json',
+            success: function(res) {
+                // 假如返回的 res.data 是需要导出的列表数据
+                console.log(res.result);// [{name: 'wang', age: 18, sex: '男'}, {name: 'layui', age: 3, sex: '女'}]
+                // 1. 数组头部新增表头
+                res.result.unshift({name: '用户名',sex: '男', age: '年龄'});
+                // 2. 如果需要调整顺序，请执行梳理函数
+                var data = excel.filterExportData(res.result, [
+                    'name',
+                    'sex',
+                    'age',
+                ]);
+                // 3. 执行导出函数，系统会弹出弹框
+                excel.exportExcel({
+                    sheet1: data
+                }, '导出接口数据.xlsx', 'xlsx');
+            }
+        });
+    });
+
+*/
+
+
+
     laydate.render({
         "elem": "#timeRange",
         "range": "至",
