@@ -9,6 +9,7 @@ import com.hengtianyi.dims.service.api.IncorruptAdviceService;
 import com.hengtianyi.dims.service.api.TownshipService;
 import com.hengtianyi.dims.service.api.YqfkRegisterService;
 import com.hengtianyi.dims.service.dao.IncorruptAdviceDao;
+import com.hengtianyi.dims.service.dao.RegionDao;
 import com.hengtianyi.dims.service.dao.VillageDao;
 import com.hengtianyi.dims.service.dao.YqfkRegisterDao;
 import com.hengtianyi.dims.service.dto.QueryDto;
@@ -39,7 +40,8 @@ public class YqfkRegisterServiceImpl extends
 
   @Resource
   private VillageDao villageDao;
-
+  @Resource
+  private RegionDao regionDao;
   /**
    * 实体与数据表字段的映射
    * <p>格式：实体字段 - 数据库字段</p>
@@ -298,6 +300,55 @@ public class YqfkRegisterServiceImpl extends
     return map;
   }
 
+
+  @Override
+  public String echartsDataBefore(String startTime, String endTime, String areaCode, String beforeAreaCode) {
+    ServiceResult<Object> result = new ServiceResult();
+    try {
+      List<YqfkRegisterEntity> yqfkRegisterEntityList = yqfkRegisterDao.getEchartsDataBefore(startTime, endTime, areaCode);
+      List<Region> provinceList = regionDao.getProvince();
+
+      if (beforeAreaCode == "") {
+
+      }
+      String[] provinceNames = new String[provinceList.size()];
+      for (int i = 0; i < provinceList.size(); i++) {
+        provinceNames[i] = provinceList.get(i).getPname();
+      }
+      Map<String, Object> map = countBefore(yqfkRegisterEntityList, provinceList);
+
+
+
+      map.put("provinceNames", provinceNames);
+
+
+//
+      result.setSuccess(true);
+      result.setResult(map);
+    } catch (Exception e) {
+      LOGGER.error("[echartsDataBefore]出错,{}", e.getMessage(), e);
+      result.setError("false");
+    }
+    return result.toJson();
+  }
+
+  private Map<String, Object> countBefore(List<YqfkRegisterEntity> list, List<Region> areaList) {
+    Map<String, Object> map = new HashMap<>();
+    Map<String, Integer> bingMap = new HashMap<String, Integer>();
+
+    for (int i = 0; i < areaList.size(); i++) {
+      int count = 0;
+      for (int j = 0; j < list.size(); j++) {
+        if (list.get(j).getBeforeReturnPbm() != null && list.get(j).getBeforeReturnPbm().equals(areaList.get(i).getPcode())) {
+          count += 1;
+        }
+      }
+      bingMap.put(areaList.get(i).getPname(), count);
+    }
+    map.put("bingMap", bingMap);
+
+    return map;
+  }
 
 
 

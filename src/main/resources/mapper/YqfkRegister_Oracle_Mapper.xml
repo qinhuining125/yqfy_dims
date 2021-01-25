@@ -802,6 +802,26 @@
     from "YQ_YQFK" where CARD=#{card,jdbcType=VARCHAR}
   </select>
 
+  <select id="getEchartsDataBefore" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select
+    t."ID" , t."BEFORE_RETURN_PBM"
+    from "YQ_YQFK" t
+    where 1=1
+    <choose>
+      <when test="endTime!=null and endTime!=''">
+        and t."CREATE_TIME" >= to_date(#{startTime,jdbcType=VARCHAR},'yyyy-mm-dd hh24:mi:ss')
+        and t."CREATE_TIME" &lt; to_date(#{endTime,jdbcType=VARCHAR},'yyyy-mm-dd hh24:mi:ss')
+      </when>
+      <otherwise>
+        and t."CREATE_TIME" &lt; sysdate
+      </otherwise>
+    </choose>
+    <if test="areaCode!=null and areaCode!=''">
+      and t."CREATE_ACCOUNT" in (select a.id from sys_user a where a.area_code like
+      (#{areaCode,jdbcType=VARCHAR} ||'%'))
+    </if>
+  </select>
+
   <select id="getRiskCount" parameterType="java.lang.String" resultType="java.lang.Integer">
     select count(1) from YQ_YQFK where create_account = #{userId,jdbcType=VARCHAR} and risk_Level!=0
   </select>
