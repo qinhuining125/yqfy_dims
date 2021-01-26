@@ -146,7 +146,7 @@
                     },
                     name: '数量和占比',
                     type: 'pie',
-                    radius: ['50%', '70%'],
+                    radius: ['35%', '55%'],
                     data: [
                         {value: pieData.wfx, name: '无风险'},
                         {value: pieData.dfx, name: '低风险'},

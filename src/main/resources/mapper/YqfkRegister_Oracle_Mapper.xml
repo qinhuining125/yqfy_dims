@@ -736,7 +736,7 @@
 
   <select id="getEchartsDataVehicle" resultMap="BaseResultMap" parameterType="java.lang.String">
     select
-    t."ID" , t."RETURN_WAY", t."RETURN_STATE"
+    t."ID" , t."RETURN_WAY",  t."EXP_RETURN_WAY", t."RETURN_STATE"
     from "YQ_YQFK" t
     where 1=1
     <choose>

@@ -67,7 +67,7 @@
 <#include "/common/scriptfile.ftl"/>
 <#include "/common/scriptfile_list.ftl"/>
 <script src="${global.staticPath!}static/plugins/laydate/laydate.js"></script>
-<script src="${global.staticPath!}static/plugins/echarts/echarts-all.js"></script>
+<script src="${global.staticPath!}static/plugins/echarts/echarts.min.js"></script>
 <script>
     laydate.render({
         "elem": "#timeRange",
@@ -108,6 +108,8 @@
 
     //饼状图
     function initPieData(pieData) {
+        var sum = pieData.zj + pieData.planej + pieData.train + pieData.train + pieData.bus + pieData.wybus
+        var sumStr = "总数：" + sum
         const piedom = document.getElementById("pieContainer");
         const pieChart = echarts.init(piedom);
         const pieOption = {
@@ -121,14 +123,30 @@
                 data: ['自驾', '飞机', '火车', '客车', '网约车']
             },
             title: [{
-                text: '总量10',
+                text: sumStr,
                 top: 'center',
                 left: 'center'
             }],
+            color: ['rgba(217,129,61,0.64)', 'rgba(101,215,126,0.66)', 'rgba(70,155,213,0.66)', 'rgba(40,193,175,0.66)', 'rgba(137,58,206,0.66)'],
             series: [
                 {
+                    avoidLabelOverlap: false,
+                    //数值和百分比显示
+                    itemStyle: {
+                        normal: {
+                            label: {
+                                show: true,
+                                formatter: '{b} : {c} ({d}%)'
+                            },
+                            labelLine: {show: true}
+                        }
+                    },
+                    labelLine: {
+                        show: false
+                    },
+                    name: '数量和占比',
                     type: 'pie',
-                    radius: ['50%', '70%'],
+                    radius: ['30%', '50%'],
                     data: [
                         {value: pieData.zj, name: '自驾'},
                         {value: pieData.planej, name: '飞机'},
@@ -181,35 +199,82 @@
                 }
             ],
             series: [
+
                 {
                     name: '自驾',
                     type: 'bar',
                     stack: '数量',
-                    data: barData.zjs
+                    data: barData.zjs,
+                    itemStyle: {
+                        normal: {
+                            color: 'rgba(217,129,61,0.64)'
+                        }
+                    }
                 },
                 {
                     name: '飞机',
                     type: 'bar',
                     stack: '数量',
-                    data: barData.planejs
+                    data: barData.planejs,
+                    itemStyle: {
+                        normal: {
+                            color: 'rgba(101,215,126,0.66)',
+                        }
+                    }
                 },
                 {
                     name: '火车',
                     type: 'bar',
                     stack: '数量',
-                    data: barData.trains
+                    data: barData.trains,
+                    itemStyle: {
+                        normal: {
+                            color: 'rgba(70,155,213,0.66)',
+                        }
+                    }
                 },
                 {
                     name: '客车',
                     type: 'bar',
                     stack: '数量',
-                    data: barData.buss
+                    data: barData.buss,
+                    itemStyle: {
+                        normal: {
+                            color: 'rgba(40,193,175,0.66)',
+                        }
+                    }
                 },
                 {
                     name: '网约车',
                     type: 'bar',
                     stack: '数量',
-                    data: barData.wybuss
+                    data: barData.wybuss,
+                    itemStyle: {
+                        normal: {
+                            color:  'rgba(137, 58, 206, 0.66)'
+                        }
+                    }
+                },
+                //series中push合计的数据
+                {
+                    name: '总数',
+                    type: 'bar',
+                    stack: '数量',
+                    label: {
+                        normal: {
+                            offset: ['50', '80'],
+                            show: true,
+                            position: 'insideBottom',
+                            formatter: '{c}',
+                            textStyle: {color: '#000000'}
+                        }
+                    },
+                    itemStyle: {
+                        normal: {
+                            color: 'rgba(128,128,128,0)'
+                        }
+                    },
+                    data: barData.sum
                 }
             ]
         };

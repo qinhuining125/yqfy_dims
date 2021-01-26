@@ -94,7 +94,8 @@
 
     //饼状图
     function initPieData(pieData) {
-        var sum= pieData.beenhome+ pieData.planhome
+        console.log(pieData)
+        var sum= pieData.beenhome+ pieData.planhome+ pieData.nohome+ pieData.report
         var sumStr="总数："+sum
         const piedom = document.getElementById("pieContainer");
         const pieChart = echarts.init(piedom);
@@ -106,14 +107,14 @@
             legend: {
                 orient: 'horizontal',
                 left: 10,
-                data: ['已返乡', '拟返乡']
+                data: ['已返乡', '拟返乡', '不返乡', '已上报社区']
             },
             title: [{
                 text: sumStr,
                 top: 'center',
                 left: 'center'
             }],
-            color:['rgba(223,123,250,0.64)','#ff8400'],
+            color:['rgba(223,123,250,0.64)','rgba(255,132,0,0.66)','rgba(31,39,194,0.66)','rgba(210,42,95,0.66)'],
             series: [
                 {
                     avoidLabelOverlap: false,
@@ -132,10 +133,12 @@
                     },
                     name: '数量和占比',
                     type: 'pie',
-                    radius: ['40%', '60%'],
+                    radius: ['30%', '50%'],
                     data: [
                         {value: pieData.beenhome, name: '已返乡'},
-                        {value: pieData.planhome, name: '拟返乡'}
+                        {value: pieData.planhome, name: '拟返乡'},
+                        {value: pieData.nohome, name: '不返乡'},
+                        {value: pieData.report, name: '已上报社区'}
                     ],
 
                 }
@@ -158,7 +161,7 @@
                 }
             },
             legend: {
-                data: ['已返乡', '拟返乡']
+                data: ['已返乡', '拟返乡', '不返乡', '已上报社区']
             },
             grid: {
                 left: '3%',
@@ -207,7 +210,35 @@
                     data: barData.planhomes,
                     itemStyle: {
                         normal: {
-                            color: '#ff8400'
+                            color: 'rgba(255,132,0,0.66)'
+                        }
+                    }
+                },
+                {
+                    name: '不返乡',
+                    type: 'bar',
+                    stack: '数量',
+                    emphasis: {
+                        focus: 'series'
+                    },
+                    data: barData.nohomes,
+                    itemStyle: {
+                        normal: {
+                            color: 'rgba(31,39,194,0.66)'
+                        }
+                    }
+                },
+                {
+                    name: '已上报社区',
+                    type: 'bar',
+                    stack: '数量',
+                    emphasis: {
+                        focus: 'series'
+                    },
+                    data: barData.reports,
+                    itemStyle: {
+                        normal: {
+                            color: 'rgba(210,42,95,0.66)'
                         }
                     }
                 },

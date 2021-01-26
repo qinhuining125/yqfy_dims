@@ -146,7 +146,9 @@ public class YqfkRegisterServiceImpl extends
             String[] villageNames = new String[villageList.size()];
             String[] beenhomes = new String[villageList.size()];
             String[] planhomes = new String[villageList.size()];
-            String[] sum = new String[villageList.size()];
+            String[] nohomes = new String[villageList.size()];
+            String[] reports = new String[villageList.size()];
+            String[] sums = new String[villageList.size()];
 
             for (int i = 0; i < villageList.size(); i++) {
                 VillageEntity village = villageList.get(i);
@@ -156,13 +158,17 @@ public class YqfkRegisterServiceImpl extends
                 villageNames[i] = village.getAreaName();
                 beenhomes[i] = dataMap.get("beenhome").toString();
                 planhomes[i] = dataMap.get("planhome").toString();
-                sum[i] = dataMap.get("sum").toString();
+                nohomes[i] = dataMap.get("nohome").toString();
+                reports[i] = dataMap.get("report").toString();
+                sums[i] = dataMap.get("sum").toString();
             }
 
             map.put("villageNames", villageNames);
             map.put("beenhomes", beenhomes);
             map.put("planhomes", planhomes);
-            map.put("sum", sum);
+            map.put("nohomes", nohomes);
+            map.put("reports", reports);
+            map.put("sum", sums);
             result.setSuccess(true);
             result.setResult(map);
         } catch (Exception e) {
@@ -176,6 +182,8 @@ public class YqfkRegisterServiceImpl extends
         Map<String, Object> map = new HashMap<>();
         Integer beenhome = 0;
         Integer planhome = 0;
+        Integer nohome = 0;
+        Integer report = 0;
         Integer sum = 0;
 
         for (YqfkRegisterEntity entity : list) {
@@ -186,13 +194,19 @@ public class YqfkRegisterServiceImpl extends
                 beenhome += 1;
             } else if (entity.getReturnState().equals("拟返乡")) {
                 planhome += 1;
+            } else if (entity.getReturnState().equals("不返乡")) {
+                nohome += 1;
+            } else if (entity.getReturnState().equals("已上报社区")) {
+                report += 1;
             }
-            if (entity.getReturnState().equals("已返乡") || entity.getReturnState().equals("拟返乡")) {
+            if (entity.getReturnState().equals("已返乡") || entity.getReturnState().equals("拟返乡") || entity.getReturnState().equals("不返乡") || entity.getReturnState().equals("已上报社区")) {
                 sum += 1;
             }
         }
         map.put("beenhome", beenhome);
         map.put("planhome", planhome);
+        map.put("nohome", nohome);
+        map.put("report", report);
         map.put("sum", sum);
         return map;
     }
@@ -219,8 +233,7 @@ public class YqfkRegisterServiceImpl extends
             String[] trains = new String[villageList.size()];
             String[] buss = new String[villageList.size()];
             String[] wybuss = new String[villageList.size()];
-
-
+            String[] sum = new String[villageList.size()];
             for (int i = 0; i < villageList.size(); i++) {
                 VillageEntity village = villageList.get(i);
                 yqfkRegisterEntityList = yqfkRegisterDao
@@ -232,6 +245,7 @@ public class YqfkRegisterServiceImpl extends
                 trains[i] = dataMap.get("train").toString();
                 buss[i] = dataMap.get("bus").toString();
                 wybuss[i] = dataMap.get("wybus").toString();
+                sum[i] = dataMap.get("sum").toString();
             }
 
             map.put("villageNames", villageNames);
@@ -240,7 +254,7 @@ public class YqfkRegisterServiceImpl extends
             map.put("trains", trains);
             map.put("buss", buss);
             map.put("wybuss", wybuss);
-
+            map.put("sum", sum);
             result.setSuccess(true);
             result.setResult(map);
         } catch (Exception e) {
@@ -257,49 +271,35 @@ public class YqfkRegisterServiceImpl extends
         Integer train = 0;
         Integer bus = 0;
         Integer wybus = 0;
+        Integer sum = 0;
 
-        if (returnState.equals("全部") || returnState.equals("")) {
-            for (YqfkRegisterEntity entity : list) {
-                if (entity.getReturnState().equals("拟返乡")) {
-                    if (entity.getExpReturnWay() != null && entity.getExpReturnWay().contains("自驾")) {
-                        zj += 1;
-                    } else if (entity.getExpReturnWay() != null && entity.getExpReturnWay().contains("飞机")) {
-                        planej += 1;
-                    } else if (entity.getExpReturnWay() != null && entity.getExpReturnWay().contains("火车")) {
-                        train += 1;
-                    } else if (entity.getExpReturnWay() != null && entity.getExpReturnWay().contains("客车")) {
-                        train += 1;
-                    } else if (entity.getExpReturnWay() != null && entity.getExpReturnWay().contains("网约车")) {
-                        train += 1;
-                    }
-                } else {
-                    if (entity.getReturnWay() != null && entity.getReturnWay().contains("自驾")) {
-                        zj += 1;
-                    } else if (entity.getReturnWay() != null && entity.getReturnWay().contains("飞机")) {
-                        planej += 1;
-                    } else if (entity.getReturnWay() != null && entity.getReturnWay().contains("火车")) {
-                        train += 1;
-                    } else if (entity.getReturnWay() != null && entity.getReturnWay().contains("客车")) {
-                        train += 1;
-                    } else if (entity.getReturnWay() != null && entity.getReturnWay().contains("网约车")) {
-                        train += 1;
-                    }
-                }
-            }
-        } else {
-            for (YqfkRegisterEntity entity : list) {
-                if (entity.getReturnWay() != null && entity.getReturnWay().contains("自驾")) {
+        for (YqfkRegisterEntity entity : list) {
+            if (entity.getExpReturnWay() != null && !"".equals(entity.getExpReturnWay()) && entity.getReturnState().equals("拟返乡")) {
+                if (entity.getExpReturnWay() != null && !"".equals(entity.getExpReturnWay()) && entity.getExpReturnWay().contains("自驾")) {
                     zj += 1;
-                } else if (entity.getReturnWay() != null && entity.getReturnWay().contains("飞机")) {
+                } else if (entity.getExpReturnWay() != null && !"".equals(entity.getExpReturnWay()) && entity.getExpReturnWay().contains("飞机")) {
                     planej += 1;
-                } else if (entity.getReturnWay() != null && entity.getReturnWay().contains("火车")) {
+                } else if (entity.getExpReturnWay() != null && !"".equals(entity.getExpReturnWay()) && entity.getExpReturnWay().contains("火车")) {
                     train += 1;
-                } else if (entity.getReturnWay() != null && entity.getReturnWay().contains("客车")) {
+                } else if (entity.getExpReturnWay() != null && !"".equals(entity.getExpReturnWay()) && entity.getExpReturnWay().contains("客车")) {
+                    bus += 1;
+                } else if (entity.getExpReturnWay() != null && !"".equals(entity.getExpReturnWay()) && entity.getExpReturnWay().contains("网约车")) {
+                    wybus += 1;
+                }
+            } else {
+                if (entity.getReturnWay() != null && !"".equals(entity.getReturnWay()) && entity.getReturnWay().contains("自驾")) {
+                    zj += 1;
+                } else if (entity.getReturnWay() != null && !"".equals(entity.getReturnWay()) && entity.getReturnWay().contains("飞机")) {
+                    planej += 1;
+                } else if (entity.getReturnWay() != null && !"".equals(entity.getReturnWay()) && entity.getReturnWay().contains("火车")) {
                     train += 1;
-                } else if (entity.getReturnWay() != null && entity.getReturnWay().contains("网约车")) {
-                    train += 1;
+                } else if (entity.getReturnWay() != null && !"".equals(entity.getReturnWay()) && entity.getReturnWay().contains("客车")) {
+                    bus += 1;
+                } else if (entity.getReturnWay() != null && !"".equals(entity.getReturnWay()) && entity.getReturnWay().contains("网约车")) {
+                    wybus += 1;
                 }
             }
+            sum += 1;
         }
 
         map.put("zj", zj);
@@ -307,6 +307,7 @@ public class YqfkRegisterServiceImpl extends
         map.put("train", train);
         map.put("bus", bus);
         map.put("wybus", wybus);
+        map.put("sum", sum);
         return map;
     }
 
@@ -333,6 +334,8 @@ public class YqfkRegisterServiceImpl extends
             String[] beforeAreaNames = new String[beforeAreaList.size()];
             String[] beenhomes = new String[beforeAreaList.size()];
             String[] planhomes = new String[beforeAreaList.size()];
+            String[] nohomes = new String[beforeAreaList.size()];
+            String[] reports = new String[beforeAreaList.size()];
             String[] sum = new String[beforeAreaList.size()];
             for (int i = 0; i < beforeAreaList.size(); i++) {
                 beforeAreaNames[i] = beforeAreaList.get(i).getPname();
@@ -357,12 +360,16 @@ public class YqfkRegisterServiceImpl extends
                 beforeAreaNames[i] = region.getPname();
                 beenhomes[i] = dataMap.get("beenhome").toString();
                 planhomes[i] = dataMap.get("planhome").toString();
+                nohomes[i] = dataMap.get("nohome").toString();
+                reports[i] = dataMap.get("report").toString();
                 sum[i] = dataMap.get("sum").toString();
             }
 
             map.put("beforeAreaNames", beforeAreaNames);
             map.put("beenhomes", beenhomes);
             map.put("planhomes", planhomes);
+            map.put("nohomes", nohomes);
+            map.put("reports", reports);
             map.put("sum", sum);
             result.setSuccess(true);
             result.setResult(map);
@@ -379,6 +386,8 @@ public class YqfkRegisterServiceImpl extends
         Map<String, Object> map = new HashMap<>();
         Integer beenhome = 0;
         Integer planhome = 0;
+        Integer nohome = 0;
+        Integer report = 0;
         Integer sum = 0;
         for (YqfkRegisterEntity entity : list) {
             if (entity.getReturnState() == null) {
@@ -388,11 +397,19 @@ public class YqfkRegisterServiceImpl extends
                 beenhome += 1;
             } else if (entity.getReturnState().equals("拟返乡")) {
                 planhome += 1;
+            } else if (entity.getReturnState().equals("不返乡")) {
+                nohome += 1;
+            } else if (entity.getReturnState().equals("已上报社区")) {
+                report += 1;
             }
-            sum += 1;
+            if (entity.getReturnState().equals("已返乡") || entity.getReturnState().equals("拟返乡") || entity.getReturnState().equals("不返乡") || entity.getReturnState().equals("已上报社区")) {
+                sum += 1;
+            }
         }
         map.put("beenhome", beenhome);
         map.put("planhome", planhome);
+        map.put("nohome", nohome);
+        map.put("report", report);
         map.put("sum", sum);
         return map;
     }
