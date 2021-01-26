@@ -67,7 +67,7 @@
 <#include "/common/scriptfile.ftl"/>
 <#include "/common/scriptfile_list.ftl"/>
 <script src="${global.staticPath!}static/plugins/laydate/laydate.js"></script>
-<script src="${global.staticPath!}static/plugins/echarts/echarts-all.js"></script>
+<script src="${global.staticPath!}static/plugins/echarts/echarts.min.js"></script>
 <script>
     laydate.render({
         "elem": "#timeRange",
@@ -108,6 +108,8 @@
 
     //饼状图
     function initPieData(pieData) {
+        var sum = pieData.wfx + pieData.dfx + pieData.dfx + pieData.zfx + pieData.gfx
+        var sumStr = "总数：" + sum
         const piedom = document.getElementById("pieContainer");
         const pieChart = echarts.init(piedom);
         const pieOption = {
@@ -121,12 +123,28 @@
                 data: ['无风险', '低风险', '中风险', '高风险']
             },
             title: [{
-                text: '总量10',
+                text: sumStr,
                 top: 'center',
                 left: 'center'
             }],
+            color: [ '#4fc3f7','#81c784', '#fff176', '#e57373'],
             series: [
                 {
+                    avoidLabelOverlap: false,
+                    //数值和百分比显示
+                    itemStyle: {
+                        normal: {
+                            label: {
+                                show: true,
+                                formatter: '{b} : {c} ({d}%)'
+                            },
+                            labelLine: {show: true}
+                        }
+                    },
+                    labelLine: {
+                        show: false
+                    },
+                    name: '数量和占比',
                     type: 'pie',
                     radius: ['50%', '70%'],
                     data: [
@@ -185,27 +203,68 @@
                     name: '无风险',
                     type: 'bar',
                     stack: '数量',
+                    barWidth: 30,
                     data: barData.wfxs,
+                    itemStyle: {
+                        normal: {
+                            color: 'rgba(79,195,247,0.64)'
+                        }
+                    }
                 },
                 {
                     name: '低风险',
                     type: 'bar',
                     stack: '数量',
-                    data: barData.dfxs
+                    data: barData.dfxs,
+                    itemStyle: {
+                        normal: {
+                            color: 'rgba(129,199,132,0.64)'
+                        }
+                    }
                 },
                 {
                     name: '中风险',
                     type: 'bar',
                     stack: '数量',
-                    data: barData.zfxs
+                    data: barData.zfxs,
+                    itemStyle: {
+                        normal: {
+                            color: 'rgba(255,241,118,0.64)'
+                        }
+                    }
                 },
                 {
                     name: '高风险',
                     type: 'bar',
                     stack: '数量',
-                    data: barData.gfxs
+                    data: barData.gfxs,
+                    itemStyle: {
+                        normal: {
+                            color:  'rgba(229,115,115,0.64)'
+                        }
+                    }
                 },
-
+                {
+                    name: '总数',
+                    type: 'bar',
+                    stack: '数量',
+                    label: {
+                        normal: {
+                            offset: ['50', '80'],
+                            show: true,
+                            position: 'insideBottom',
+                            formatter: '{c}',
+                            textStyle: {color: '#000'}
+                        }
+                    },
+                    itemStyle: {
+                        normal: {
+                            color: 'rgba(128, 128, 128, 0)'
+                        }
+                    },
+                    data: barData.sum
+                    // data: barData.sum
+                }
 
             ]
         };

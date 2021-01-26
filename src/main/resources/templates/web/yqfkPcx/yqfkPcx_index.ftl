@@ -57,14 +57,14 @@
         </div>
         <div class="table-responsive ibox-content">
             <div class="clearfix" style="margin-bottom:10px;">
-<#--                <div class="pull-left">-->
-<#--                    <button type="button" class="btn btn-primary" id="btn-add-taskInfo"><i-->
-<#--                                class="fa fa-plus"></i> 新增-->
-<#--                    </button>-->
-<#--                    <button type="button" class="btn btn-danger" id="btn-del-taskInfo"><i-->
-<#--                                class="fa fa-remove"></i> 删除-->
-<#--                    </button>-->
-<#--                </div>-->
+                <#--                <div class="pull-left">-->
+                <#--                    <button type="button" class="btn btn-primary" id="btn-add-taskInfo"><i-->
+                <#--                                class="fa fa-plus"></i> 新增-->
+                <#--                    </button>-->
+                <#--                    <button type="button" class="btn btn-danger" id="btn-del-taskInfo"><i-->
+                <#--                                class="fa fa-remove"></i> 删除-->
+                <#--                    </button>-->
+                <#--                </div>-->
                 <div class="grid-o pull-right" id="bootgrid-toolbar"></div>
             </div>
             <table id="table-yqfkRegister"
@@ -86,31 +86,33 @@
                     <th data-column-id="plevel" data-order="desc" data-visible="true" data-sortable="true">
                         级别
                     </th>
-                    <th data-column-id="valid" data-order="desc" data-visible="true" data-sortable="true">
+                    <th data-column-id="valid" data-order="desc" data-visible="true" data-sortable="true" data-formatter="fun_valid">
                         风险级别
                     </th>
-<#--                    <th data-field="valid" data-sortable="true" data-formatter="displaycolor"><span>状态</span></th></span>-->
+
+
+                    <#--                    <th data-field="valid" data-sortable="true" data-formatter="displaycolor"><span>状态</span></th></span>-->
 
                     <th data-column-id="link" data-width="180px" data-formatter="commands" data-custom="true"
                         data-sortable="false">操作
                     </th>
-               </tr>
+                </tr>
                 </thead>
             </table>
         </div>
     </div>
 </div>
 <script>
-    function displaycolor(value,row,index) {
+    function displaycolor(value, row, index) {
         var a = "";
-        if(value == "0") {
-            var a = '<span style="color:#00ff00">'+value+'</span>';
-        }else if(value == "1"){
-            var a = '<span style="color:#eae242">'+value+'</span>';
-        }else if(value == "2") {
-            var a = '<span style="color:#FF0000">'+value+'</span>';
-        }else{
-            var a = '<span>'+value+'</span>';
+        if (value == "0") {
+            var a = '<span style="color:#00ff00">' + value + '</span>';
+        } else if (value == "1") {
+            var a = '<span style="color:#eae242">' + value + '</span>';
+        } else if (value == "2") {
+            var a = '<span style="color:#FF0000">' + value + '</span>';
+        } else {
+            var a = '<span>' + value + '</span>';
         }
         return a;
     }
@@ -167,16 +169,13 @@
         <div class="form-group">
             <label class="col-xs-4 control-label">风险级：</label>
             <div class="col-xs-8">
-                <div class="form-control-static">{{valid}}</div>
-<#--                <#if valid == "1">-->
-<#--                    <div class="form-control-static">低风险</div>-->
-<#--                </#if>-->
-<#--                <#if valid == "1">-->
-<#--                    <div class="form-control-static">中风险</div>-->
-<#--                </#if>-->
-<#--                <#if valid == "2">-->
-<#--                    <div class="form-control-static">高风险</div>-->
-<#--                </#if>-->
+                <div class="form-control-static">
+                    {{#ifEqual valid '0'}}无{{/ifEqual}}
+                    {{#ifEqual valid '1'}}低{{/ifEqual}}
+                    {{#ifEqual valid "2"}}中{{/ifEqual}}
+                    {{#ifEqual valid "3"}}高{{/ifEqual}}
+                    {{valid}}
+                </div>
             </div>
         </div>
     </div>
@@ -200,9 +199,9 @@
     });
 
     function searchP(obj) {
-        const provinceArray =  $(obj).val().replace(/\s*/g,"").split("-")
-        const province=   provinceArray[0]
-        const beforeReturnPbm=   provinceArray[1]
+        const provinceArray = $(obj).val().replace(/\s*/g, "").split("-")
+        const province = provinceArray[0]
+        const beforeReturnPbm = provinceArray[1]
         $("#beforeReturnPbm").val(beforeReturnPbm);
         if (province == '') {
             return false;
@@ -223,9 +222,9 @@
     }
 
     function choseS(obj) {
-        const cityArray =  $(obj).val().replace(/\s*/g,"").split("-")
-        const city=   cityArray[0]
-        const beforeReturnCbm=   cityArray[1]
+        const cityArray = $(obj).val().replace(/\s*/g, "").split("-")
+        const city = cityArray[0]
+        const beforeReturnCbm = cityArray[1]
         $("#beforeReturnCbm").val(beforeReturnCbm);
         if (city == '') {
             return false;
@@ -246,15 +245,16 @@
     }
 
     function choseX(obj) {
-        const countyArray =  $(obj).val().replace(/\s*/g,"").split("-")
-        const county=   countyArray[0]
-        const beforeReturnXbm=   countyArray[1]
+        const countyArray = $(obj).val().replace(/\s*/g, "").split("-")
+        const county = countyArray[0]
+        const beforeReturnXbm = countyArray[1]
         $("#beforeReturnXbm").val(beforeReturnXbm);
         // if (beforeReturnXbm == '') {
         //     beforeReturnXbm = $("#county").val();
         // }
 
     }
+
     function searchVillage(obj) {
         const afterReturnZhbm = $(obj).val();
         $("#afterReturnZhbm").val(afterReturnZhbm);
@@ -284,6 +284,7 @@
         }
         $("#afterReturnCubm").val(afterReturnCubm);
     }
+
     $(document).ready(function () {
         var HBR_TD = Handlebars.compile($("#template-yqfkRegister").html());
         var pageParams = {
@@ -316,6 +317,18 @@
                         return "已受理";
                     } else if (state == 2) {
                         return "已办结";
+                    }
+                },
+                "fun_valid": function (column, row) {
+                    var valid = row.valid;
+                    if (valid === "0") {
+                        return "无";
+                    } else if (valid === "1") {
+                        return "低";
+                    } else if (valid === "2") {
+                        return "中";
+                    } else if (valid === "3") {
+                        return "高";
                     }
                 },
                 "fun_date": function (rolumn, row) {

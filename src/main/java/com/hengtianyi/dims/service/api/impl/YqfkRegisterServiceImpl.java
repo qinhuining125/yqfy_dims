@@ -187,7 +187,7 @@ public class YqfkRegisterServiceImpl extends
             } else if (entity.getReturnState().equals("拟返乡")) {
                 planhome += 1;
             }
-            if (entity.getReturnState().equals("已返乡")||entity.getReturnState().equals("拟返乡")) {
+            if (entity.getReturnState().equals("已返乡") || entity.getReturnState().equals("拟返乡")) {
                 sum += 1;
             }
         }
@@ -315,9 +315,9 @@ public class YqfkRegisterServiceImpl extends
     public String echartsDataBefore(String startTime, String endTime, String areaCode, String beforeAreaPbm, String beforeAreaCbm, String beforeAreaXbm) {
         ServiceResult<Object> result = new ServiceResult();
         try {
-            List<YqfkRegisterEntity> yqfkRegisterEntityList = yqfkRegisterDao.getEchartsDataBefore(startTime, endTime, areaCode,beforeAreaPbm,beforeAreaCbm,beforeAreaXbm);
+            List<YqfkRegisterEntity> yqfkRegisterEntityList = yqfkRegisterDao.getEchartsDataBefore(startTime, endTime, areaCode, beforeAreaPbm, beforeAreaCbm, beforeAreaXbm);
             Map<String, Object> map = countBefore(yqfkRegisterEntityList);
-             List<Region> beforeAreaList = new ArrayList<Region>();
+            List<Region> beforeAreaList = new ArrayList<Region>();
             System.out.printf(String.valueOf(beforeAreaList));
             if (beforeAreaPbm.length() == 0) {
                 beforeAreaList = regionDao.getProvince();
@@ -325,7 +325,7 @@ public class YqfkRegisterServiceImpl extends
                 if (beforeAreaCbm.length() == 0) {
                     Region reg = regionDao.findByCode(beforeAreaPbm);
                     beforeAreaList = regionDao.getListByParent(reg.getId().replace(" ", ""));
-                }else {
+                } else {
                     Region reg = regionDao.findByCode(beforeAreaCbm);
                     beforeAreaList = regionDao.getListByParent(reg.getId().replace(" ", ""));
                 }
@@ -333,35 +333,37 @@ public class YqfkRegisterServiceImpl extends
             String[] beforeAreaNames = new String[beforeAreaList.size()];
             String[] beenhomes = new String[beforeAreaList.size()];
             String[] planhomes = new String[beforeAreaList.size()];
-
+            String[] sum = new String[beforeAreaList.size()];
             for (int i = 0; i < beforeAreaList.size(); i++) {
                 beforeAreaNames[i] = beforeAreaList.get(i).getPname();
             }
 
             for (int i = 0; i < beforeAreaList.size(); i++) {
                 Region region = beforeAreaList.get(i);
-                if (region.getPlevel()==1){
+                if (region.getPlevel() == 1) {
                     yqfkRegisterEntityList = yqfkRegisterDao
-                            .getEchartsDataBefore(startTime, endTime, areaCode,region.getPcode(),beforeAreaCbm,beforeAreaXbm);
+                            .getEchartsDataBefore(startTime, endTime, areaCode, region.getPcode(), beforeAreaCbm, beforeAreaXbm);
                 }
-                if (region.getPlevel()==2){
+                if (region.getPlevel() == 2) {
                     yqfkRegisterEntityList = yqfkRegisterDao
-                            .getEchartsDataBefore(startTime, endTime, areaCode,beforeAreaPbm,region.getPcode(),beforeAreaXbm);
+                            .getEchartsDataBefore(startTime, endTime, areaCode, beforeAreaPbm, region.getPcode(), beforeAreaXbm);
                 }
-                if (region.getPlevel()==3){
+                if (region.getPlevel() == 3) {
                     yqfkRegisterEntityList = yqfkRegisterDao
-                            .getEchartsDataBefore(startTime, endTime, areaCode,beforeAreaPbm,beforeAreaCbm,region.getPcode());
+                            .getEchartsDataBefore(startTime, endTime, areaCode, beforeAreaPbm, beforeAreaCbm, region.getPcode());
                 }
 
                 Map<String, Object> dataMap = countBefore(yqfkRegisterEntityList);
                 beforeAreaNames[i] = region.getPname();
                 beenhomes[i] = dataMap.get("beenhome").toString();
                 planhomes[i] = dataMap.get("planhome").toString();
+                sum[i] = dataMap.get("sum").toString();
             }
 
             map.put("beforeAreaNames", beforeAreaNames);
             map.put("beenhomes", beenhomes);
             map.put("planhomes", planhomes);
+            map.put("sum", sum);
             result.setSuccess(true);
             result.setResult(map);
 
@@ -377,7 +379,7 @@ public class YqfkRegisterServiceImpl extends
         Map<String, Object> map = new HashMap<>();
         Integer beenhome = 0;
         Integer planhome = 0;
-
+        Integer sum = 0;
         for (YqfkRegisterEntity entity : list) {
             if (entity.getReturnState() == null) {
                 continue;
@@ -387,9 +389,11 @@ public class YqfkRegisterServiceImpl extends
             } else if (entity.getReturnState().equals("拟返乡")) {
                 planhome += 1;
             }
+            sum += 1;
         }
         map.put("beenhome", beenhome);
         map.put("planhome", planhome);
+        map.put("sum", sum);
         return map;
     }
 
@@ -420,7 +424,7 @@ public class YqfkRegisterServiceImpl extends
             String[] students = new String[villageList.size()];
             String[] wuyes = new String[villageList.size()];
             String[] others = new String[villageList.size()];
-
+            String[] sum = new String[villageList.size()];
             for (int i = 0; i < villageList.size(); i++) {
                 VillageEntity village = villageList.get(i);
                 yqfkRegisterEntityList = yqfkRegisterDao.getEchartsDataIndustry(startTime, endTime, village.getAreaCode(), returnState);
@@ -436,6 +440,7 @@ public class YqfkRegisterServiceImpl extends
                 students[i] = dataMap.get("student").toString();
                 wuyes[i] = dataMap.get("wuye").toString();
                 others[i] = dataMap.get("other").toString();
+                sum[i] = dataMap.get("sum").toString();
             }
             map.put("villageNames", villageNames);
             map.put("lenglians", lenglians);
@@ -447,7 +452,7 @@ public class YqfkRegisterServiceImpl extends
             map.put("students", students);
             map.put("wuyes", wuyes);
             map.put("others", others);
-
+            map.put("sum", sum);
 
             result.setSuccess(true);
             result.setResult(map);
@@ -469,7 +474,7 @@ public class YqfkRegisterServiceImpl extends
         Integer student = 0;
         Integer wuye = 0;
         Integer other = 0;
-
+        Integer sum = 0;
 
         for (YqfkRegisterEntity entity : list) {
 
@@ -492,7 +497,7 @@ public class YqfkRegisterServiceImpl extends
             } else if (entity.getIndustray() != null && entity.getIndustray().equals("其它")) {
                 other += 1;
             }
-
+            sum += 1;
         }
         map.put("lenglian", lenglian);
         map.put("business", business);
@@ -503,6 +508,7 @@ public class YqfkRegisterServiceImpl extends
         map.put("student", student);
         map.put("wuye", wuye);
         map.put("other", other);
+        map.put("sum", sum);
         return map;
     }
 
@@ -512,6 +518,7 @@ public class YqfkRegisterServiceImpl extends
         Integer dfx = 0;
         Integer zfx = 0;
         Integer gfx = 0;
+        Integer sum = 0;
 
         for (YqfkRegisterEntity entity : list) {
             if (entity.getRiskLevel() != null && entity.getRiskLevel().equals("0")) {
@@ -523,12 +530,13 @@ public class YqfkRegisterServiceImpl extends
             } else if (entity.getRiskLevel() != null && entity.getRiskLevel().equals("3")) {
                 gfx += 1;
             }
-
+            sum += 1;
         }
         map.put("wfx", wfx);
         map.put("dfx", dfx);
         map.put("zfx", zfx);
         map.put("gfx", gfx);
+        map.put("sum", sum);
         return map;
     }
 
@@ -554,7 +562,7 @@ public class YqfkRegisterServiceImpl extends
             String[] dfxs = new String[villageList.size()];
             String[] zfxs = new String[villageList.size()];
             String[] gfxs = new String[villageList.size()];
-
+            String[] sum = new String[villageList.size()];
             for (int i = 0; i < villageList.size(); i++) {
                 VillageEntity village = villageList.get(i);
                 yqfkRegisterEntityList = yqfkRegisterDao.getEchartsDataRisk(startTime, endTime, village.getAreaCode(), returnState);
@@ -565,13 +573,14 @@ public class YqfkRegisterServiceImpl extends
                 dfxs[i] = dataMap.get("dfx").toString();
                 zfxs[i] = dataMap.get("zfx").toString();
                 gfxs[i] = dataMap.get("gfx").toString();
+                sum[i] = dataMap.get("sum").toString();
             }
             map.put("villageNames", villageNames);
             map.put("wfxs", wfxs);
             map.put("dfxs", dfxs);
             map.put("zfxs", zfxs);
             map.put("gfxs", gfxs);
-
+            map.put("sum", sum);
             result.setSuccess(true);
             result.setResult(map);
         } catch (Exception e) {

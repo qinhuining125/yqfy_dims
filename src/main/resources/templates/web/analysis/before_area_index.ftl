@@ -62,17 +62,17 @@
                                 </div>
                             </div>
                         </div>
-<#--                        <div class="col-xs-6 col-sm-4 col-lg-3">-->
-<#--                            <div class="form-group">-->
-<#--                                <label class="col-sm-4 control-label">县:</label>-->
-<#--                                <div class="col-sm-7">-->
-<#--                                    <select id="county" class="form-control" name=""-->
-<#--                                            onchange="choseX(this);">-->
-<#--                                        <option value="">全部</option>-->
-<#--                                    </select>-->
-<#--                                </div>-->
-<#--                            </div>-->
-<#--                        </div>-->
+                        <#--                        <div class="col-xs-6 col-sm-4 col-lg-3">-->
+                        <#--                            <div class="form-group">-->
+                        <#--                                <label class="col-sm-4 control-label">县:</label>-->
+                        <#--                                <div class="col-sm-7">-->
+                        <#--                                    <select id="county" class="form-control" name=""-->
+                        <#--                                            onchange="choseX(this);">-->
+                        <#--                                        <option value="">全部</option>-->
+                        <#--                                    </select>-->
+                        <#--                                </div>-->
+                        <#--                            </div>-->
+                        <#--                        </div>-->
                     </div>
                     <div class="text-center">
                         <button id="btn-cx" class="btn btn-primary"><i class="fa fa-search"></i>&nbsp;查询
@@ -104,7 +104,7 @@
 <#include "/common/scriptfile.ftl"/>
 <#include "/common/scriptfile_list.ftl"/>
 <script src="${global.staticPath!}static/plugins/laydate/laydate.js"></script>
-<script src="${global.staticPath!}static/plugins/echarts/echarts-all.js"></script>
+<script src="${global.staticPath!}static/plugins/echarts/echarts.min.js"></script>
 <script>
     function searchP(obj) {
         const provinceArray = $(obj).val().replace(/\s*/g, "").split("-")
@@ -151,6 +151,7 @@
             }
         });
     }
+
     function choseX(obj) {
         const countyArray = $(obj).val().replace(/\s*/g, "").split("-")
         const county = countyArray[0]
@@ -161,6 +162,7 @@
         // }
 
     }
+
     laydate.render({
         "elem": "#timeRange",
         "range": "至",
@@ -200,7 +202,8 @@
 
     //饼状图
     function initPieData(pieData) {
-        console.log(pieData)
+        var sum = pieData.beenhome + pieData.planhome
+        var sumStr = "总数：" + sum
         const piedom = document.getElementById("pieContainer");
         const pieChart = echarts.init(piedom);
         const pieOption = {
@@ -214,13 +217,29 @@
                 data: ['已返乡', '拟返乡']
             },
             title: [{
-                text: '总量10',
+                text: sumStr,
                 top: 'center',
                 left: 'center',
 
             }],
+            color: ['rgba(223,123,250,0.64)', 'rgba(255,132,0,0.64)'],
             series: [
                 {
+                    avoidLabelOverlap: false,
+                    //数值和百分比显示
+                    itemStyle: {
+                        normal: {
+                            label: {
+                                show: true,
+                                formatter: '{b} : {c} ({d}%)'
+                            },
+                            labelLine: {show: true}
+                        }
+                    },
+                    labelLine: {
+                        show: false
+                    },
+                    name: '数量和占比',
                     type: 'pie',
                     radius: ['50%', '70%'],
                     data: [
@@ -240,55 +259,88 @@
         const bardom = document.getElementById("barContainer");
         const barChart = echarts.init(bardom);
         const barOption = {
-            tooltip: {
-                trigger: 'axis',
-                axisPointer: {            // 坐标轴指示器，坐标轴触发有效
-                    type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
-                }
-            },
-            legend: {
-                data: ['已返乡', '拟返乡']
-            },
-            grid: {
-                left: '3%',
-                right: '4%',
-                bottom: '3%',
-                containLabel: true
-            },
-            xAxis: [
-                {
-                    type: 'category',
-                    data: barData.beforeAreaNames,
-                    axisLabel: {
-                        interval: 0,
-                        inside: true,
-                        formatter: function (value) {
-                            return value.split("").join("\n");
-                        }
-                        // rotate: 50
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: {            // 坐标轴指示器，坐标轴触发有效
+                        type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
                     }
-                }
-            ],
-            yAxis: [
-                {
-                    type: 'value'
-                }
-            ],
-            series: [
-                {
-                    name: '已返乡',
-                    type: 'bar',
-                    stack: '数量',
-                    data: barData.beenhomes
                 },
-                {
-                    name: '拟返乡',
-                    type: 'bar',
-                    stack: '数量',
-                    data: barData.planhomes
-                }
-            ]
-        };
+                legend: {
+                    data: ['已返乡', '拟返乡']
+                },
+                grid: {
+                    left: '3%',
+                    right: '4%',
+                    bottom: '3%',
+                    containLabel: true
+                },
+                xAxis: [
+                    {
+                        type: 'category',
+                        data: barData.beforeAreaNames,
+                        axisLabel: {
+                            interval: 0,
+                            inside: true,
+                            formatter: function (value) {
+                                return value.split("").join("\n");
+                            }
+                            // rotate: 50
+                        }
+                    }
+                ],
+                yAxis: [
+                    {
+                        type: 'value'
+                    }
+                ],
+                series: [
+                    {
+                        name: '已返乡',
+                        type: 'bar',
+                        stack: '数量',
+                        data: barData.beenhomes,
+                        itemStyle: {
+                            normal: {
+                                color:   'rgba(223,123,250,0.64)'
+                            }
+                        }
+                    },
+                    {
+
+                        name: '拟返乡',
+                        type: 'bar',
+                        stack: '数量',
+                        data: barData.planhomes,
+                        itemStyle: {
+                            normal: {
+                                color:  'rgba(255,132,0,0.64)'
+                            }
+                        }
+                    },
+                    //series中push合计的数据
+                    {
+                        name: '总数',
+                        type: 'bar',
+                        stack: '数量',
+                        label: {
+                            normal: {
+                                offset: ['50', '80'],
+                                show: true,
+                                position: 'insideBottom',
+                                formatter: '{c}',
+                                textStyle: {color: '#000000'}
+                            }
+                        },
+                        itemStyle: {
+                            normal: {
+                                color: 'rgba(128,128,128,0)'
+                            }
+                        },
+                        data: barData.sum
+                    }
+                ]
+            }
+        ;
         if (barOption && typeof barOption === "object") {
             barChart.setOption(barOption, true);
         }

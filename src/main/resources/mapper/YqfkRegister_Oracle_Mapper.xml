@@ -16,6 +16,9 @@
       <if test="areaCode !=null and areaCode !=''">
         and "AFTER_RETURN_CUBM"  like concat(#{areaCode},'%')
       </if>
+      <if test="name !=null and name !=''">
+        and "NAME"  like concat(concat('%', #{name}), '%')
+      </if>
       <if test="createAccount !=null and createAccount !=''">
         and "CREATE_ACCOUNT" = (select ID from SYS_USER where USER_NAME=#{createAccount,jdbcType=VARCHAR})
       </if>

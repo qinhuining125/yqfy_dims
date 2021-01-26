@@ -30,6 +30,12 @@
                                 <input type="hidden" id="afterReturnZhbm" name="afterReturnZhbm">
                                 <input type="hidden" id="afterReturnCubm" name="afterReturnCubm">
                             </div>
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label">姓名:</label>
+                                <div class="col-sm-7">
+                                    <input type="text" id="name" name="name" class="form-control" autocomplete="off">
+                                </div>
+                            </div>
                         </div>
                         <div class="col-xs-6 col-sm-4 col-lg-3">
                             <div class="form-group">

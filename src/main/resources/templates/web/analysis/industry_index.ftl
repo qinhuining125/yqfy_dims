@@ -67,7 +67,7 @@
 <#include "/common/scriptfile.ftl"/>
 <#include "/common/scriptfile_list.ftl"/>
 <script src="${global.staticPath!}static/plugins/laydate/laydate.js"></script>
-<script src="${global.staticPath!}static/plugins/echarts/echarts-all.js"></script>
+<script src="${global.staticPath!}static/plugins/echarts/echarts.min.js"></script>
 <script>
   laydate.render({
     "elem": "#timeRange",
@@ -108,6 +108,8 @@
 
   //饼状图
   function initPieData(pieData) {
+    var sum= pieData.lenglian+ pieData.business+pieData.huoyun+pieData.jiguan+pieData.kouan+pieData.geli+pieData.student+pieData.wuye+pieData.other
+    var sumStr="总数："+sum
     const piedom = document.getElementById("pieContainer");
     const pieChart = echarts.init(piedom);
     const pieOption = {
@@ -121,14 +123,31 @@
         data: ['冷链从业人员', '商业从业人员', '交通运输工具从业人员', '机关事业单位','口岸直接接触进口货物从业人员','隔离场所工作人员','学生', '无业', '其它']
       },
       title: [{
-        text: '总量10',
+        text: sumStr,
         top: 'center',
         left: 'center'
       }],
+      color:['rgba(236,70,17,0.66)','rgba(241,181,93,0.66)','rgba(241,232,61,0.66)','rgba(236,243,37,0.66)', 'rgba(90,231,52,0.66)',
+        'rgba(32,206,186,0.66)','rgba(43,144,212,0.66)','rgba(172,73,213,0.66)','rgba(201,56,182,0.66)'],
       series: [
         {
+          avoidLabelOverlap: false,
+          //数值和百分比显示
+          itemStyle: {
+            normal: {
+              label: {
+                show: true,
+                formatter: '{b} : {c} ({d}%)'
+              },
+              labelLine: {show: true}
+            }
+          },
+          labelLine: {
+            show: false
+          },
+          name: '数量和占比',
           type: 'pie',
-          radius: ['50%', '70%'],
+          radius: ['30%', '50%'],
           data: [
             {value: pieData.lenglian, name: '冷链从业人员',},
             {value: pieData.business, name: '商业从业人员'},
@@ -150,6 +169,7 @@
 
   //柱状图
   function initBarData(barData) {
+    console.log(barData)
     const bardom = document.getElementById("barContainer");
     const barChart = echarts.init(bardom);
     const barOption = {
@@ -190,56 +210,122 @@
           name: '冷链从业人员',
           type: 'bar',
           stack: '数量',
-          data: barData.lenglians
+          data: barData.lenglians,
+          itemStyle: {
+            normal: {
+              color: 'rgba(236,70,17,0.66)'
+            }
+          }
         },
         {
           name: '商业从业人员',
           type: 'bar',
           stack: '数量',
-          data: barData.businesss
+          data: barData.businesss,
+          itemStyle: {
+            normal: {
+              color: 'rgba(241,181,93,0.66)'
+            }
+          }
         },
         {
           name: '交通运输工具从业人员',
           type: 'bar',
           stack: '数量',
-          data: barData.huoyuns
+          data: barData.huoyuns,
+          itemStyle: {
+            normal: {
+              color: 'rgba(241,232,61,0.66)'
+            }
+          }
         },
         {
           name: '机关事业单位',
           type: 'bar',
           stack: '数量',
-          data: barData.jiguans
+          data: barData.jiguans,
+          itemStyle: {
+            normal: {
+              color: 'rgba(236,243,37,0.66)'
+            }
+          }
         },
-
         {
           name: '口岸直接接触进口货物从业人员',
           type: 'bar',
           stack: '数量',
-          data: barData.kouans
+          data: barData.kouans,
+          itemStyle: {
+            normal: {
+              color: 'rgba(90,231,52,0.66)'
+            }
+          }
         },
         {
           name: '隔离场所工作人员',
           type: 'bar',
           stack: '数量',
-          data: barData.gelis
+          data: barData.gelis,
+          itemStyle: {
+            normal: {
+              color:
+                      'rgba(32,206,186,0.66)'
+            }
+          }
         },
         {
           name: '学生',
           type: 'bar',
           stack: '数量',
-          data: barData.students
+          data: barData.students,
+          itemStyle: {
+            normal: {
+              color: 'rgba(43,144,212,0.66)'
+            }
+          }
         },
         {
           name: '无业',
           type: 'bar',
           stack: '数量',
-          data: barData.wuyes
+          data: barData.wuyes,
+          itemStyle: {
+            normal: {
+              color: 'rgba(172,73,213,0.66)'
+            }
+          }
         },
         {
           name: '其他',
           type: 'bar',
           stack: '数量',
-          data: barData.others
+          data: barData.others,
+          itemStyle: {
+            normal: {
+              color: 'rgba(201,56,182,0.66)'
+            }
+          }
+        },
+        //series中push合计的数据
+        {
+          name: '总数',
+          type: 'bar',
+          stack: '数量',
+          label: {
+            normal: {
+              offset: ['50', '80'],
+              show: true,
+              position: 'insideBottom',
+              formatter: '{c}',
+              textStyle: {color: '#000000'}
+            }
+          },
+          itemStyle: {
+            normal: {
+              color: 'rgba(128,128,128,0)'
+            }
+          },
+          data: barData.sum
         }
       ]
     };
