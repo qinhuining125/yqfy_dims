@@ -194,7 +194,10 @@
             ],
             yAxis: [
                 {
-                    type: 'value'
+                    type: 'value',
+                    axisLine: {    // 坐标轴 轴线
+                        show: true,  // 是否显示
+                    }
                 }
             ],
 

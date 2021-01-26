@@ -62,6 +62,8 @@
                                         <option value="">全部</option>
                                         <option value="拟返乡">拟返乡</option>
                                         <option value="已返乡">已返乡</option>
+                                        <option value="不返乡">不返乡</option>
+                                        <option value="已上报社区">已上报社区</option>
                                     </select>
                                 </div>
                             </div>

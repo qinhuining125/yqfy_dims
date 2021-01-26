@@ -95,8 +95,8 @@
     //饼状图
     function initPieData(pieData) {
         console.log(pieData)
-        var sum= pieData.beenhome+ pieData.planhome+ pieData.nohome+ pieData.report
-        var sumStr="总数："+sum
+        var sum = pieData.beenhome + pieData.planhome + pieData.nohome + pieData.report
+        var sumStr = "总数：" + sum
         const piedom = document.getElementById("pieContainer");
         const pieChart = echarts.init(piedom);
         const pieOption = {
@@ -114,7 +114,7 @@
                 top: 'center',
                 left: 'center'
             }],
-            color:['rgba(223,123,250,0.64)','rgba(255,132,0,0.66)','rgba(31,39,194,0.66)','rgba(210,42,95,0.66)'],
+            color: ['rgba(223,123,250,0.64)', 'rgba(255,132,0,0.66)', 'rgba(31,39,194,0.66)', 'rgba(210,42,95,0.66)'],
             series: [
                 {
                     avoidLabelOverlap: false,
@@ -174,15 +174,18 @@
                     type: 'category',
                     data: barData.villageNames,
                     axisLabel: {
-                      interval: 0,
-                      inside: true,
-                      rotate: 30
+                        interval: 0,
+                        inside: true,
+                        rotate: 30
                     }
                 }
             ],
             yAxis: [
                 {
-                    type: 'value'
+                    type: 'value',
+                    axisLine: {    // 坐标轴 轴线
+                        show: true,  // 是否显示
+                    }
                 }
             ],
             series: [
@@ -196,7 +199,7 @@
                     data: barData.beenhomes,
                     itemStyle: {
                         normal: {
-                            color:  'rgba(223,123,250,0.64)'
+                            color: 'rgba(223,123,250,0.64)'
                         }
                     }
                 },
