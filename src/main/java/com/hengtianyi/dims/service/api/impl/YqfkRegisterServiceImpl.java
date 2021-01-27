@@ -274,7 +274,7 @@ public class YqfkRegisterServiceImpl extends
         Integer sum = 0;
 
         for (YqfkRegisterEntity entity : list) {
-            if (entity.getExpReturnWay() != null && !"".equals(entity.getExpReturnWay()) && entity.getReturnState().equals("拟返乡")) {
+            if (entity.getExpReturnWay() != null && !"".equals(entity.getExpReturnWay()) && (entity.getReturnState().equals("拟返乡") || entity.getReturnState().equals("不返乡"))) {
                 if (entity.getExpReturnWay() != null && !"".equals(entity.getExpReturnWay()) && entity.getExpReturnWay().contains("自驾")) {
                     zj += 1;
                 } else if (entity.getExpReturnWay() != null && !"".equals(entity.getExpReturnWay()) && entity.getExpReturnWay().contains("飞机")) {
@@ -286,11 +286,12 @@ public class YqfkRegisterServiceImpl extends
                 } else if (entity.getExpReturnWay() != null && !"".equals(entity.getExpReturnWay()) && entity.getExpReturnWay().contains("网约车")) {
                     wybus += 1;
                 }
-                if (entity.getExpReturnWay().contains("自驾") || entity.getExpReturnWay().contains("飞机")
-                        || entity.getExpReturnWay().contains("火车") || entity.getExpReturnWay().contains("客车") || entity.getExpReturnWay().contains("客车") || entity.getExpReturnWay().contains("网约车")) {
+                if (entity.getExpReturnWay() != null && (entity.getExpReturnWay().contains("自驾") || entity.getExpReturnWay().contains("飞机")
+                        || entity.getExpReturnWay().contains("火车") || entity.getExpReturnWay().contains("客车")
+                        || entity.getExpReturnWay().contains("客车") || entity.getExpReturnWay().contains("网约车"))) {
                     sum += 1;
                 }
-            } else if(entity.getExpReturnWay() != null && !"".equals(entity.getExpReturnWay()) && !entity.getReturnState().equals("拟返乡")) {
+            } else if(entity.getReturnWay() != null && !"".equals(entity.getReturnWay()) && !entity.getReturnState().equals("拟返乡") && !entity.getReturnState().equals("不返乡")) {
                 if (entity.getReturnWay() != null && !"".equals(entity.getReturnWay()) && entity.getReturnWay().contains("自驾")) {
                     zj += 1;
                 } else if (entity.getReturnWay() != null && !"".equals(entity.getReturnWay()) && entity.getReturnWay().contains("飞机")) {
@@ -302,8 +303,9 @@ public class YqfkRegisterServiceImpl extends
                 } else if (entity.getReturnWay() != null && !"".equals(entity.getReturnWay()) && entity.getReturnWay().contains("网约车")) {
                     wybus += 1;
                 }
-                if ( entity.getReturnWay().contains("自驾") || entity.getReturnWay().contains("飞机")
-                        || entity.getReturnWay().contains("火车") || entity.getReturnWay().contains("客车") || entity.getReturnWay().contains("客车") || entity.getReturnWay().contains("网约车")){
+                if (entity.getReturnWay() != null && (entity.getReturnWay().contains("自驾") || entity.getReturnWay().contains("飞机")
+                        || entity.getReturnWay().contains("火车") || entity.getReturnWay().contains("客车")
+                        || entity.getReturnWay().contains("客车") || entity.getReturnWay().contains("网约车"))){
                     sum += 1;
                 }
             }
@@ -529,7 +531,7 @@ public class YqfkRegisterServiceImpl extends
                 geli += 1;
             } else if (entity.getIndustray() != null && entity.getIndustray().equals("无业")) {
                 wuye += 1;
-            } else if (entity.getIndustray() != null && entity.getIndustray().equals("其它")) {
+            } else if (entity.getIndustray() != null && entity.getIndustray().equals("其他")) {
                 other += 1;
             }
             sum += 1;

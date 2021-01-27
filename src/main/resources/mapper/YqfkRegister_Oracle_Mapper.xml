@@ -708,7 +708,7 @@
     p."CREATE_ACCOUNT", p."CREATE_TIME", p."UPDATE_TIME", p."UPDATE_ACCOUNT",p."RISK_LEVEL" ,p."BIRTHDAY"
     from (select ROWNUM as "ROW_ID",
     <include refid="Base_Column_List"/>
-    from (select t.* from "VIEW_YQ_YQFK" t
+    from (select t.* from "YQ_YQFK" t
     <include refid="page_where"/>
     order by t.update_time desc)
     where ROWNUM &lt;= #{dto.end}) p
