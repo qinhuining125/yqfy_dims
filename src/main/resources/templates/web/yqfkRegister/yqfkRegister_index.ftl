@@ -43,7 +43,7 @@
                                 <div class="col-sm-7">
                                     <select name="riskLevel" class="form-control" id="riskLevel">
                                         <option value="">全部</option>
-                                        <#--                                        <option value="0">无</option>-->
+                                        <option value="0">无</option>
                                         <option value="1">低风险</option>
                                         <option value="2">中风险</option>
                                         <option value="3">高风险</option>
@@ -67,7 +67,8 @@
                             <div class="form-group">
                                 <label class="col-sm-4 control-label">网格员所属乡镇:</label>
                                 <div class="col-sm-7">
-                                    <select class="form-control" id="belTownship" name="" onchange="belSearchVillage(this);">
+                                    <select class="form-control" id="belTownship" name=""
+                                            onchange="belSearchVillage(this);">
                                         <option value="">全部</option>
                                         <#list areaListF as obj>
                                             <option value="${(obj.areaCode!)}">${(obj.areaName)!}</option>
@@ -86,7 +87,8 @@
                             <div class="form-group">
                                 <label class="col-sm-4 control-label">网格员:</label>
                                 <div class="col-sm-7">
-                                    <input type="text" id="createAccount" name="createAccount" class="form-control" autocomplete="off">
+                                    <input type="text" id="createAccount" name="createAccount" class="form-control"
+                                           autocomplete="off">
                                 </div>
                             </div>
                         </div>
@@ -471,11 +473,11 @@
 </script>
 <script>
 
-    function exportData(){
-        var excel=LAY_EXCEL;
+    function exportData() {
+        var excel = LAY_EXCEL;
         //查询参数这里
         var startTime = $("#startTime").val();
-        var  endTime= $("#endTime").val();
+        var endTime = $("#endTime").val();
         var beforeReturnPbm = $("#beforeReturnPbm").val();
         var beforeReturnCbm = $("#beforeReturnCbm").val();
         var beforeReturnXbm = $("#beforeReturnXbm").val();
@@ -484,9 +486,18 @@
         var riskLevel = $("#riskLevel").val();
         var createAccount = $("#createAccount").val();
         var returnState = $("#returnState").val();
-        var Param1 = JSON.stringify({ "startTime": startTime, "endTime": endTime, "beforeReturnPbm": beforeReturnPbm ,
-            "beforeReturnCbm": beforeReturnCbm, "beforeReturnXbm": beforeReturnXbm, "afterReturnZhbm": afterReturnZhbm,
-            "afterReturnCubm": afterReturnCubm, "riskLevel": riskLevel, "createAccount": createAccount,"returnState":returnState}); //必须转换为Json对象
+        var Param1 = JSON.stringify({
+            "startTime": startTime,
+            "endTime": endTime,
+            "beforeReturnPbm": beforeReturnPbm,
+            "beforeReturnCbm": beforeReturnCbm,
+            "beforeReturnXbm": beforeReturnXbm,
+            "afterReturnZhbm": afterReturnZhbm,
+            "afterReturnCubm": afterReturnCubm,
+            "riskLevel": riskLevel,
+            "createAccount": createAccount,
+            "returnState": returnState
+        }); //必须转换为Json对象
 
         $.ajax({
             "type": "post",
@@ -495,85 +506,111 @@
             "contentType": "application/json",//必须要有
             "data": Param1,
             "success": function (res) {
-            console.log(res.result);// [{name: 'wang', age: 18, sex: '男'}, {name: 'layui', age: 3, sex: '女'}]
-            // 1. 数组头部新增表头
-            res.result.unshift({id: '主键ID',name: '姓名', sex: '性别',age: '年龄',card: '身份证',
-                hj: '户籍',sfcz: '是否常住',relation: '与户主关系',
-                phone: '联系电话',workSchool: '工作单位',industray: '行业', returnState: '是否返乡',returnTime: '返乡日期',
-                returnWay: '返乡方式', returnCarnum: '返乡车牌号',expReturnTime: '拟返乡日期',expReturnWay: '拟返乡方式', expReturnCarnum: '拟返乡车牌号',
-                beforeReturnAddress: '返乡前住址', afterReturnAddress: '返乡后住址',localState: '是否本地租户',natTime: '核酸检测日期', natResult: '核酸检测结果',
-                touchState: '否接触过新冠确诊病人或疑似病人', isLateStete: '是否居家隔离',isLateStateTime: '隔离开始日期',healthState: '当前健康状态是否异常', remark: '异常说明',
-                createAccount: '录入者账号', createTimeUnix: '创建时间',riskLevel: '风险等级',placeNames:'14天去过的地方'});
-            // 2. 如果需要调整顺序，请执行梳理函数
-            var data = excel.filterExportData(res.result, [
-                'id',
-                'name',
-                'sex',
-                'age',
-                'card',
-                'hj',
-                'sfcz',
-                'relation',
-                'phone',
-                'workSchool',
-                'industray',
-                'returnState',
-                'returnTime',
-                'returnWay',
-                'returnCarnum',
-                'expReturnTime',
-                'expReturnWay',
-                'expReturnCarnum',
-                'beforeReturnAddress',
-                'afterReturnAddress',
-                'localState',
-                'natTime',
-                'natResult',
-                'touchState',
-                'isLateStete',
-                'isLateStateTime',
-                'healthState',
-                'remark',
-                'createAccount',
-                'createTimeUnix',
-                'riskLevel',
-                'placeNames',
-            ]);
-            // 3. 执行导出函数，系统会弹出弹框
-            excel.exportExcel({
-                sheet1: data
-            }, '导出登记表数据.xlsx', 'xlsx');
-        }
-    });
-    }
-
-   /* layui.use(['jquery', 'excel', 'layer'], function() {
-        var $ = layui.jquery;
-        var excel = layui.excel;
-        $.ajax({
-            url: '/a/yqfkRegister/getDataList1.json', //导出数据的url
-            dataType: 'json',
-            success: function(res) {
-                // 假如返回的 res.data 是需要导出的列表数据
                 console.log(res.result);// [{name: 'wang', age: 18, sex: '男'}, {name: 'layui', age: 3, sex: '女'}]
                 // 1. 数组头部新增表头
-                res.result.unshift({name: '用户名',sex: '男', age: '年龄'});
+                res.result.unshift({
+                    id: '主键ID',
+                    name: '姓名',
+                    sex: '性别',
+                    age: '年龄',
+                    card: '身份证',
+                    hj: '户籍',
+                    sfcz: '是否常住',
+                    relation: '与户主关系',
+                    phone: '联系电话',
+                    workSchool: '工作单位',
+                    industray: '行业',
+                    returnState: '是否返乡',
+                    returnTime: '返乡日期',
+                    returnWay: '返乡方式',
+                    returnCarnum: '返乡车牌号',
+                    expReturnTime: '拟返乡日期',
+                    expReturnWay: '拟返乡方式',
+                    expReturnCarnum: '拟返乡车牌号',
+                    beforeReturnAddress: '返乡前住址',
+                    afterReturnAddress: '返乡后住址',
+                    localState: '是否本地租户',
+                    natTime: '核酸检测日期',
+                    natResult: '核酸检测结果',
+                    touchState: '否接触过新冠确诊病人或疑似病人',
+                    isLateStete: '是否居家隔离',
+                    isLateStateTime: '隔离开始日期',
+                    healthState: '当前健康状态是否异常',
+                    remark: '异常说明',
+                    createAccount: '录入者账号',
+                    createTimeUnix: '创建时间',
+                    riskLevel: '风险等级',
+                    placeNames: '14天去过的地方'
+                });
                 // 2. 如果需要调整顺序，请执行梳理函数
                 var data = excel.filterExportData(res.result, [
+                    'id',
                     'name',
                     'sex',
                     'age',
+                    'card',
+                    'hj',
+                    'sfcz',
+                    'relation',
+                    'phone',
+                    'workSchool',
+                    'industray',
+                    'returnState',
+                    'returnTime',
+                    'returnWay',
+                    'returnCarnum',
+                    'expReturnTime',
+                    'expReturnWay',
+                    'expReturnCarnum',
+                    'beforeReturnAddress',
+                    'afterReturnAddress',
+                    'localState',
+                    'natTime',
+                    'natResult',
+                    'touchState',
+                    'isLateStete',
+                    'isLateStateTime',
+                    'healthState',
+                    'remark',
+                    'createAccount',
+                    'createTimeUnix',
+                    'riskLevel',
+                    'placeNames',
                 ]);
                 // 3. 执行导出函数，系统会弹出弹框
                 excel.exportExcel({
                     sheet1: data
-                }, '导出接口数据.xlsx', 'xlsx');
+                }, '导出登记表数据.xlsx', 'xlsx');
             }
         });
-    });
+    }
 
-*/
+    /* layui.use(['jquery', 'excel', 'layer'], function() {
+         var $ = layui.jquery;
+         var excel = layui.excel;
+         $.ajax({
+             url: '/a/yqfkRegister/getDataList1.json', //导出数据的url
+             dataType: 'json',
+             success: function(res) {
+                 // 假如返回的 res.data 是需要导出的列表数据
+                 console.log(res.result);// [{name: 'wang', age: 18, sex: '男'}, {name: 'layui', age: 3, sex: '女'}]
+                 // 1. 数组头部新增表头
+                 res.result.unshift({name: '用户名',sex: '男', age: '年龄'});
+                 // 2. 如果需要调整顺序，请执行梳理函数
+                 var data = excel.filterExportData(res.result, [
+                     'name',
+                     'sex',
+                     'age',
+                 ]);
+                 // 3. 执行导出函数，系统会弹出弹框
+                 excel.exportExcel({
+                     sheet1: data
+                 }, '导出接口数据.xlsx', 'xlsx');
+             }
+         });
+     });
 
+ */
 
 
     laydate.render({
