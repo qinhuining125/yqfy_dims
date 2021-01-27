@@ -166,7 +166,7 @@
             grid: {
                 left: '3%',
                 right: '4%',
-                bottom: '3%',
+                bottom: '10%',
                 containLabel: true
             },
             xAxis: [
@@ -174,9 +174,28 @@
                     type: 'category',
                     data: barData.villageNames,
                     axisLabel: {
+                        // rotate: 40,
+                        // inside: true,
                         interval: 0,
-                        inside: true,
-                        rotate: 30
+                        formatter: function (value) {
+                            var str = "";
+                            var num = 1; //每行显示字数
+                            var valLength = value.length; //该项x轴字数
+                            var rowNum = Math.ceil(valLength / num); // 行数
+                            if (rowNum > 1) {
+                                for (var i = 0; i < rowNum; i++) {
+                                    var temp = "";
+                                    var start = i * num;
+                                    var end = start + num;
+
+                                    temp = value.substring(start, end) + "\n";
+                                    str += temp;
+                                }
+                                return str;
+                            } else {
+                                return value;
+                            }
+                        }
                     }
                 }
             ],

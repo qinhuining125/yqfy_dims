@@ -174,7 +174,6 @@
                     {{#ifEqual valid '1'}}低{{/ifEqual}}
                     {{#ifEqual valid "2"}}中{{/ifEqual}}
                     {{#ifEqual valid "3"}}高{{/ifEqual}}
-                    {{valid}}
                 </div>
             </div>
         </div>

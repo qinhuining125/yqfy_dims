@@ -121,6 +121,27 @@ public class YqfkRegisterEntity extends BaseEntity {
   //判断管理员所属
   private String areaCode;
 
+  //创建者所属乡镇
+  private String createBelZhbm;
+  //创建者所属村
+  private String createBelCubm;
+
+  public String getCreateBelZhbm() {
+    return createBelZhbm;
+  }
+
+  public void setCreateBelZhbm(String createBelZhbm) {
+    this.createBelZhbm = createBelZhbm;
+  }
+
+  public String getCreateBelCubm() {
+    return createBelCubm;
+  }
+
+  public void setCreateBelCubm(String createBelCubm) {
+    this.createBelCubm = createBelCubm;
+  }
+
   public Date getBirthday() {
     return birthday;
   }

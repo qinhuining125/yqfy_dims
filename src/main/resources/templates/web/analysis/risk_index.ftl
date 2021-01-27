@@ -108,8 +108,9 @@
 
     //饼状图
     function initPieData(pieData) {
-        var sum = pieData.wfx + pieData.dfx + pieData.dfx + pieData.zfx + pieData.gfx
-        var sumStr = "总数：" + sum
+        console.log(pieData)
+        var sum = pieData.wfx + pieData.dfx  + pieData.zfx + pieData.gfx
+        var sumStr = "总数：" + pieData.sum
         const piedom = document.getElementById("pieContainer");
         const pieChart = echarts.init(piedom);
         const pieOption = {
@@ -178,7 +179,7 @@
             grid: {
                 left: '3%',
                 right: '4%',
-                bottom: '3%',
+                bottom: '0%',
                 containLabel: true
             },
             xAxis: [
@@ -186,9 +187,28 @@
                     type: 'category',
                     data: barData.villageNames,
                     axisLabel: {
+                        // rotate: 40,
+                        // inside: true,
                         interval: 0,
-                        inside: true,
-                        rotate: 30
+                        formatter: function (value) {
+                            var str = "";
+                            var num = 1; //每行显示字数
+                            var valLength = value.length; //该项x轴字数
+                            var rowNum = Math.ceil(valLength / num); // 行数
+                            if (rowNum > 1) {
+                                for (var i = 0; i < rowNum; i++) {
+                                    var temp = "";
+                                    var start = i * num;
+                                    var end = start + num;
+
+                                    temp = value.substring(start, end) + "\n";
+                                    str += temp;
+                                }
+                                return str;
+                            } else {
+                                return value;
+                            }
+                        }
                     }
                 }
             ],
@@ -265,7 +285,7 @@
                             color: 'rgba(128, 128, 128, 0)'
                         }
                     },
-                    data: barData.sum
+                    data: barData.sums
                     // data: barData.sum
                 }
 

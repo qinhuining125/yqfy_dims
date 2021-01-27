@@ -233,7 +233,7 @@ public class YqfkRegisterServiceImpl extends
             String[] trains = new String[villageList.size()];
             String[] buss = new String[villageList.size()];
             String[] wybuss = new String[villageList.size()];
-            String[] sum = new String[villageList.size()];
+            String[] sums = new String[villageList.size()];
             for (int i = 0; i < villageList.size(); i++) {
                 VillageEntity village = villageList.get(i);
                 yqfkRegisterEntityList = yqfkRegisterDao
@@ -245,7 +245,7 @@ public class YqfkRegisterServiceImpl extends
                 trains[i] = dataMap.get("train").toString();
                 buss[i] = dataMap.get("bus").toString();
                 wybuss[i] = dataMap.get("wybus").toString();
-                sum[i] = dataMap.get("sum").toString();
+                sums[i] = dataMap.get("sum").toString();
             }
 
             map.put("villageNames", villageNames);
@@ -254,7 +254,7 @@ public class YqfkRegisterServiceImpl extends
             map.put("trains", trains);
             map.put("buss", buss);
             map.put("wybuss", wybuss);
-            map.put("sum", sum);
+            map.put("sums", sums);
             result.setSuccess(true);
             result.setResult(map);
         } catch (Exception e) {
@@ -286,7 +286,11 @@ public class YqfkRegisterServiceImpl extends
                 } else if (entity.getExpReturnWay() != null && !"".equals(entity.getExpReturnWay()) && entity.getExpReturnWay().contains("网约车")) {
                     wybus += 1;
                 }
-            } else {
+                if (entity.getExpReturnWay().contains("自驾") || entity.getExpReturnWay().contains("飞机")
+                        || entity.getExpReturnWay().contains("火车") || entity.getExpReturnWay().contains("客车") || entity.getExpReturnWay().contains("客车") || entity.getExpReturnWay().contains("网约车")) {
+                    sum += 1;
+                }
+            } else if(entity.getExpReturnWay() != null && !"".equals(entity.getExpReturnWay()) && !entity.getReturnState().equals("拟返乡")) {
                 if (entity.getReturnWay() != null && !"".equals(entity.getReturnWay()) && entity.getReturnWay().contains("自驾")) {
                     zj += 1;
                 } else if (entity.getReturnWay() != null && !"".equals(entity.getReturnWay()) && entity.getReturnWay().contains("飞机")) {
@@ -298,8 +302,11 @@ public class YqfkRegisterServiceImpl extends
                 } else if (entity.getReturnWay() != null && !"".equals(entity.getReturnWay()) && entity.getReturnWay().contains("网约车")) {
                     wybus += 1;
                 }
+                if ( entity.getReturnWay().contains("自驾") || entity.getReturnWay().contains("飞机")
+                        || entity.getReturnWay().contains("火车") || entity.getReturnWay().contains("客车") || entity.getReturnWay().contains("客车") || entity.getReturnWay().contains("网约车")){
+                    sum += 1;
+                }
             }
-            sum += 1;
         }
 
         map.put("zj", zj);
@@ -311,7 +318,17 @@ public class YqfkRegisterServiceImpl extends
         return map;
     }
 
-
+    /**
+     * 返乡前区域统计
+     *
+     * @param startTime
+     * @param endTime
+     * @param areaCode
+     * @param beforeAreaPbm
+     * @param beforeAreaCbm
+     * @param beforeAreaXbm
+     * @return
+     */
     @Override
     public String echartsDataBefore(String startTime, String endTime, String areaCode, String beforeAreaPbm, String beforeAreaCbm, String beforeAreaXbm) {
         ServiceResult<Object> result = new ServiceResult();
@@ -417,6 +434,7 @@ public class YqfkRegisterServiceImpl extends
 
     /**
      * echartsDataIndustry
+     * 行业统计
      *
      * @param startTime 开始时间
      * @param endTime   结束时间
@@ -503,7 +521,7 @@ public class YqfkRegisterServiceImpl extends
                 huoyun += 1;
             } else if (entity.getIndustray() != null && entity.getIndustray().equals("机关事业单位")) {
                 jiguan += 1;
-            } else if (entity.getIndustray() != null && entity.getIndustray().equals("学生")) {
+                } else if (entity.getIndustray() != null && entity.getIndustray().equals("学生")) {
                 student += 1;
             } else if (entity.getIndustray() != null && entity.getIndustray().equals("口岸直接接触进口货物从业人员")) {
                 kouan += 1;
@@ -529,6 +547,54 @@ public class YqfkRegisterServiceImpl extends
         return map;
     }
 
+    /**
+     * echartsDataRisk
+     *
+     * @param startTime 开始时间
+     * @param endTime   结束时间
+     * @param areaCode  乡镇编号
+     * @return json
+     */
+    @Override
+    public String echartsDataRisk(String startTime, String endTime, String areaCode, String returnState) {
+        ServiceResult<Object> result = new ServiceResult();
+        try {
+            List<YqfkRegisterEntity> yqfkRegisterEntityList = yqfkRegisterDao.getEchartsDataRisk(startTime, endTime, areaCode, returnState);
+            Map<String, Object> map = countRisk(yqfkRegisterEntityList, returnState);
+            List<VillageEntity> villageList = villageDao.areaList(areaCode);
+            String[] villageNames = new String[villageList.size()];
+
+            String[] wfxs = new String[villageList.size()];
+            String[] dfxs = new String[villageList.size()];
+            String[] zfxs = new String[villageList.size()];
+            String[] gfxs = new String[villageList.size()];
+            String[] sums = new String[villageList.size()];
+            for (int i = 0; i < villageList.size(); i++) {
+                VillageEntity village = villageList.get(i);
+                yqfkRegisterEntityList = yqfkRegisterDao.getEchartsDataRisk(startTime, endTime, village.getAreaCode(), returnState);
+                Map<String, Object> dataMap = countRisk(yqfkRegisterEntityList, returnState);
+                villageNames[i] = village.getAreaName();
+
+                wfxs[i] = dataMap.get("wfx").toString();
+                dfxs[i] = dataMap.get("dfx").toString();
+                zfxs[i] = dataMap.get("zfx").toString();
+                gfxs[i] = dataMap.get("gfx").toString();
+                sums[i] = dataMap.get("sum").toString();
+            }
+            map.put("villageNames", villageNames);
+            map.put("wfxs", wfxs);
+            map.put("dfxs", dfxs);
+            map.put("zfxs", zfxs);
+            map.put("gfxs", gfxs);
+            map.put("sums", sums);
+            result.setSuccess(true);
+            result.setResult(map);
+        } catch (Exception e) {
+            LOGGER.error("[echartsDataRisk]出错,{}", e.getMessage(), e);
+            result.setError("false");
+        }
+        return result.toJson();
+    }
     private Map<String, Object> countRisk(List<YqfkRegisterEntity> list, String returnState) {
         Map<String, Object> map = new HashMap<>();
         Integer wfx = 0;
@@ -555,56 +621,6 @@ public class YqfkRegisterServiceImpl extends
         map.put("gfx", gfx);
         map.put("sum", sum);
         return map;
-    }
-
-
-    /**
-     * echartsDataRisk
-     *
-     * @param startTime 开始时间
-     * @param endTime   结束时间
-     * @param areaCode  乡镇编号
-     * @return json
-     */
-    @Override
-    public String echartsDataRisk(String startTime, String endTime, String areaCode, String returnState) {
-        ServiceResult<Object> result = new ServiceResult();
-        try {
-            List<YqfkRegisterEntity> yqfkRegisterEntityList = yqfkRegisterDao.getEchartsDataRisk(startTime, endTime, areaCode, returnState);
-            Map<String, Object> map = countRisk(yqfkRegisterEntityList, returnState);
-            List<VillageEntity> villageList = villageDao.areaList(areaCode);
-            String[] villageNames = new String[villageList.size()];
-
-            String[] wfxs = new String[villageList.size()];
-            String[] dfxs = new String[villageList.size()];
-            String[] zfxs = new String[villageList.size()];
-            String[] gfxs = new String[villageList.size()];
-            String[] sum = new String[villageList.size()];
-            for (int i = 0; i < villageList.size(); i++) {
-                VillageEntity village = villageList.get(i);
-                yqfkRegisterEntityList = yqfkRegisterDao.getEchartsDataRisk(startTime, endTime, village.getAreaCode(), returnState);
-                Map<String, Object> dataMap = countRisk(yqfkRegisterEntityList, returnState);
-                villageNames[i] = village.getAreaName();
-
-                wfxs[i] = dataMap.get("wfx").toString();
-                dfxs[i] = dataMap.get("dfx").toString();
-                zfxs[i] = dataMap.get("zfx").toString();
-                gfxs[i] = dataMap.get("gfx").toString();
-                sum[i] = dataMap.get("sum").toString();
-            }
-            map.put("villageNames", villageNames);
-            map.put("wfxs", wfxs);
-            map.put("dfxs", dfxs);
-            map.put("zfxs", zfxs);
-            map.put("gfxs", gfxs);
-            map.put("sum", sum);
-            result.setSuccess(true);
-            result.setResult(map);
-        } catch (Exception e) {
-            LOGGER.error("[echartsDataRisk]出错,{}", e.getMessage(), e);
-            result.setError("false");
-        }
-        return result.toJson();
     }
 
 

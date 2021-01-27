@@ -202,7 +202,7 @@
 
     //饼状图
     function initPieData(pieData) {
-        var sum = pieData.beenhome + pieData.planhome+pieData.nohome + pieData.report
+        var sum = pieData.beenhome + pieData.planhome + pieData.nohome + pieData.report
         var sumStr = "总数：" + sum
         const piedom = document.getElementById("pieContainer");
         const pieChart = echarts.init(piedom);
@@ -222,7 +222,7 @@
                 left: 'center',
 
             }],
-            color:['rgba(223,123,250,0.64)','rgba(255,132,0,0.66)','rgba(31,39,194,0.66)','rgba(210,42,95,0.66)'],
+            color: ['rgba(223,123,250,0.64)', 'rgba(255,132,0,0.66)', 'rgba(31,39,194,0.66)', 'rgba(210,42,95,0.66)'],
             series: [
                 {
                     avoidLabelOverlap: false,
@@ -273,20 +273,38 @@
                 grid: {
                     left: '3%',
                     right: '4%',
-                    bottom: '3%',
+                    bottom: '0%',
                     containLabel: true
                 },
                 xAxis: [
                     {
                         type: 'category',
                         data: barData.beforeAreaNames,
+                        // position: 0,  // x轴的位置
+                        // offset: 50, // x轴相对于默认位置的偏移
                         axisLabel: {
+                            // rotate: 40,
+                            // inside: true,
                             interval: 0,
-                            inside: true,
                             formatter: function (value) {
-                                return value.split("").join("\n");
+                                var str = "";
+                                var num = 1; //每行显示字数
+                                var valLength = value.length; //该项x轴字数
+                                var rowNum = Math.ceil(valLength / num); // 行数
+                                if (rowNum > 1) {
+                                    for (var i = 0; i < rowNum; i++) {
+                                        var temp = "";
+                                        var start = i * num;
+                                        var end = start + num;
+
+                                        temp = value.substring(start, end) + "\n";
+                                        str += temp;
+                                    }
+                                    return str;
+                                } else {
+                                    return value;
+                                }
                             }
-                            // rotate: 50
                         }
                     }
                 ],
@@ -306,7 +324,7 @@
                         data: barData.beenhomes,
                         itemStyle: {
                             normal: {
-                                color:   'rgba(223,123,250,0.64)'
+                                color: 'rgba(223,123,250,0.64)'
                             }
                         }
                     },
@@ -318,7 +336,7 @@
                         data: barData.planhomes,
                         itemStyle: {
                             normal: {
-                                color:  'rgba(255,132,0,0.64)'
+                                color: 'rgba(255,132,0,0.64)'
                             }
                         }
                     },

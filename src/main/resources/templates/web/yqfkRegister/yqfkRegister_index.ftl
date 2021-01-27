@@ -29,6 +29,8 @@
                                 <input type="hidden" id="beforeReturnXbm" name="beforeReturnXbm">
                                 <input type="hidden" id="afterReturnZhbm" name="afterReturnZhbm">
                                 <input type="hidden" id="afterReturnCubm" name="afterReturnCubm">
+                                <input type="hidden" id="createBelZhbm" name="createBelZhbm">
+                                <input type="hidden" id="createBelCubm" name="createBelCubm">
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-4 control-label">姓名:</label>
@@ -36,22 +38,15 @@
                                     <input type="text" id="name" name="name" class="form-control" autocomplete="off">
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-xs-6 col-sm-4 col-lg-3">
-                            <div class="form-group">
-                                <label class="col-sm-4 control-label">网格员:</label>
-                                <div class="col-sm-7">
-                                    <input type="text" id="createAccount" name="createAccount" class="form-control" autocomplete="off">
-                                </div>
-                            </div>
                             <div class="form-group">
                                 <label class="col-sm-4 control-label">风险等级</label>
                                 <div class="col-sm-7">
                                     <select name="riskLevel" class="form-control" id="riskLevel">
                                         <option value="">全部</option>
-                                        <option value="0">低风险</option>
-                                        <option value="1">中风险</option>
-                                        <option value="2">高风险</option>
+                                        <#--                                        <option value="0">无</option>-->
+                                        <option value="1">低风险</option>
+                                        <option value="2">中风险</option>
+                                        <option value="3">高风险</option>
                                     </select>
                                 </div>
                             </div>
@@ -65,6 +60,33 @@
                                         <option value="不返乡">不返乡</option>
                                         <option value="已上报社区">已上报社区</option>
                                     </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-6 col-sm-4 col-lg-3">
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label">网格员所属乡镇:</label>
+                                <div class="col-sm-7">
+                                    <select class="form-control" id="belTownship" name="" onchange="belSearchVillage(this);">
+                                        <option value="">全部</option>
+                                        <#list areaListF as obj>
+                                            <option value="${(obj.areaCode!)}">${(obj.areaName)!}</option>
+                                        </#list>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label">村:</label>
+                                <div class="col-sm-7">
+                                    <select id="belVlliage" class="form-control" name="" onchange="bleChoseArea(this);">
+                                        <option value="">全部</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label">网格员:</label>
+                                <div class="col-sm-7">
+                                    <input type="text" id="createAccount" name="createAccount" class="form-control" autocomplete="off">
                                 </div>
                             </div>
                         </div>
@@ -206,6 +228,12 @@
     {{/each}}
 </script>
 <script id="template-villages" type="text/x-handlebars-template">
+    <option value="">--请选择--</option>
+    {{#each this}}
+    <option value="{{areaCode}}">{{areaName}}</option>
+    {{/each}}
+</script>
+<script id="template-belvillages" type="text/x-handlebars-template">
     <option value="">--请选择--</option>
     {{#each this}}
     <option value="{{areaCode}}">{{areaName}}</option>
@@ -651,6 +679,38 @@
         }
         $("#afterReturnCubm").val(afterReturnCubm);
     }
+
+    function belSearchVillage(obj) {
+        const createBelZhbm = $(obj).val();
+        $("#createBelZhbm").val(createBelZhbm);
+        if (createBelZhbm == '') {
+            return false;
+        }
+
+        $.ajax({
+            "type": "GET",
+            "cache": false,
+            "url": "/a/village/list.json",
+            "data": {
+                "areaCode": createBelZhbm
+            },
+            "dataType": "json",
+            "success": function (data) {
+                const template = Handlebars.compile($("#template-belvillages").html());
+                $("#belVlliage").html(template(data.result));
+            }
+        });
+    }
+
+    function bleChoseArea(obj) {
+
+        var createBelCubm = $(obj).val();
+        if (createBelCubm == '') {
+            createBelCubm = $("#belTownship").val();
+        }
+        $("#createBelCubm").val(createBelCubm);
+    }
+
 
     $(document).ready(function () {
         var HBR_TD = Handlebars.compile($("#template-yqfkRegister").html());
