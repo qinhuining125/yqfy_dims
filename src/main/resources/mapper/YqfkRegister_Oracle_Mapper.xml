@@ -219,11 +219,18 @@
     </choose>
   </select>
 
+  <sql id="Base_Column_List2">
+    "ID" , "NAME" , "SEX", "AGE", "CARD","HJ_PBM" , "HJ_CBM", "HJ_XBM" , "HJ" , "SFCZ", "RELATION" , "PHONE", "WORK_SCHOOL", "INDUSTRAY", "RETURN_STATE",
+    "RETURN_TIME", "RETURN_WAY", "RETURN_CARNUM", "EXP_RETURN_TIME", "EXP_RETURN_WAY", "EXP_RETURN_CARNUM", "BEFORE_RETURN_ADDRESS", "AFTER_RETURN_ADDRESS",
+    "LOCAL_STATE", "NAT_TIME", "NAT_RESULT", "TOUCH_STATE", "ISOLATE_STATE", "ISOLATE_START_TIME", "HEALTH_STATE", "REMARK",
+    "BEFORE_RETURN_PBM","BEFORE_RETURN_CBM","BEFORE_RETURN_XBM","AFTER_RETURN_PBM","AFTER_RETURN_CBM","AFTER_RETURN_XBM","AFTER_RETURN_ZBM","AFTER_RETURN_CUBM",
+    "CREATE_ACCOUNT", "CREATE_TIME", "UPDATE_TIME", "UPDATE_ACCOUNT","RISK_LEVEL","BIRTHDAY","CREATE_TIME" as "CREATE_TIME_UNIX"
+  </sql>
   <!-- 根据条件查询，全部 -->
   <select id="searchAllData" resultMap="BaseResultMap"
     parameterType="com.hengtianyi.dims.service.entity.YqfkRegisterEntity">
     select
-    <include refid="Base_Column_List"/>
+    <include refid="Base_Column_List2"/>
     from "YQ_YQFK"
     <include refid="sql_where"/>
     order by CREATE_TIME DESC
