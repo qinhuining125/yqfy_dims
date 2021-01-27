@@ -201,7 +201,6 @@ public class YqfkRegisterController extends
         result.setSuccess(true);
         return result.toJson();
     }
-
     /**
      * 通过AJAX获取单条信息[JSON]
      *

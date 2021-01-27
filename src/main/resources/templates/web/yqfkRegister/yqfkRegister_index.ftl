@@ -503,7 +503,7 @@
                 returnWay: '返乡方式', returnCarnum: '返乡车牌号',expReturnTime: '拟返乡日期',expReturnWay: '拟返乡方式', expReturnCarnum: '拟返乡车牌号',
                 beforeReturnAddress: '返乡前住址', afterReturnAddress: '返乡后住址',localState: '是否本地租户',natTime: '核酸检测日期', natResult: '核酸检测结果',
                 touchState: '否接触过新冠确诊病人或疑似病人', isLateStete: '是否居家隔离',isLateStateTime: '隔离开始日期',healthState: '当前健康状态是否异常', remark: '异常说明',
-                createAccount: '录入者账号', createTime: '创建时间',riskLevel: '风险等级',placeNames:'14天去过的地方'});
+                createAccount: '录入者账号', createTimeUnix: '创建时间',riskLevel: '风险等级',placeNames:'14天去过的地方'});
             // 2. 如果需要调整顺序，请执行梳理函数
             var data = excel.filterExportData(res.result, [
                 'id',
@@ -535,7 +535,7 @@
                 'healthState',
                 'remark',
                 'createAccount',
-                'createTime',
+                'createTimeUnix',
                 'riskLevel',
                 'placeNames',
             ]);

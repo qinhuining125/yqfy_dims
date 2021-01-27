@@ -2,8 +2,8 @@ package com.hengtianyi.dims.service.entity;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.hengtianyi.common.core.base.BaseEntity;
+import org.springframework.security.core.Transient;
 
-import java.beans.Transient;
 import java.util.Date;
 import java.util.List;
 
@@ -167,8 +167,19 @@ public class YqfkRegisterEntity extends BaseEntity {
   }
 
   // 创建时间
-  @JSONField(format = "yyyy-MM-dd HH:mm:ss")
   private Date createTime;
+
+  @JSONField(format = "yyyy-MM-dd HH:mm:ss" )
+  private Date createTimeUnix;
+
+  public Date getCreateTimeUnix() {
+    return createTimeUnix;
+  }
+
+  public void setCreateTimeUnix(Date createTimeUnix) {
+    this.createTimeUnix = createTimeUnix;
+  }
+
   //  更新时间
   private Date updateTime;
   //  更改信息的网格员账号
