@@ -43,7 +43,7 @@
                                 <div class="col-sm-7">
                                     <select name="riskLevel" class="form-control" id="riskLevel">
                                         <option value="">全部</option>
-                                        <option value="0">无</option>
+                                        <option value="0">无风险</option>
                                         <option value="1">低风险</option>
                                         <option value="2">中风险</option>
                                         <option value="3">高风险</option>
