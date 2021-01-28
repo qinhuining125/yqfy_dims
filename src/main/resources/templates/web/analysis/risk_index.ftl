@@ -228,7 +228,7 @@
                     data: barData.dfxs,
                     itemStyle: {
                         normal: {
-                            color: 'rgba(129,199,132,0.64)'
+                            color: '#81c784'
                         }
                     }
                 },
@@ -239,7 +239,7 @@
                     data: barData.zfxs,
                     itemStyle: {
                         normal: {
-                            color: 'rgba(255,241,118,0.64)'
+                            color: '#fff176'
                         }
                     }
                 },
@@ -250,7 +250,7 @@
                     data: barData.gfxs,
                     itemStyle: {
                         normal: {
-                            color:  'rgba(229,115,115,0.64)'
+                            color:  '#e57373'
                         }
                     }
                 },
