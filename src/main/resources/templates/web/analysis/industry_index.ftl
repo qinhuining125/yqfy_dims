@@ -111,7 +111,7 @@
         var sum = pieData.lenglian + pieData.business +
             pieData.huoyun + pieData.jiguan +
             pieData.kouan + pieData.geli +
-            pieData.student + pieData.wuye +
+            pieData.student + pieData.rujin + pieData.wuye +
             pieData.other
         var sumStr = "总数：" + sum
         const piedom = document.getElementById("pieContainer");
@@ -124,7 +124,7 @@
             legend: {
                 orient: 'horizontal',
                 left: 10,
-                data: ['冷链从业人员', '商业从业人员', '交通运输工具从业人员', '机关事业单位', '口岸直接接触进口货物从业人员', '隔离场所工作人员',  '入境隔离期满返寿人员','学生', '无业', '其它']
+                data: ['冷链从业人员', '商业从业人员', '交通运输工具从业人员', '机关事业单位', '口岸直接接触进口货物从业人员', '隔离场所工作人员', '学生', '入境隔离期满返寿人员', '无业', '其他']
             },
             title: [{
                 text: sumStr,
@@ -132,7 +132,7 @@
                 left: 'center'
             }],
             color: ['rgba(236,70,17,0.66)', 'rgba(241,181,93,0.66)', 'rgba(215,229,84,0.66)', 'rgba(105,245,5,0.66)', 'rgba(20,146,3,0.66)',
-                'rgba(32,206,186,0.66)', 'rgba(1,62,167,0.66)', 'rgba(43,144,212,0.66)',
+                'rgba(32,206,186,0.66)', 'rgba(43,144,212,0.66)', 'rgba(1,62,167,0.66)',
                 'rgba(129,45,224,0.66)', 'rgba(175,2,2,0.66)'],
             series: [
                 {
@@ -160,8 +160,8 @@
                         {value: pieData.jiguan, name: '机关事业单位'},
                         {value: pieData.kouan, name: '口岸直接接触进口货物从业人员'},
                         {value: pieData.geli, name: '隔离场所工作人员'},
-                        {value: pieData.rujin, name: '入境隔离期满返寿人员'},
                         {value: pieData.student, name: '学生'},
+                        {value: pieData.rujin, name: '入境隔离期满返寿人员'},
                         {value: pieData.wuye, name: '无业'},
                         {value: pieData.other, name: '其它'}
                     ]
@@ -186,7 +186,7 @@
                 }
             },
             legend: {
-                data: ['冷链从业人员', '商业从业人员', '交通运输工具从业人员', '机关事业单位', '口岸直接接触进口货物从业人员', '隔离场所工作人员', '入境隔离期满返寿人员', '学生', '无业', '其它']
+                data: ['冷链从业人员', '商业从业人员', '交通运输工具从业人员', '机关事业单位', '口岸直接接触进口货物从业人员', '隔离场所工作人员', '学生', '入境隔离期满返寿人员','无业', '其他']
             },
             grid: {
                 left: '3%',
@@ -304,18 +304,6 @@
                     }
                 },
                 {
-                    name: '入境隔离期满返寿人员',
-                    type: 'bar',
-                    stack: '数量',
-                    data: barData.rujins,
-                    itemStyle: {
-                        normal: {
-                            color:
-                                'rgba(1,62,167,0.66)'
-                        }
-                    }
-                },
-                {
                     name: '学生',
                     type: 'bar',
                     stack: '数量',
@@ -338,7 +326,19 @@
                     }
                 },
                 {
-                    name: '其它',
+                    name: '入境隔离期满返寿人员',
+                    type: 'bar',
+                    stack: '数量',
+                    data: barData.rujins,
+                    itemStyle: {
+                        normal: {
+                            color:
+                                'rgba(1,62,167,0.66)'
+                        }
+                    }
+                },
+                {
+                    name: '其他',
                     type: 'bar',
                     stack: '数量',
                     data: barData.others,

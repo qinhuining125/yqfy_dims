@@ -80,7 +80,7 @@
           <li><a class="J_menuItem" href="/a/analysis/industry.html">按照人员类别统计</a></li>
           <li><a class="J_menuItem" href="/a/analysis/vehicle.html">按照交通工具统计</a></li>
           <li><a class="J_menuItem" href="/a/analysis/risk.html">按照风险等级统计</a></li>
-          <li><a class="J_menuItem" href="/a/analysis/before.html">按照返乡前地址统计</ a></li>
+          <li><a class="J_menuItem" href="/a/analysis/before.html">按照返乡前地址统计</a></li>
 <#--          <li><a class="J_menuItem" href="/a/analysis/clue.html">上报统计</a></li>-->
 <#--          <li><a class="J_menuItem" href="/a/analysis/advice.html">建议统计</a></li>-->
 <#--          <li><a class="J_menuItem" href="/a/analysis/task.html">任务统计</a></li>-->
