@@ -43,7 +43,6 @@
                                 <div class="col-sm-7">
                                     <select name="riskLevel" class="form-control" id="riskLevel">
                                         <option value="">全部</option>
-                                        <option value="0">无风险</option>
                                         <option value="1">低风险</option>
                                         <option value="2">中风险</option>
                                         <option value="3">高风险</option>
@@ -89,6 +88,24 @@
                                 <div class="col-sm-7">
                                     <input type="text" id="createAccount" name="createAccount" class="form-control"
                                            autocomplete="off">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label">人员类别</label>
+                                <div class="col-sm-7">
+                                    <select name="industray" class="form-control" id="industray">
+                                        <option value="">全部</option>
+                                        <option value="冷链从业人员">冷链从业人员</option>
+                                        <option value="商业从业人员">商业从业人员</option>
+                                        <option value="交通运输工具从业人员">交通运输工具从业人员</option>
+                                        <option value="机关事业单位">机关事业单位</option>
+                                        <option value="口岸直接接触进口货物从业人员">口岸直接接触进口货物从业人员</option>
+                                        <option value="隔离场所工作人员">隔离场所工作人员</option>
+                                        <option value="入境隔离期满返寿人员">入境隔离期满返寿人员</option>
+                                        <option value="学生">学生</option>
+                                        <option value="无业">无业</option>
+                                        <option value="其它">其它</option>
+                                    </select>
                                 </div>
                             </div>
                         </div>
@@ -185,11 +202,20 @@
                     <th data-column-id="age" data-order="desc" data-visible="true" data-sortable="true">
                         年龄
                     </th>
+                    <th data-column-id="industray" data-order="desc" data-visible="true" data-sortable="true">
+                        人员类别
+                    </th>
                     <th data-column-id="returnState" data-order="desc" data-visible="true" data-sortable="true">
                         是否返乡
                     </th>
                     <th data-column-id="phone" data-order="desc" data-visible="true" data-sortable="true">
                         手机号
+                    </th>
+                    <th data-column-id="createAccount" data-order="desc" data-visible="true" data-sortable="true">
+                        网格员名字
+                    </th>
+                    <th data-column-id="createTime" data-order="desc" data-visible="true" data-sortable="true"  data-formatter="fun_date">
+                        登记时间
                     </th>
                     <th data-column-id="link" data-width="180px" data-formatter="commands" data-custom="true"
                         data-sortable="false">操作
@@ -305,7 +331,7 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-4 control-label">行业：</label>
+            <label class="col-xs-4 control-label">人员类别：</label>
             <div class="col-xs-8">
                 <div class="form-control-static">{{industray}}</div>
             </div>
@@ -519,7 +545,7 @@
                     relation: '与户主关系',
                     phone: '联系电话',
                     workSchool: '工作单位',
-                    industray: '行业',
+                    industray: '人员类别',
                     returnState: '是否返乡',
                     returnTime: '返乡日期',
                     returnWay: '返乡方式',
@@ -784,7 +810,7 @@
                     }
                 },
                 "fun_date": function (rolumn, row) {
-                    return new Date(row.createTime).Format("yyyy-MM-dd hh:mm:ss");
+                    return new Date(row.createTime).Format("yyyy-MM-dd hh:mm");
                 }
             },
             <#-- 列表自定义提交数据的附加参数 -->

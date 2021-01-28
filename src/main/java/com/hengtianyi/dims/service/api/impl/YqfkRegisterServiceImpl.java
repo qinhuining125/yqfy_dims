@@ -436,7 +436,7 @@ public class YqfkRegisterServiceImpl extends
 
     /**
      * echartsDataIndustry
-     * 行业统计
+     * 人员类别统计
      *
      * @param startTime 开始时间
      * @param endTime   结束时间
@@ -458,6 +458,7 @@ public class YqfkRegisterServiceImpl extends
             String[] jiguans = new String[villageList.size()];
             String[] kouans = new String[villageList.size()];
             String[] gelis = new String[villageList.size()];
+            String[] rujins = new String[villageList.size()];
             String[] students = new String[villageList.size()];
             String[] wuyes = new String[villageList.size()];
             String[] others = new String[villageList.size()];
@@ -474,6 +475,7 @@ public class YqfkRegisterServiceImpl extends
                 jiguans[i] = dataMap.get("jiguan").toString();
                 kouans[i] = dataMap.get("kouan").toString();
                 gelis[i] = dataMap.get("geli").toString();
+                rujins[i] = dataMap.get("rujin").toString();
                 students[i] = dataMap.get("student").toString();
                 wuyes[i] = dataMap.get("wuye").toString();
                 others[i] = dataMap.get("other").toString();
@@ -486,6 +488,7 @@ public class YqfkRegisterServiceImpl extends
             map.put("jiguans", jiguans);
             map.put("kouans", kouans);
             map.put("gelis", gelis);
+            map.put("rujins", rujins);
             map.put("students", students);
             map.put("wuyes", wuyes);
             map.put("others", others);
@@ -512,6 +515,7 @@ public class YqfkRegisterServiceImpl extends
         Integer wuye = 0;
         Integer other = 0;
         Integer sum = 0;
+        Integer rujin = 0;
 
         for (YqfkRegisterEntity entity : list) {
 
@@ -529,6 +533,8 @@ public class YqfkRegisterServiceImpl extends
                 kouan += 1;
             } else if (entity.getIndustray() != null && entity.getIndustray().equals("隔离场所工作人员")) {
                 geli += 1;
+            }else if (entity.getIndustray() != null && entity.getIndustray().equals("入境隔离期满返寿人员")) {
+                rujin += 1;
             } else if (entity.getIndustray() != null && entity.getIndustray().equals("无业")) {
                 wuye += 1;
             } else if (entity.getIndustray() != null && entity.getIndustray().equals("其他")) {
@@ -542,6 +548,7 @@ public class YqfkRegisterServiceImpl extends
         map.put("jiguan", jiguan);
         map.put("kouan", kouan);
         map.put("geli", geli);
+        map.put("rujin", rujin);
         map.put("student", student);
         map.put("wuye", wuye);
         map.put("other", other);
@@ -566,7 +573,6 @@ public class YqfkRegisterServiceImpl extends
             List<VillageEntity> villageList = villageDao.areaList(areaCode);
             String[] villageNames = new String[villageList.size()];
 
-            String[] wfxs = new String[villageList.size()];
             String[] dfxs = new String[villageList.size()];
             String[] zfxs = new String[villageList.size()];
             String[] gfxs = new String[villageList.size()];
@@ -577,14 +583,12 @@ public class YqfkRegisterServiceImpl extends
                 Map<String, Object> dataMap = countRisk(yqfkRegisterEntityList, returnState);
                 villageNames[i] = village.getAreaName();
 
-                wfxs[i] = dataMap.get("wfx").toString();
                 dfxs[i] = dataMap.get("dfx").toString();
                 zfxs[i] = dataMap.get("zfx").toString();
                 gfxs[i] = dataMap.get("gfx").toString();
                 sums[i] = dataMap.get("sum").toString();
             }
             map.put("villageNames", villageNames);
-            map.put("wfxs", wfxs);
             map.put("dfxs", dfxs);
             map.put("zfxs", zfxs);
             map.put("gfxs", gfxs);

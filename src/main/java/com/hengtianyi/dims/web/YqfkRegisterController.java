@@ -122,39 +122,7 @@ public class YqfkRegisterController extends
             dto.setAreaCode(user.getAreaCode());
         }
         return this.getDataListCommon(pageDto, dto);
-//        try {
-//            if (dto.getBeforeReturnPbm()!=null){
-//                dto.setBeforeReturnCbm(dto.getBeforeReturnPbm().replace(" ", ""));
-//            }
-//            if (dto.getBeforeReturnCbm()!=null){
-//                dto.setBeforeReturnCbm(dto.getBeforeReturnCbm().replace(" ", ""));
-//            }
-//            if (dto.getBeforeReturnXbm()!=null){
-//                dto.setBeforeReturnXbm(dto.getBeforeReturnXbm().replace(" ", ""));
-//            }
-//            int rowsCount = getService().searchDataCount(dto);
-//            if (BaseConstant.NUM_1 > rowsCount) {
-//                //无数据，返回JSON
-//                return BaseConstant.EMPTY_LIST_JSON;
-//            }
-//            pageDto.setTotal(rowsCount);
-//            QueryDto queryDto = new QueryDto();
-//            queryDto.setCurrentPage(pageDto.getCurrent());
-//            List<YqfkRegisterEntity> listData = getService().listData(queryDto);
-//            for (YqfkRegisterEntity one : listData) {
-//                this.clearEntity(one);
-//            }
-//            CommonPageDto cpDto = new CommonPageDto(listData);
-//            cpDto.setCurrent(pageDto.getCurrent());
-//            cpDto.setRowCount(pageDto.getRowCount());
-//            cpDto.setTotal(pageDto.getTotal());
-//            return cpDto.toJsonHtml();
-//        } catch (Exception ex) {
-//            getLogger()
-//                    .error("[getDataListCommon]{}, pageDto = {}, dto = {}", ex.getMessage(), pageDto.toJson(),
-//                            dto.toJson(), ex);
-//        }
-//        return BaseConstant.EMPTY_LIST_JSON;
+
     }
 
     /**

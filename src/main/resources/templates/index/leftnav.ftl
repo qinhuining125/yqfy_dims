@@ -77,7 +77,7 @@
         <ul class="nav nav-second-level">
 
           <li><a class="J_menuItem" href="/a/analysis/status.html">按照状态统计</a></li>
-          <li><a class="J_menuItem" href="/a/analysis/industry.html">按照行业统计</a></li>
+          <li><a class="J_menuItem" href="/a/analysis/industry.html">按照人员类别统计</a></li>
           <li><a class="J_menuItem" href="/a/analysis/vehicle.html">按照交通工具统计</a></li>
           <li><a class="J_menuItem" href="/a/analysis/risk.html">按照风险等级统计</a></li>
           <li><a class="J_menuItem" href="/a/analysis/before.html">按照返乡前地址统计</ a></li>

@@ -47,7 +47,7 @@ public class YqfkRegisterEntity extends BaseEntity {
   private String phone;
   //  工作单位
   private String workSchool;
-  //  行业1:冷链从业人员2:商业从业人员3:货运物流4：学生5:机关事业单位6:其它7:无业
+  //  人员类别1:冷链从业人员2:商业从业人员3:货运物流4：学生5:机关事业单位6:其它7:无业
   private String industray;
   //  是否返乡 0：已返乡 1:拟返乡
   private String returnState;

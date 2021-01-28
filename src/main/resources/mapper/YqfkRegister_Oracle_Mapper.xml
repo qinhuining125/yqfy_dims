@@ -31,6 +31,9 @@
       <if test="returnState !=null and returnState !=''">
         and "RETURN_STATE" =#{returnState,jdbcType=VARCHAR}
       </if>
+      <if test="industray !=null and industray !=''">
+        and "INDUSTRAY" =#{industray,jdbcType=VARCHAR}
+      </if>
       <if test="riskLevel !=null and riskLevel !=''">
         and "RISK_LEVEL" =#{riskLevel,jdbcType=VARCHAR}
       </if>

@@ -109,7 +109,7 @@
     //饼状图
     function initPieData(pieData) {
         console.log(pieData)
-        var sum = pieData.wfx + pieData.dfx  + pieData.zfx + pieData.gfx
+        var sum =  pieData.dfx  + pieData.zfx + pieData.gfx
         var sumStr = "总数：" + pieData.sum
         const piedom = document.getElementById("pieContainer");
         const pieChart = echarts.init(piedom);
@@ -121,7 +121,7 @@
             legend: {
                 orient: 'horizontal',
                 left: 10,
-                data: ['无风险', '低风险', '中风险', '高风险']
+                data: [ '低风险', '中风险', '高风险']
             },
             title: [{
                 text: sumStr,
@@ -149,7 +149,6 @@
                     type: 'pie',
                     radius: ['35%', '55%'],
                     data: [
-                        {value: pieData.wfx, name: '无风险'},
                         {value: pieData.dfx, name: '低风险'},
                         {value: pieData.zfx, name: '中风险'},
                         {value: pieData.gfx, name: '高风险'}
@@ -174,7 +173,7 @@
                 }
             },
             legend: {
-                data: ['无风险', '低风险', '中风险', '高风险']
+                data: [ '低风险', '中风险', '高风险']
             },
             grid: {
                 left: '3%',
@@ -222,18 +221,6 @@
             ],
 
             series: [
-                {
-                    name: '无风险',
-                    type: 'bar',
-                    stack: '数量',
-                    barWidth: 30,
-                    data: barData.wfxs,
-                    itemStyle: {
-                        normal: {
-                            color: 'rgba(79,195,247,0.64)'
-                        }
-                    }
-                },
                 {
                     name: '低风险',
                     type: 'bar',
