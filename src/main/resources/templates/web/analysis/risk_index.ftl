@@ -128,7 +128,7 @@
                 top: 'center',
                 left: 'center'
             }],
-            color: [ '#4fc3f7','#81c784', '#fff176', '#e57373'],
+            color: [ '#81c784', '#fff176', '#e57373'],
             series: [
                 {
                     avoidLabelOverlap: false,
