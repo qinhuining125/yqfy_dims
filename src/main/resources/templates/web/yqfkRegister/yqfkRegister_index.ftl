@@ -555,6 +555,15 @@
         var riskLevel = $("#riskLevel").val();
         var createAccount = $("#createAccount").val();
         var returnState = $("#returnState").val();
+        var isLateStete = $("#isLateStete").val();
+        var localState = $("#localState").val();
+        var industray = $("#industray").val();
+        var createBelZhbm = $("#createBelZhbm").val();
+        var createBelCubm = $("#createBelCubm").val();
+
+
+
+
         var Param1 = JSON.stringify({
             "startTime": startTime,
             "endTime": endTime,
@@ -565,7 +574,12 @@
             "afterReturnCubm": afterReturnCubm,
             "riskLevel": riskLevel,
             "createAccount": createAccount,
-            "returnState": returnState
+            "returnState": returnState,
+            "isLateStete": isLateStete,
+            "localState": localState,
+            "industray": industray,
+            "createBelZhbm": createBelZhbm,
+            "createBelCubm": createBelCubm,
         }); //必须转换为Json对象
 
         $.ajax({
@@ -575,7 +589,7 @@
             "contentType": "application/json",//必须要有
             "data": Param1,
             "success": function (res) {
-                console.log(res.result);// [{name: 'wang', age: 18, sex: '男'}, {name: 'layui', age: 3, sex: '女'}]
+                //console.log(res.result);// [{name: 'wang', age: 18, sex: '男'}, {name: 'layui', age: 3, sex: '女'}]
                 // 1. 数组头部新增表头
                 res.result.unshift({
                     id: '主键ID',
