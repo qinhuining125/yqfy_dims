@@ -61,6 +61,20 @@
                                     </select>
                                 </div>
                             </div>
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label">交通工具</label>
+                                <div class="col-sm-7">
+                                    <select name="returnWay" class="form-control" id="returnWay">
+                                        <option value="">全部</option>
+                                        <option value="自驾">自驾</option>
+                                        <option value="飞机">飞机</option>
+                                        <option value="火车">火车</option>
+                                        <option value="客车">客车</option>
+                                        <option value="网约车">网约车</option>
+                                    </select>
+                                </div>
+                            </div>
+
                         </div>
                         <div class="col-xs-6 col-sm-4 col-lg-3">
                             <div class="form-group">
@@ -106,6 +120,12 @@
                                         <option value="无业">无业</option>
                                         <option value="其它">其它</option>
                                     </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label">车牌</label>
+                                <div class="col-sm-7">
+                                    <input type="text" id="returnCarnum" name="returnCarnum" class="form-control" autocomplete="off">
                                 </div>
                             </div>
                         </div>
@@ -230,6 +250,9 @@
                     </th>
                     <th data-column-id="phone" data-order="desc" data-visible="true" data-sortable="true">
                         手机号
+                    </th>
+                    <th data-column-id="returnWay" data-order="desc" data-visible="true" data-sortable="true">
+                        交通工具
                     </th>
                     <th data-column-id="createAccount" data-order="desc" data-visible="true" data-sortable="true">
                         网格员名字

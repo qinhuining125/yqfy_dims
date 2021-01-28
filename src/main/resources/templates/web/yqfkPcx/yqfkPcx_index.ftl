@@ -31,6 +31,7 @@
                                 <div class="col-sm-7">
                                     <select name="valid" class="form-control">
                                         <option value="">全部</option>
+                                        <option value="0">无</option>
                                         <option value="1">低风险</option>
                                         <option value="2">中风险</option>
                                         <option value="3">高风险</option>
@@ -45,6 +46,41 @@
                                     <input type="text" name="pname" class="form-control" autocomplete="off">
                                 </div>
                             </div>
+                        </div>
+                        <div class="col-xs-6 col-sm-4 col-lg-3">
+<#--                            <input type="hidden" id="province" name="province">-->
+<#--                            <input type="hidden" id="city" name="city">-->
+<#--                            <input type="hidden" id="county" name="county">-->
+<#--                            <div class="form-group">-->
+<#--                                <label class="col-sm-4 control-label">省:</label>-->
+<#--                                <div class="col-sm-7">-->
+<#--                                    <select class="form-control" id="sprovince" name=""-->
+<#--                                            onchange="searchP(this);">-->
+<#--                                        <option value="">全部</option>-->
+<#--                                        <#list areaList as obj>-->
+<#--                                            <option value="${(obj.id)}">${(obj.pname)!}</option>-->
+<#--                                        </#list>-->
+<#--                                    </select>-->
+<#--                                </div>-->
+<#--                            </div>-->
+<#--                            <div class="form-group">-->
+<#--                                <label class="col-sm-4 control-label">市:</label>-->
+<#--                                <div class="col-sm-7">-->
+<#--                                    <select id="scity" class="form-control" name=""-->
+<#--                                            onchange="choseS(this);">-->
+<#--                                        <option value="">全部</option>-->
+<#--                                    </select>-->
+<#--                                </div>-->
+<#--                            </div>-->
+<#--                            <div class="form-group">-->
+<#--                                <label class="col-sm-4 control-label">县:</label>-->
+<#--                                <div class="col-sm-7">-->
+<#--                                    <select id="scounty" class="form-control" name=""-->
+<#--                                            onchange="choseX(this);">-->
+<#--                                        <option value="">全部</option>-->
+<#--                                    </select>-->
+<#--                                </div>-->
+<#--                            </div>-->
                         </div>
                     </div>
                     <div class="text-center">
@@ -131,13 +167,13 @@
 <script id="template-province" type="text/x-handlebars-template">
     <option value="">--请选择--</option>
     {{#each this}}
-    <option value="{{id}}-{{pcode}}">{{pname}}</option>
+    <option value="{{id}}">{{pname}}</option>
     {{/each}}
 </script>
 <script id="template-city" type="text/x-handlebars-template">
     <option value="">--请选择--</option>
     {{#each this}}
-    <option value="{{id}}-{{pcode}}">{{pname}}</option>
+    <option value="{{id}}">{{pname}}</option>
     {{/each}}a
 </script>
 <script id="template-view-yqfkRegister" type="text/x-handlebars-template">
@@ -170,38 +206,35 @@
             <label class="col-xs-4 control-label">风险级：</label>
             <div class="col-xs-8">
                 <div class="form-control-static">
-                    {{#ifEqual valid '0'}}无{{/ifEqual}}
                     {{#ifEqual valid '1'}}低{{/ifEqual}}
                     {{#ifEqual valid "2"}}中{{/ifEqual}}
                     {{#ifEqual valid "3"}}高{{/ifEqual}}
                 </div>
             </div>
         </div>
+        {{#ifNotEqual province null}}
+        <div class="form-group">
+            <label class="col-xs-4 control-label">所属省/直辖市/特别行政区：</label>
+            <div class="col-xs-8">
+                <div class="form-control-static">{{province}}</div>
+            </div>
+        </div>
+        {{/ifNotEqual}}
+        {{#ifNotEqual city null}}
+        <div class="form-group">
+            <label class="col-xs-4 control-label">所属市：</label>
+            <div class="col-xs-8">
+                <div class="form-control-static">{{city}}</div>
+            </div>
+        </div>
+        {{/ifNotEqual}}
     </div>
 </script>
 <script>
-    laydate.render({
-        "elem": "#timeRange",
-        "range": "至",
-        "format": "yyyy-MM-dd",
-        "trigger": "click",
-        "done": function (value, startDate, endDate) {
-            if (value) {
-                const array = value.split("至");
-                $("#startTime").val(array[0]);
-                $("#endTime").val(array[1]);
-            } else {
-                $("#startTime").val("");
-                $("#endTime").val("");
-            }
-        }
-    });
-
     function searchP(obj) {
-        const provinceArray = $(obj).val().replace(/\s*/g, "").split("-")
-        const province = provinceArray[0]
-        const beforeReturnPbm = provinceArray[1]
-        $("#beforeReturnPbm").val(beforeReturnPbm);
+        const province = $(obj).val().replace(/\s*/g, "")
+        console.log(province+"111")
+        $("#province").val(province);
         if (province == '') {
             return false;
         }
@@ -215,16 +248,14 @@
             "dataType": "json",
             "success": function (data) {
                 const template = Handlebars.compile($("#template-province").html());
-                $("#city").html(template(data.result));
+                $("#scity").html(template(data.result));
             }
         });
     }
 
     function choseS(obj) {
-        const cityArray = $(obj).val().replace(/\s*/g, "").split("-")
-        const city = cityArray[0]
-        const beforeReturnCbm = cityArray[1]
-        $("#beforeReturnCbm").val(beforeReturnCbm);
+        const city = $(obj).val().replace(/\s*/g, "")
+        $("#city").val(city);
         if (city == '') {
             return false;
         }
@@ -238,16 +269,14 @@
             "dataType": "json",
             "success": function (data) {
                 const template = Handlebars.compile($("#template-city").html());
-                $("#county").html(template(data.result));
+                $("#scounty").html(template(data.result));
             }
         });
     }
 
     function choseX(obj) {
-        const countyArray = $(obj).val().replace(/\s*/g, "").split("-")
-        const county = countyArray[0]
-        const beforeReturnXbm = countyArray[1]
-        $("#beforeReturnXbm").val(beforeReturnXbm);
+        const county = $(obj).val().replace(/\s*/g, "")
+        $("#county").val(county);
         // if (beforeReturnXbm == '') {
         //     beforeReturnXbm = $("#county").val();
         // }

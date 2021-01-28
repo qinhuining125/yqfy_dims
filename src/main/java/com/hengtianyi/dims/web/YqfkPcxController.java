@@ -109,6 +109,15 @@ public class YqfkPcxController extends
         ServiceResult<Region> result = new ServiceResult<>();
         Region one = regionService.findByCode(id);
         if (null != one) {
+            if (one.getPlevel()==1){
+            }else if(one.getPlevel()==2){
+                one.setProvince(regionService.getDataById(one.getParent()).getPname());
+            }else if(one.getPlevel()==3) {
+                Region region=regionService.getDataById(one.getParent().replace(" ", ""));
+                one.setCity(region.getPname());
+                String parent=region.getParent();
+                one.setProvince(regionService.getDataById(parent).getPname());
+            }
             this.clearEntity(one);
 
             result.setSuccess(true);

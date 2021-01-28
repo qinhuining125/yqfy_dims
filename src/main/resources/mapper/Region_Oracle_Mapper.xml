@@ -36,6 +36,15 @@
       <if test="valid !=null and valid !=''">
         and "VALID" = #{valid,jdbcType=VARCHAR}
       </if>
+<!--      <if test="province !=null and province !='' and city ='' and county =''">-->
+<!--        and "PARENT" = #{province,jdbcType=VARCHAR}-->
+<!--      </if>-->
+<!--      <if test="province !=null and province !='' and city !='' and county =''">-->
+<!--        and "PARENT" = #{city,jdbcType=VARCHAR}-->
+<!--      </if>-->
+<!--      <if test="province !=null and province !=''  and city !=''  and county !=''">-->
+<!--        and "ID" = #{county,jdbcType=VARCHAR}-->
+<!--      </if>-->
     </where>
   </sql>
 

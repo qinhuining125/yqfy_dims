@@ -13,6 +13,12 @@
   <!-- doc 查询条件，根据实际情况，对where条件进行删减 -->
   <sql id="sql_where">
     <where>
+      <if test="returnWay !=null and returnWay !=''">
+        and "RETURN_WAY" like concat(concat('%', #{returnWay}), '%')
+      </if>
+      <if test="returnCarnum !=null and returnCarnum !=''">
+        and "RETURN_CARNUM" like concat(concat('%', #{returnCarnum}), '%')
+      </if>
       <if test="areaCode !=null and areaCode !=''">
         and "AFTER_RETURN_CUBM"  like concat(#{areaCode},'%')
       </if>
@@ -210,13 +216,13 @@
       <when test="orderSql !=''">
         select
         "ID" , "NAME" , "SEX", "AGE", "CARD", "PHONE", "WORK_SCHOOL", "INDUSTRAY", "RETURN_STATE",
-        "CREATE_TIME","RISK_LEVEL", CREATE_ACCOUNT
+        "CREATE_TIME","RISK_LEVEL", CREATE_ACCOUNT,EXP_RETURN_WAY,RETURN_WAY
         from (select ROWNUM as "ROW_ID",
         "ID" , "NAME" , "SEX", "AGE", "CARD", "PHONE", "WORK_SCHOOL", "INDUSTRAY", "RETURN_STATE",
-        "CREATE_TIME","RISK_LEVEL", CREATE_ACCOUNT
+        "CREATE_TIME","RISK_LEVEL", CREATE_ACCOUNT,EXP_RETURN_WAY,RETURN_WAY
         from (select
         Y."ID" , Y."NAME" , Y."SEX", Y."AGE", Y."CARD", Y."PHONE", Y."WORK_SCHOOL", Y."INDUSTRAY", Y."RETURN_STATE",
-    Y."CREATE_TIME",Y."RISK_LEVEL",S."USER_NAME" AS CREATE_ACCOUNT
+    Y."CREATE_TIME",Y."RISK_LEVEL",S."USER_NAME" AS CREATE_ACCOUNT,Y.EXP_RETURN_WAY,Y.RETURN_WAY
         from "YQ_YQFK" Y
         LEFT JOIN "SYS_USER" S
         ON Y.CREATE_ACCOUNT = S.ID
