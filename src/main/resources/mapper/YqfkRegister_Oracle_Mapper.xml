@@ -34,6 +34,12 @@
       <if test="industray !=null and industray !=''">
         and "INDUSTRAY" =#{industray,jdbcType=VARCHAR}
       </if>
+      <if test="isLateStete !=null and isLateStete !=''">
+        and "ISOLATE_STATE" =#{isLateStete,jdbcType=VARCHAR}
+      </if>
+      <if test="localState !=null and localState !=''">
+        and "LOCAL_STATE" =#{localState,jdbcType=VARCHAR}
+      </if>
       <if test="riskLevel !=null and riskLevel !=''">
         and "RISK_LEVEL" =#{riskLevel,jdbcType=VARCHAR}
       </if>

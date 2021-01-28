@@ -109,6 +109,47 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="col-xs-6 col-sm-4 col-lg-3">
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label">返乡后所在乡镇:</label>
+                                <div class="col-sm-7">
+                                    <select class="form-control" id="township" name="" onchange="searchVillage(this);">
+                                        <option value="">全部</option>
+                                        <#list areaListF as obj>
+                                            <option value="${(obj.areaCode!)}">${(obj.areaName)!}</option>
+                                        </#list>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label">村:</label>
+                                <div class="col-sm-7">
+                                    <select id="valliage" class="form-control" name="" onchange="choseArea(this);">
+                                        <option value="">全部</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label">是否租户</label>
+                                <div class="col-sm-7">
+                                    <select name="localState" class="form-control" id="localState">
+                                        <option value="">全部</option>
+                                        <option value="是">是</option>
+                                        <option value="否">否</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label">是否隔离</label>
+                                <div class="col-sm-7">
+                                    <select name="isLateStete" class="form-control" id="isLateStete">
+                                        <option value="">全部</option>
+                                        <option value="是">是</option>
+                                        <option value="否">否</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
 
                         <div class="col-xs-6 col-sm-4 col-lg-3">
                             <div class="form-group">
@@ -143,27 +184,6 @@
                             </div>
                         </div>
 
-                        <div class="col-xs-6 col-sm-4 col-lg-3">
-                            <div class="form-group">
-                                <label class="col-sm-4 control-label">返乡后所在乡镇:</label>
-                                <div class="col-sm-7">
-                                    <select class="form-control" id="township" name="" onchange="searchVillage(this);">
-                                        <option value="">全部</option>
-                                        <#list areaListF as obj>
-                                            <option value="${(obj.areaCode!)}">${(obj.areaName)!}</option>
-                                        </#list>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-4 control-label">村:</label>
-                                <div class="col-sm-7">
-                                    <select id="valliage" class="form-control" name="" onchange="choseArea(this);">
-                                        <option value="">全部</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
 
                     </div>
                     <div class="text-center">
