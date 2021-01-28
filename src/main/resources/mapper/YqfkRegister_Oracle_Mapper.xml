@@ -213,7 +213,7 @@
     Y."CREATE_TIME",Y."RISK_LEVEL",S."USER_NAME" AS CREATE_ACCOUNT
         from "YQ_YQFK" Y
         LEFT JOIN "SYS_USER" S
-        ON YQ_YQFK.CREATE_ACCOUNT = SYS_USER.ID
+        ON Y.CREATE_ACCOUNT = S.ID
         <include refid="sql_where"/>
         order by ${orderSql})
         where ROWNUM &lt;= #{pager.end}) "PAGINATION"
