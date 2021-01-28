@@ -163,7 +163,7 @@
                         {value: pieData.student, name: '学生'},
                         {value: pieData.rujin, name: '入境隔离期满返寿人员'},
                         {value: pieData.wuye, name: '无业'},
-                        {value: pieData.other, name: '其它'}
+                        {value: pieData.other, name: '其他'}
                     ]
                 }
             ]
