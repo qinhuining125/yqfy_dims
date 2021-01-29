@@ -15,9 +15,11 @@
     <where>
       <if test="returnWay !=null and returnWay !=''">
         and "RETURN_WAY" like concat(concat('%', #{returnWay}), '%')
+        or "EXP_RETURN_WAY" like concat(concat('%', #{returnWay}), '%')
       </if>
       <if test="returnCarnum !=null and returnCarnum !=''">
         and "RETURN_CARNUM" like concat(concat('%', #{returnCarnum}), '%')
+        or  "EXP_RETURN_CARNUM" like concat(concat('%', #{returnCarnum}), '%')
       </if>
       <if test="areaCode !=null and areaCode !=''">
         and "AFTER_RETURN_CUBM"  like concat(#{areaCode},'%')
