@@ -14,6 +14,7 @@
   <resultMap id="BaseResultMap" type="com.hengtianyi.dims.service.entity.Region">
     <id column="PCODE" property="pcode" jdbcType="VARCHAR"/>
     <result column="PNAME" property="pname" jdbcType="VARCHAR"/>
+    <result column="FULLNAME" property="fullname" jdbcType="VARCHAR"/>
     <result column="PLEVEL" property="plevel" jdbcType="VARCHAR"/>
     <result column="PARENT" property="parent" jdbcType="VARCHAR"/>
     <result column="VALID" property="valid" jdbcType="VARCHAR"/>
@@ -22,13 +23,16 @@
 
   <!-- 字段集合 -->
   <sql id="Base_Column_List">
-      "ID","PCODE" , "PNAME" , "PLEVEL" , "PARENT" , "VALID"
+      "ID","PCODE" , "PNAME" , "FULLNAME", "PLEVEL" , "PARENT" , "VALID"
   </sql>
 
   <sql id="sql_where">
     <where>
       <if test="pname !=null and pname !=''">
         and "PNAME" = #{pname,jdbcType=VARCHAR}
+      </if>
+      <if test="fullname !=null and fullname !=''">
+        and "FULLNAME" = #{fullname,jdbcType=VARCHAR}
       </if>
       <if test="plevel !=null and plevel !=''">
         and "PLEVEL" = #{plevel,jdbcType=VARCHAR}
@@ -106,7 +110,7 @@
 
   <select id="getDataById" resultMap="BaseResultMap" parameterType="java.lang.String">
     select
-     t."ID", t."PCODE" , t."PNAME" , t."PLEVEL" , t."PARENT" , t."VALID"
+     t."ID", t."PCODE" , t."PNAME" , t."FULLNAME" , t."PLEVEL" , t."PARENT" , t."VALID"
     from "YQFK_PCX" t where t."ID"=#{id,jdbcType=VARCHAR}
 
   </select>
@@ -134,35 +138,35 @@
 
   <select id="getProvince" resultMap="BaseResultMap" parameterType="java.lang.String">
     select
-    t."ID", t."PCODE" , t."PNAME" , t."PLEVEL" , t."PARENT" , t."VALID"
+    t."ID", t."PCODE" , t."PNAME" ,t."FULLNAME" , t."PLEVEL" , t."PARENT" , t."VALID"
     from "YQFK_PCX" t where t."PARENT"=0 and t."PLEVEL"=1
 
   </select>
 
   <select id="getCity" resultMap="BaseResultMap" parameterType="java.lang.String">
     select
-    t."ID", t."PCODE" , t."PNAME" , t."PLEVEL" , t."PARENT" , t."VALID"
+    t."ID", t."PCODE" , t."PNAME" ,t."FULLNAME" , t."PLEVEL" , t."PARENT" , t."VALID"
     from "YQFK_PCX" t  where t."PARENT"=#{parent,jdbcType=VARCHAR} and t."PLEVEL"=2
 
   </select>
 
   <select id="getCounty" resultMap="BaseResultMap" parameterType="java.lang.String">
     select
-    t."ID", t."PCODE" , t."PNAME" , t."PLEVEL" , t."PARENT" , t."VALID"
+    t."ID", t."PCODE" , t."PNAME" , t."FULLNAME" ,  t."PLEVEL" , t."PARENT" , t."VALID"
     from "YQFK_PCX" t where t."PARENT"=#{parent,jdbcType=VARCHAR} and t."PLEVEL"=3
 
   </select>
 
   <select id="findByCode" resultMap="BaseResultMap" parameterType="java.lang.String">
     select
-     t."ID", t."PCODE" , t."PNAME" , t."PLEVEL" , t."PARENT" , t."VALID"
+     t."ID", t."PCODE" , t."PNAME" ,t."FULLNAME" , t."PLEVEL" , t."PARENT" , t."VALID"
     from "YQFK_PCX" t where t."PCODE"=#{pcode,jdbcType=VARCHAR}
 
   </select>
 
   <select id="getListByParent" resultMap="BaseResultMap" parameterType="java.lang.String">
     select
-    t."ID", t."PCODE" , t."PNAME" , t."PLEVEL" , t."PARENT" , t."VALID"
+    t."ID", t."PCODE" , t."PNAME" ,t."FULLNAME" , t."PLEVEL" , t."PARENT" , t."VALID"
     from "YQFK_PCX" t where t."PARENT"=#{parent,jdbcType=VARCHAR}
 
   </select>

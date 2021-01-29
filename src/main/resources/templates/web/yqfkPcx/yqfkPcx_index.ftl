@@ -116,6 +116,9 @@
                     <th data-column-id="pname" data-order="desc" data-visible="true" data-sortable="true">
                         名称
                     </th>
+                    <th data-column-id="fullname" data-order="desc" data-visible="true" data-sortable="true">
+                        全称
+                    </th>
                     <th data-column-id="parent" data-order="desc" data-visible="true" data-sortable="true">
                         上级编码
                     </th>
@@ -188,6 +191,12 @@
             <label class="col-xs-4 control-label">名称：</label>
             <div class="col-xs-8">
                 <div class="form-control-static">{{pname}}</div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-4 control-label">全称：</label>
+            <div class="col-xs-8">
+                <div class="form-control-static">{{fullname}}</div>
             </div>
         </div>
         <div class="form-group">

@@ -14,6 +14,7 @@ public class Region extends BaseEntity implements Serializable {
     private String parent;
     private Integer plevel;
     private String valid;
+    private String fullname;
 
     //省市县 查询用
     private String province;
@@ -92,4 +93,11 @@ public class Region extends BaseEntity implements Serializable {
         this.valid = valid;
     }
 
+    public String getFullname() {
+        return fullname;
+    }
+
+    public void setFullname(String fullname) {
+        this.fullname = fullname;
+    }
 }
