@@ -251,8 +251,11 @@
                     <th data-column-id="phone" data-order="desc" data-visible="true" data-sortable="true">
                         手机号
                     </th>
+                    <th data-column-id="expReturnWay" data-order="desc" data-visible="true" data-sortable="true">
+                        拟返乡交通工具
+                    </th>
                     <th data-column-id="returnWay" data-order="desc" data-visible="true" data-sortable="true">
-                        交通工具
+                        返乡后交通工具
                     </th>
                     <th data-column-id="createAccount" data-order="desc" data-visible="true" data-sortable="true">
                         网格员名字
