@@ -550,6 +550,7 @@
         //查询参数这里
         var startTime = $("#startTime").val();
         var endTime = $("#endTime").val();
+        var name = $("#name").val();
         var beforeReturnPbm = $("#beforeReturnPbm").val();
         var beforeReturnCbm = $("#beforeReturnCbm").val();
         var beforeReturnXbm = $("#beforeReturnXbm").val();
@@ -563,13 +564,14 @@
         var industray = $("#industray").val();
         var createBelZhbm = $("#createBelZhbm").val();
         var createBelCubm = $("#createBelCubm").val();
-
-
+        var returnWay = $("#returnWay").val();
+        var returnCarnum = $("#returnCarnum").val();
 
 
         var Param1 = JSON.stringify({
             "startTime": startTime,
             "endTime": endTime,
+            "name": name,
             "beforeReturnPbm": beforeReturnPbm,
             "beforeReturnCbm": beforeReturnCbm,
             "beforeReturnXbm": beforeReturnXbm,
@@ -583,6 +585,8 @@
             "industray": industray,
             "createBelZhbm": createBelZhbm,
             "createBelCubm": createBelCubm,
+            "returnWay": returnWay,
+            "returnCarnum": returnCarnum,
         }); //必须转换为Json对象
 
         $.ajax({

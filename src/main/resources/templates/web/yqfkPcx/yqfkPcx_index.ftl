@@ -31,7 +31,6 @@
                                 <div class="col-sm-7">
                                     <select name="valid" class="form-control">
                                         <option value="">全部</option>
-                                        <option value="0">无</option>
                                         <option value="1">低风险</option>
                                         <option value="2">中风险</option>
                                         <option value="3">高风险</option>
@@ -43,7 +42,7 @@
                             <div class="form-group">
                                 <label class="col-sm-4 control-label">区域名称:</label>
                                 <div class="col-sm-7">
-                                    <input type="text" name="pname" class="form-control" autocomplete="off">
+                                    <input type="text" name="fullname" class="form-control" autocomplete="off">
                                 </div>
                             </div>
                         </div>
@@ -118,9 +117,6 @@
                     </th>
                     <th data-column-id="fullname" data-order="desc" data-visible="true" data-sortable="true">
                         全称
-                    </th>
-                    <th data-column-id="parent" data-order="desc" data-visible="true" data-sortable="true">
-                        上级编码
                     </th>
                     <th data-column-id="plevel" data-order="desc" data-visible="true" data-sortable="true">
                         级别

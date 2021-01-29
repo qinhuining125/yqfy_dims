@@ -28,12 +28,10 @@
 
   <sql id="sql_where">
     <where>
-      <if test="pname !=null and pname !=''">
-        and "PNAME" = #{pname,jdbcType=VARCHAR}
-      </if>
       <if test="fullname !=null and fullname !=''">
-        and "FULLNAME" = #{fullname,jdbcType=VARCHAR}
+        and "FULLNAME" like concat(concat('%', #{fullname}), '%')
       </if>
+
       <if test="plevel !=null and plevel !=''">
         and "PLEVEL" = #{plevel,jdbcType=VARCHAR}
       </if>
