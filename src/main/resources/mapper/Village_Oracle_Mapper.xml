@@ -97,6 +97,14 @@
     </trim>
   </insert>
 
+  <!-- 根据AreaCode查找 -->
+  <select id="selectByAreaCode" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select
+    <include refid="Base_Column_List"/>
+    from "VILLAGE" where "AREA_CODE" = #{areaCode,jdbcType=VARCHAR}
+  </select>
+
+
   <select id="townChilds" parameterType="java.lang.String" resultMap="BaseResultMap">
     select
     t."AREA_CODE" , t."SORT_NO" , t."AREA_NAME",s."ID"

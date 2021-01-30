@@ -16,4 +16,6 @@ public interface TownshipService extends AbstractGenericService<TownshipEntity, 
    * @return list
    */
   List<TownshipEntity> areaList();
+
+  TownshipEntity findByCode(String pcode);
 }

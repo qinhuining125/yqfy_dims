@@ -10,10 +10,7 @@ import com.hengtianyi.common.core.util.StringUtil;
 import com.hengtianyi.common.core.util.sequence.IdGenUtil;
 import com.hengtianyi.common.core.util.sequence.SystemClock;
 import com.hengtianyi.dims.constant.FrameConstant;
-import com.hengtianyi.dims.service.api.RegionService;
-import com.hengtianyi.dims.service.api.SysUserService;
-import com.hengtianyi.dims.service.api.YqfkPlaceService;
-import com.hengtianyi.dims.service.api.YqfkRegisterService;
+import com.hengtianyi.dims.service.api.*;
 import com.hengtianyi.dims.service.dto.QueryDto;
 import com.hengtianyi.dims.service.entity.*;
 
@@ -49,6 +46,12 @@ public class YqfkRegisterApiController {
   private SysUserService sysUserService;
   @Resource
   private RegionService regionService;
+
+  @Resource
+  private TownshipService townshipService;
+
+  @Resource
+  private VillageService villageService;
 
   /**
    * 分页查询
@@ -120,8 +123,8 @@ public class YqfkRegisterApiController {
       String afterReturnAddress = this.getPname(entity.getAfterReturnPbm()) +
               this.getPname(entity.getAfterReturnCbm()) +
               this.getPname(entity.getAfterReturnXbm()) +
-              this.getPname(entity.getAfterReturnZhbm()) +
-              this.getPname(entity.getAfterReturnCubm()) +
+              this.getPnameByTownshipCode(entity.getAfterReturnZhbm()) +
+              this.getPnameByVillageCode(entity.getAfterReturnCubm()) +
               this.getAddress(entity.getAfterReturnAddress());
       entity.setAfterReturnAddress(afterReturnAddress);
       String hj = this.getPname(entity.getHjPbm()) +
@@ -416,6 +419,36 @@ public class YqfkRegisterApiController {
       Region regin = regionService.findByCode(pcode);
       if (regin != null) {
         pname += regionService.findByCode(pcode).getPname();
+      }
+    }
+    return pname;
+  }
+
+  //获取乡镇名称 TownshipDao
+  public String getPnameByTownshipCode(String townshipCode) {
+
+    String pname = "";
+    if (townshipCode == null) {
+      pname = "";
+    } else {
+      TownshipEntity town = townshipService.findByCode(townshipCode);
+      if (town != null) {
+        pname += townshipService.findByCode(townshipCode).getAreaName();
+      }
+    }
+    return pname;
+  }
+
+  //获取村名称 Village
+  public String getPnameByVillageCode(String villageCode) {
+
+    String pname = "";
+    if (villageCode == null) {
+      pname = "";
+    } else {
+      VillageEntity village = villageService.findByCode(villageCode);
+      if (village != null) {
+        pname += villageService.findByCode(villageCode).getAreaName();
       }
     }
     return pname;

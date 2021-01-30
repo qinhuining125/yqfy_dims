@@ -49,5 +49,7 @@ public interface VillageDao extends AbstractGenericDao<VillageEntity, String> {
    */
   List<VillageEntity> areaList2(@Param("areaCode") String areaCode);
 
+  VillageEntity selectByAreaCode(@Param("areaCode") String areaCode);
+
 
 }

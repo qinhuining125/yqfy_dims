@@ -95,4 +95,10 @@ public class VillageServiceImpl extends AbstractGenericServiceImpl<VillageEntity
   public List<VillageEntity> areaList2(String areaCode) {
     return villageDao.areaList2(areaCode);
   }
+
+  @Override
+  public VillageEntity findByCode(String pcode){
+    return villageDao.selectByAreaCode(pcode);
+  }
+
 }

@@ -83,4 +83,9 @@ public class TownshipServiceImpl extends AbstractGenericServiceImpl<TownshipEnti
   public List<TownshipEntity> areaList() {
     return townshipDao.searchAllData(new TownshipEntity());
   }
+
+  @Override
+  public TownshipEntity findByCode(String pcode){
+    return townshipDao.selectByAreaCode(pcode);
+  }
 }

@@ -29,4 +29,6 @@ public interface VillageService extends AbstractGenericService<VillageEntity, St
 
   List<VillageEntity> areaList2(String areaCode);
 
+  VillageEntity findByCode(String pcode);
+
 }
