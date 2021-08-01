@@ -20,4 +20,7 @@ public interface ChooseOptionService extends AbstractGenericService<ChooseOption
   List<ChooseOptionEntity> getFirstCategoryByCode(String code);
 
   List<ChooseOptionEntity> getSecondCategoryByParentId(String parentId);
+
+  List<ChooseOptionEntity> getSecondCategoryByParentName(String name);
+
 }

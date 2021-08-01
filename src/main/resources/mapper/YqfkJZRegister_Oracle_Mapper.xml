@@ -14,9 +14,7 @@
   <sql id="sql_where">
     <where>
 
-      <if test="name !=null and name !=''">
-        and "NAME"  like concat(concat('%', #{name}), '%')
-      </if>
+
       <if test="createBelZhbm !=null and createBelZhbm !=''">
         and "CREATE_ACCOUNT" in(select a.id from sys_user a where a.area_code like concat(#{createBelZhbm},'%'))
       </if>
@@ -32,9 +30,127 @@
       <if test="endTime !=null and endTime !=''">
         and "CREATE_TIME" &lt; to_date(#{endTime,jdbcType=VARCHAR},'yyyy-mm-dd hh24:mi:ss')
       </if>
+
+
+
       <if test="id !=null and id !=''">
         and "ID" = #{id,jdbcType=CHAR}
       </if>
+
+      <if test="name !=null and name !=''">
+        and "NAME"  like concat(concat('%', #{name}), '%')
+      </if>
+
+      <if test="sex != null">
+        and "SEX" = #{sex,jdbcType=VARCHAR}
+      </if>
+      <if test="age != null and age !=''">
+        and "AGE" = #{age,jdbcType=VARCHAR}
+      </if>
+      <if test="card != null and card !=''">
+        and "CARD" = #{card,jdbcType=VARCHAR}
+      </if>
+      <if test="birthday != null ">
+        and "BIRTHDAY"= #{birthday,jdbcType=DATE}
+      </if>
+      <if test="phone != null and phone !=''">
+        and "PHONE"=#{phone,jdbcType=VARCHAR}
+      </if>
+
+
+      <if test="nowPbm != null and nowPbm !=''">
+        and "NOW_PBM" = #{nowPbm,jdbcType=VARCHAR}
+      </if>
+      <if test="nowCbm != null and nowCbm !=''">
+        and "NOW_CBM" = #{nowCbm,jdbcType=VARCHAR}
+      </if>
+      <if test="nowXbm != null and nowXbm !=''">
+        and "NOW_XBM" = #{nowXbm,jdbcType=VARCHAR}
+      </if>
+      <if test="nowZhbm != null and nowZhbm !=''">
+        and "NOW_ZHBM" = #{nowZhbm,jdbcType=VARCHAR}
+      </if>
+      <if test="nowCubm != null and nowCubm !=''">
+        and "NOW_CUBM" = #{nowCubm,jdbcType=VARCHAR}
+      </if>
+      <if test="nowAddress != null and nowAddress !=''">
+        and "NOW_ADDRESS" = #{nowAddress,jdbcType=VARCHAR}
+      </if>
+
+
+      <if test="juzhuType != null and juzhuType !=''">
+        and "JUZHU_TYPE"= #{juzhuType,jdbcType=VARCHAR}
+      </if>
+
+      <if test="zzMM != null and zzMM !=''">
+        and "ZZMM"= #{zzMM,jdbcType=VARCHAR}
+      </if>
+
+      <if test="zzDWType1 != null and zzDWType1 !=''">
+        and "ZZDW_TYPE1"= #{zzDWType1,jdbcType=VARCHAR}
+      </if>
+      <if test="zzDWType2 != null and zzDWType2 !=''">
+        and "ZZDW_TYPE2"= #{zzDWType2,jdbcType=VARCHAR}
+      </if>
+      <if test="zzDWType3 != null and zzDWType3 !=''">
+        and "ZZDW_TYPE3"= #{zzDWType3,jdbcType=VARCHAR}
+      </if>
+
+      <if test="jieZhType != null and jieZhType !=''">
+        and "JIEZH_TYPE"= #{jieZhType,jdbcType=VARCHAR}
+      </if>
+
+      <if test="vaccineType != null and vaccineType !=''">
+        and "VACCINE_TYPE"= #{vaccineType,jdbcType=VARCHAR}
+      </if>
+
+      <if test="dateFirst != null">
+        and "DATE_FIRST" =#{dateFirst,jdbcType=DATE}
+      </if>
+
+      <if test="addressFirst != null and addressFirst !=''">
+        and "ADDRESS_FIRST" = #{addressFirst,jdbcType=VARCHAR}
+      </if>
+
+      <if test="dateSecond != null">
+        and "DATE_SECOND" = #{dateSecond,jdbcType=DATE}
+      </if>
+
+      <if test="addressSecond != null and addressSecond !=''">
+        and "ADDRESS_SECOND" = #{addressSecond,jdbcType=VARCHAR}
+      </if>
+
+      <if test="dateThird != null">
+        and "DATE_THIRD" = #{dateThird,jdbcType=DATE}
+      </if>
+
+      <if test="addressThird != null and addressThird !=''">
+        and "ADDRESS_THIRD" = #{addressThird,jdbcType=VARCHAR}
+      </if>
+
+      <if test="noJieZhReasonType != null and noJieZhReasonType !=''">
+        and "NO_JZ_REASON_TYPE"= #{noJieZhReasonType,jdbcType=VARCHAR}
+      </if>
+      <if test="noJieZhReasonDetails != null and noJieZhReasonDetails !=''">
+        and "NO_JZ_REASON_DETAILS" like concat(concat('%', #{noJieZhReasonDetails}), '%')
+
+      </if>
+      <if test="jieZhState != null and jieZhState !=''">
+        and "JIEZH_STATE"= #{jieZhState,jdbcType=VARCHAR}
+      </if>
+
+      <if test="ttlNum != null and ttlNum !=''">
+        and "TTL_NUMBER"= #{ttlNum,jdbcType=INTEGER}
+      </if>
+
+      <if test="number != null and number !=''">
+        and "NUMBER"= #{number,jdbcType=INTEGER}
+      </if>
+
+      <if test="remark != null and remark !=''">
+        and "REMARK"= #{remark,jdbcType=VARCHAR}
+      </if>
+
     </where>
   </sql>
 
@@ -96,6 +212,7 @@
       "ID" , "NAME" , "SEX", "AGE", "CARD", "BIRTHDAY" , "PHONE",
       "NOW_PBM" , "NOW_CBM", "NOW_XBM", "NOW_ZHBM","NOW_CUBM", "NOW_ADDRESS",
       "JUZHU_TYPE", "ZZMM", "ZZDW_TYPE1", "ZZDW_TYPE2", "ZZDW_TYPE3", "JIEZH_TYPE", "VACCINE_TYPE",
+      "DATE_FIRST", "ADDRESS_FIRST", "DATE_SECOND", "ADDRESS_SECOND", "DATE_THIRD", "ADDRESS_THIRD",
       "NO_JZ_REASON_TYPE", "NO_JZ_REASON_DETAILS", "JIEZH_STATE", "TTL_NUMBER", "NUMBER", "REMARK",
        "CREATE_ACCOUNT", "CREATE_TIME", "UPDATE_ACCOUNT", "UPDATE_TIME"
    </sql>
@@ -116,15 +233,25 @@
 
   <!-- 根据条件查询，分页 -->
   <select id="searchData" resultMap="BaseResultMap"
-    parameterType="com.hengtianyi.dims.service.entity.YqfkJZRegisterEntity">
+          parameterType="com.hengtianyi.dims.service.entity.YqfkJZRegisterEntity">
     <choose>
       <when test="orderSql !=''">
         select
-        "ID" , "NAME" , "SEX", "AGE", "CARD", "PHONE"
+        <include refid="Base_Column_List"/>
         from (select ROWNUM as "ROW_ID",
-        "ID" , "NAME" , "SEX", "AGE", "CARD", "PHONE"
-        from (select Y."ID" , Y."NAME" , Y."SEX", Y."AGE", Y."CARD", Y."PHONE"
-        from (select "ID" , "NAME" , "SEX", "AGE", "CARD", "PHONE"
+        <include refid="Base_Column_List"/>
+        from (select
+
+        Y."ID" , Y."NAME" , Y."SEX", Y."AGE", Y."CARD", Y."BIRTHDAY" , Y."PHONE",
+        Y."NOW_PBM" , Y."NOW_CBM", Y."NOW_XBM", Y."NOW_ZHBM",Y."NOW_CUBM", Y."NOW_ADDRESS",
+        Y."JUZHU_TYPE", Y."ZZMM", Y."ZZDW_TYPE1", Y."ZZDW_TYPE2", Y."ZZDW_TYPE3", Y."JIEZH_TYPE", Y."VACCINE_TYPE",
+        Y."DATE_FIRST", Y."ADDRESS_FIRST", Y."DATE_SECOND", Y."ADDRESS_SECOND", Y."DATE_THIRD", Y."ADDRESS_THIRD",
+        Y."NO_JZ_REASON_TYPE", Y."NO_JZ_REASON_DETAILS", Y."JIEZH_STATE", Y."TTL_NUMBER", Y."NUMBER",Y."REMARK",
+        S."USER_NAME" AS CREATE_ACCOUNT, Y."CREATE_TIME",Y."UPDATE_ACCOUNT", Y."UPDATE_TIME"
+
+
+        from (select
+        <include refid="Base_Column_List"/>
         from "YQ_YQFK_JZ"
         <include refid="sql_where"/> )Y
         LEFT JOIN "SYS_USER" S
@@ -607,12 +734,20 @@
 
     from (select ROWNUM as "ROW_ID",
     <include refid="Base_Column_List"/>
-    from (select t.* from "YQ_YQFK_JZ" t
+    from (select t.*
+    from "YQ_YQFK_JZ" t
     <include refid="page_where"/>
     order by t.update_time desc)
     where ROWNUM &lt;= #{dto.end}) p
     where p."ROW_ID" &gt; #{dto.first}
   </select>
+
+<!--  t."ID" , t."NAME" , t."SEX", t."AGE", t."CARD", t."BIRTHDAY" , t."PHONE",-->
+<!--  t."NOW_PBM" , t."NOW_CBM", t."NOW_XBM", t."NOW_ZHBM",t."NOW_CUBM", t."NOW_ADDRESS",-->
+<!--  t."JUZHU_TYPE", "ZZMM", t."ZZDW_TYPE1", t."ZZDW_TYPE2", "ZZDW_TYPE3", t."JIEZH_TYPE", t."VACCINE_TYPE",-->
+<!--  t."DATE_FIRST", t."ADDRESS_FIRST", t."DATE_SECOND", t."ADDRESS_SECOND", t."DATE_THIRD", t."ADDRESS_THIRD",-->
+<!--  t."NO_JZ_REASON_TYPE", t."NO_JZ_REASON_DETAILS", t."JIEZH_STATE", t."TTL_NUMBER", t."NUMBER", t."REMARK",-->
+<!--  t."CREATE_ACCOUNT", t."CREATE_TIME", t."UPDATE_ACCOUNT", t."UPDATE_TIME"-->
 
   <sql id="page_where">
     <where>
@@ -630,10 +765,16 @@
           <!--暂时空-->
         </otherwise>
       </choose>
-
-      <if test="dto.name !=null">
-        and t."NAME" like (#{dto.name,jdbcType=VARCHAR} ||'%'))
-      </if>
+<!--      &lt;!&ndash;添加按照返回状态分类，借用地区编码来做    and t."RISK_LEVEL" != 0&ndash;&gt;-->
+<!--      <if test="dto.returnState !=null">-->
+<!--        and t."RETURN_STATE" = #{dto.returnState,jdbcType=VARCHAR}-->
+<!--      </if>-->
+<!--      <if test="dto.riskLevel !=null"> &lt;!&ndash;不为0，表示要取的是全部信息，只要有风险的都取出来&ndash;&gt;-->
+<!--        and t."RISK_LEVEL" = #{dto.riskLevel,jdbcType=VARCHAR}-->
+<!--      </if>-->
+<!--      <if test="dto.name !=null"> &lt;!&ndash;不为&ndash;&gt;-->
+<!--        and t."NAME" like (#{dto.name,jdbcType=VARCHAR} ||'%'))-->
+<!--      </if>-->
 
     </where>
   </sql>

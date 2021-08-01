@@ -34,6 +34,7 @@
         <a href="#"><i class="fa fa-edit"></i><span class="nav-label">疫情防控管理</span>
           <span class="fa arrow"></span></a>
         <ul class="nav nav-second-level">
+          <li><a class="J_menuItem" href="/a/yqfkJZRegister/index.html">接种情况</a></li>
           <li><a class="J_menuItem" href="/a/yqfkRegister/index.html">疫情防控</a></li>
           <li><a class="J_menuItem" href="/a/yqfkPcx/index.html">中高危险地区维护</a></li>
 <#--          <li><a class="J_menuItem" href="/a/clueReport/index.html">线索上报</a></li>-->

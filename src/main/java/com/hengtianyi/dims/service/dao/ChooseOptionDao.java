@@ -21,5 +21,9 @@ public interface ChooseOptionDao extends AbstractGenericDao<ChooseOptionEntity, 
   List<ChooseOptionEntity> getSecondCategoryByParentId(@Param("parentId") String parentId);
 
 
+  List<ChooseOptionEntity> getSecondCategoryByParentName(@Param("parentName") String parentName);
+
+
+
 
 }

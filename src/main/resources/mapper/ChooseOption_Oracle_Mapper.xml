@@ -40,17 +40,23 @@
 
   <select id="getFirstCategoryByCode" resultMap="BaseResultMap" parameterType="java.lang.String">
     select
-    t."ID", t."CODE" , t."NAME"
+    t."NAME"
     from "YQFK_CHOOSE_OPTION" t where t."PARENT"=0 and t."LEVEL"=1 and t."CODE"=#{code,jdbcType=VARCHAR}
 
   </select>
 
   <select id="getSecondCategoryByParentId" resultMap="BaseResultMap" parameterType="java.lang.String">
     select
-    t."ID", t."CODE" , t."NAME"
+    t."NAME"
     from "YQFK_CHOOSE_OPTION" t  where t."PARENT"=#{parentId,jdbcType=VARCHAR} and t."LEVEL"=2
 
   </select>
 
+  <select id="getSecondCategoryByParentName" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select
+    t."NAME"
+    from "YQFK_CHOOSE_OPTION" t  where t."PARENT"= (select tt."ID" from YQFK_CHOOSE_OPTION tt where tt."NAME"=#{parentName,jdbcType=VARCHAR})
+
+  </select>
 
 </mapper>

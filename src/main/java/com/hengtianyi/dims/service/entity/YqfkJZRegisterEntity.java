@@ -50,7 +50,7 @@ public class YqfkJZRegisterEntity extends BaseEntity {
     //现住址详细（填写）(包含门牌号码 汉字+字母门牌号)
     private String nowAddress;
 
-    //居住类型（单选） 1:常驻 2:租户
+    //居住类型（单选） 1:常住 2:租户
     private String juzhuType;
 
     //政治面貌1:中共党员 2:群众 3:其他
@@ -104,16 +104,19 @@ public class YqfkJZRegisterEntity extends BaseEntity {
     private String addressThird;
 
 
-    //未接种原因（1: 禁忌症  2: 到接种点后医生建议不接种  3: 不愿意接种）
+    //未接种原因（1: 禁忌症  2: 到接种点后医生建议不接种  3: 不愿意接种 4:正在隔离期 5:准备接种）
     private String noJieZhReasonType;
 
-    //1: 禁忌症（多选）(存储时，用逗号隔开)
+    //1: 禁忌症（多选）(存储时，用分号隔开)
     private String noJieZhReasonDetails;
 
 
-    //是否接种完毕（接种针剂全部打完， 1-1， 2-2，3-3 ）
-    //例如，2 针只打了1针，则没有接种完毕；  3 针只打了1针或2针，则没有接种完毕
-    //0:否 1:是
+    //    接种状态说明
+    //1.如果选择未接种，则状态为“未接种”
+    //2.如果选择已接种
+    //  2.1当总针数=已打次数时，状态为“接种已完成”
+    //  2.2当总针数<>已打次数时，状态为“接种进行中”
+
     private String jieZhState;
 
     //总针剂数（1：1， 2：2， 3：3）

@@ -80,4 +80,8 @@ public class ChooseOptionServiceImpl extends AbstractGenericServiceImpl<ChooseOp
     return chooseOptionDao.getSecondCategoryByParentId(parentId);
   }
 
+  @Override
+  public List<ChooseOptionEntity> getSecondCategoryByParentName(String name){
+    return chooseOptionDao.getSecondCategoryByParentName(name);
+  }
 }
