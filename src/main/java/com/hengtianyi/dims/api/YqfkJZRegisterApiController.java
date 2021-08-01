@@ -201,8 +201,8 @@ public class YqfkJZRegisterApiController {
         }
       }
     } catch (Exception e) {
-      LOGGER.error("[更新登记信息]出错,{}", e.getMessage(), e);
-      result.setError("更新登记信息");
+      LOGGER.error("[更新疫苗接种登记信息]出错,{}", e.getMessage(), e);
+      result.setError("更新疫苗接种登记信息");
     }
     return result.toJson();
   }

@@ -30,6 +30,7 @@ public class MyWebMvcConfig implements WebMvcConfigurer{
         .excludePathPatterns("/static/**","/town","/village1","/reporting");
   }
 
+//  <context:component-scan base-package="com.dcpnet.swagger"/>
 
 
   @Override

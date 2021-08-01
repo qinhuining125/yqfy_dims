@@ -217,6 +217,16 @@
        "CREATE_ACCOUNT", "CREATE_TIME", "UPDATE_ACCOUNT", "UPDATE_TIME"
    </sql>
 
+  <!-- 字段集合 -->
+  <sql id="Base_Column_List2">
+      "ID" , "NAME" , "SEX", "AGE", "CARD", "BIRTHDAY" , "PHONE",
+      "NOW_PBM" , "NOW_CBM", "NOW_XBM", "NOW_ZHBM","NOW_CUBM", "NOW_ADDRESS",
+      "JUZHU_TYPE", "ZZMM", "ZZDW_TYPE1", "ZZDW_TYPE2", "ZZDW_TYPE3", "JIEZH_TYPE", "VACCINE_TYPE",
+      "DATE_FIRST", "ADDRESS_FIRST", "DATE_SECOND", "ADDRESS_SECOND", "DATE_THIRD", "ADDRESS_THIRD",
+      "NO_JZ_REASON_TYPE", "NO_JZ_REASON_DETAILS", "JIEZH_STATE", "TTL_NUMBER", "NUMBER", "REMARK",
+       "CREATE_ACCOUNT", "CREATE_TIME", "UPDATE_ACCOUNT", "UPDATE_TIME", "CREATE_TIME" as "CREATE_TIME_UNIX"
+   </sql>
+
   <!-- 根据主键查询 -->
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
     select
@@ -278,7 +288,7 @@
   <select id="searchAllData" resultMap="BaseResultMap"
     parameterType="com.hengtianyi.dims.service.entity.YqfkJZRegisterEntity">
     select
-    <include refid="Base_Column_List"/>
+    <include refid="Base_Column_List2"/>
     from "YQ_YQFK_JZ"
     <include refid="sql_where"/>
     order by CREATE_TIME DESC
@@ -742,13 +752,6 @@
     where p."ROW_ID" &gt; #{dto.first}
   </select>
 
-<!--  t."ID" , t."NAME" , t."SEX", t."AGE", t."CARD", t."BIRTHDAY" , t."PHONE",-->
-<!--  t."NOW_PBM" , t."NOW_CBM", t."NOW_XBM", t."NOW_ZHBM",t."NOW_CUBM", t."NOW_ADDRESS",-->
-<!--  t."JUZHU_TYPE", "ZZMM", t."ZZDW_TYPE1", t."ZZDW_TYPE2", "ZZDW_TYPE3", t."JIEZH_TYPE", t."VACCINE_TYPE",-->
-<!--  t."DATE_FIRST", t."ADDRESS_FIRST", t."DATE_SECOND", t."ADDRESS_SECOND", t."DATE_THIRD", t."ADDRESS_THIRD",-->
-<!--  t."NO_JZ_REASON_TYPE", t."NO_JZ_REASON_DETAILS", t."JIEZH_STATE", t."TTL_NUMBER", t."NUMBER", t."REMARK",-->
-<!--  t."CREATE_ACCOUNT", t."CREATE_TIME", t."UPDATE_ACCOUNT", t."UPDATE_TIME"-->
-
   <sql id="page_where">
     <where>
       <choose>
@@ -765,16 +768,6 @@
           <!--暂时空-->
         </otherwise>
       </choose>
-<!--      &lt;!&ndash;添加按照返回状态分类，借用地区编码来做    and t."RISK_LEVEL" != 0&ndash;&gt;-->
-<!--      <if test="dto.returnState !=null">-->
-<!--        and t."RETURN_STATE" = #{dto.returnState,jdbcType=VARCHAR}-->
-<!--      </if>-->
-<!--      <if test="dto.riskLevel !=null"> &lt;!&ndash;不为0，表示要取的是全部信息，只要有风险的都取出来&ndash;&gt;-->
-<!--        and t."RISK_LEVEL" = #{dto.riskLevel,jdbcType=VARCHAR}-->
-<!--      </if>-->
-<!--      <if test="dto.name !=null"> &lt;!&ndash;不为&ndash;&gt;-->
-<!--        and t."NAME" like (#{dto.name,jdbcType=VARCHAR} ||'%'))-->
-<!--      </if>-->
 
     </where>
   </sql>
@@ -795,7 +788,7 @@
 
   <!-- 总剂次数 ！= 已经打过的剂次数 -->
   <select id="getCount" parameterType="com.hengtianyi.dims.service.entity.YqfkJZRegisterEntity" resultType="java.lang.Integer">
-    select count(1) from YQ_YQFK_JZ where CREATE_ACCOUNT = #{entity.createAccount,jdbcType=VARCHAR} and "TTL_NUM" != "NUMBER"
+    select count(1) from YQ_YQFK_JZ where CREATE_ACCOUNT = #{entity.createAccount,jdbcType=VARCHAR} and "JIEZH_STATE" != '接种进行中'
   </select>
 
 

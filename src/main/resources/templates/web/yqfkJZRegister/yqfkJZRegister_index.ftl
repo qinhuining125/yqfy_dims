@@ -500,6 +500,67 @@
     function exportData() {
         var excel = LAY_EXCEL;
         //查询参数这里
+        var startTime = $("#startTime").val();
+        var endTime = $("#endTime").val();
+        var name = $("#name").val();
+        var sex = $("#sex").val();
+        var age = $("#age").val();
+        var card = $("#card").val();
+        var phone = $("#phone").val();
+        var nowAddress = $("#nowAddress").val();
+        var zzMM = $("#zzMM").val();
+        var zzDWType1 = $("#zzDWType1").val();
+        var zzDWType2 = $("#zzDWType2").val();
+        var zzDWType3 = $("#zzDWType3").val();
+        var juzhuType = $("#juzhuType").val();
+        var jieZhType = $("#jieZhType").val();
+        var vaccineType = $("#vaccineType").val();
+        var dateFirst = $("#dateFirst").val();
+        var addressFirst = $("#addressFirst").val();
+        var dateSecond = $("#dateSecond").val();
+        var addressSecond = $("#addressSecond").val();
+        var dateThird = $("#dateThird").val();
+        var addressThird = $("#addressThird").val();
+        var noJieZhReasonType = $("#noJieZhReasonType").val();
+        var noJieZhReasonDetails = $("#noJieZhReasonDetails").val();
+        var jieZhState = $("#jieZhState").val();
+        var createAccount = $("#createAccount").val();
+        var createBelZhbm = $("#createBelZhbm").val();
+        var createBelCubm = $("#createBelCubm").val();
+
+
+
+        var Param1 = JSON.stringify({
+            "startTime": startTime,
+            "endTime": endTime,
+            "name": name,
+            "sex": sex,
+            "age": age,
+            "card": card,
+            "phone": phone,
+            "nowAddress": nowAddress,
+            "zzMM": zzMM,
+            "zzDWType1": zzDWType1,
+            "zzDWType2": zzDWType2,
+            "zzDWType3": zzDWType3,
+            "juzhuType": juzhuType,
+            "jieZhType": jieZhType,
+            "vaccineType": vaccineType,
+            "dateFirst": dateFirst,
+            "addressFirst": addressFirst,
+            "dateSecond": dateSecond,
+            "addressSecond": addressSecond,
+            "dateThird": dateThird,
+            "addressThird": addressThird,
+            "noJieZhReasonType": noJieZhReasonType,
+            "noJieZhReasonDetails": noJieZhReasonDetails,
+            "jieZhState": jieZhState,
+            "createAccount": createAccount,
+            "createBelZhbm": createBelZhbm,
+            "createBelCubm": createBelCubm,
+
+        }); //必须转换为Json对象
+
 
         $.ajax({
             "type": "post",
@@ -515,7 +576,6 @@
                     sex: '性别',
                     age: '年龄',
                     card: '身份证',
-                    birthday:'生日',
                     phone: '联系电话',
                     nowAddress: '现住址',
                     zzMM: '政治面貌',
@@ -545,7 +605,6 @@
                     'sex',
                     'age',
                     'card',
-                    'birthday',
                     'phone',
                     'nowAddress',
                     'zzMM',
@@ -571,7 +630,7 @@
                 // 3. 执行导出函数，系统会弹出弹框
                 excel.exportExcel({
                     sheet1: data
-                }, '导出登记表数据.xlsx', 'xlsx');
+                }, '导出疫苗接种登记表数据.xlsx', 'xlsx');
             }
         });
     }
