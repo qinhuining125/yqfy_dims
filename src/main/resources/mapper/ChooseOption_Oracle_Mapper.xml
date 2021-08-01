@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hengtianyi.dims.service.dao.ChooseOptionDao">
+
+  <!-- 字段与实体的映射 -->
+  <resultMap id="BaseResultMap" type="com.hengtianyi.dims.service.entity.ChooseOptionEntity">
+    <result column="CODE" property="code" jdbcType="VARCHAR"/>
+    <result column="NAME" property="name" jdbcType="VARCHAR"/>
+    <result column="REMARK" property="remark" jdbcType="VARCHAR"/>
+    <result column="LEVEL" property="level" jdbcType="VARCHAR"/>
+    <result column="PARENT" property="parent" jdbcType="VARCHAR"/>
+    <result column="VALID" property="valid" jdbcType="VARCHAR"/>
+    <result column="ID" property="id" jdbcType="CHAR"/>
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP"/>
+    <result column="SORT" property="sort" jdbcType="INTEGER"/>
+  </resultMap>
+
+  <!-- 字段集合 -->
+  <sql id="Base_Column_List">
+      "ID","CODE" , "NAME" , "REMARK", "LEVEL" , "PARENT" , "VALID", "CREATE_TIME"
+  </sql>
+
+  <sql id="sql_where">
+    <where>
+      <if test="remark !=null and remark !=''">
+        and "REMARK" like concat(concat('%', #{REMARK}), '%')
+      </if>
+
+      <if test="level !=null and level !=''">
+        and "LEVEL" = #{level,jdbcType=VARCHAR}
+      </if>
+      <if test="valid !=null and valid !=''">
+        and "VALID" = #{valid,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </sql>
+
+
+  <select id="getFirstCategoryByCode" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select
+    t."ID", t."CODE" , t."NAME"
+    from "YQFK_CHOOSE_OPTION" t where t."PARENT"=0 and t."LEVEL"=1 and t."CODE"=#{code,jdbcType=VARCHAR}
+
+  </select>
+
+  <select id="getSecondCategoryByParentId" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select
+    t."ID", t."CODE" , t."NAME"
+    from "YQFK_CHOOSE_OPTION" t  where t."PARENT"=#{parentId,jdbcType=VARCHAR} and t."LEVEL"=2
+
+  </select>
+
+
+</mapper>

@@ -15,9 +15,12 @@ import com.hengtianyi.dims.service.dto.QueryDto;
 import com.hengtianyi.dims.service.entity.*;
 
 import com.hengtianyi.dims.utils.WebUtil;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.poi.ss.formula.functions.T;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -34,6 +37,8 @@ import java.util.List;
  */
 @RestController
 @RequestMapping(value = "/api/yqfkRegister")
+
+@Api(value = "YqfkRegisterApiController管理",tags = "YqfkRegisterApiController管理接口API")
 public class YqfkRegisterApiController {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(YqfkRegisterApiController.class);
@@ -166,6 +171,7 @@ public class YqfkRegisterApiController {
    * @return json
    */
   @GetMapping(value = "/detail14.json", produces = BaseConstant.JSON)
+  @ApiOperation(value = "通过id查询对象接口",notes = "通过id查询对象接口",httpMethod = "get")
   public String detail14(@RequestParam String id) {
     ServiceResult<Object> result = new ServiceResult<>();
     try {

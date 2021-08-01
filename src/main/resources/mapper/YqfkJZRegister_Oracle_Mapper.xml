@@ -1,0 +1,661 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!--
+ Oracle
+ table name  YQ_YQFK_JZ
+ remarks     接种信息登记表
+ author
+-->
+<mapper namespace="com.hengtianyi.dims.service.dao.YqfkJZRegisterDao">
+
+
+  <!-- doc 查询条件，根据实际情况，对where条件进行删减 -->
+  <sql id="sql_where">
+    <where>
+
+      <if test="name !=null and name !=''">
+        and "NAME"  like concat(concat('%', #{name}), '%')
+      </if>
+      <if test="createBelZhbm !=null and createBelZhbm !=''">
+        and "CREATE_ACCOUNT" in(select a.id from sys_user a where a.area_code like concat(#{createBelZhbm},'%'))
+      </if>
+      <if test="createBelCubm !=null and createBelCubm !=''">
+        and "CREATE_ACCOUNT" in(select a.id from sys_user a where a.area_code like concat(#{createBelCubm},'%'))
+      </if>
+      <if test="createAccount !=null and createAccount !=''">
+        and "CREATE_ACCOUNT" = (select ID from SYS_USER where USER_NAME=#{createAccount,jdbcType=VARCHAR})
+      </if>
+      <if test="startTime !=null and startTime !=''">
+        and "CREATE_TIME" &gt; to_date(#{startTime,jdbcType=VARCHAR},'yyyy-mm-dd hh24:mi:ss')
+      </if>
+      <if test="endTime !=null and endTime !=''">
+        and "CREATE_TIME" &lt; to_date(#{endTime,jdbcType=VARCHAR},'yyyy-mm-dd hh24:mi:ss')
+      </if>
+      <if test="id !=null and id !=''">
+        and "ID" = #{id,jdbcType=CHAR}
+      </if>
+    </where>
+  </sql>
+
+  <!-- 字段与实体的映射 -->
+  <resultMap id="BaseResultMap" type="com.hengtianyi.dims.service.entity.YqfkJZRegisterEntity">
+
+    <id column="ID" property="id" jdbcType="CHAR"/>
+    <result column="NAME" property="name" jdbcType="VARCHAR"/>
+    <result column="SEX" property="sex" jdbcType="VARCHAR"/>
+    <result column="AGE" property="age" jdbcType="VARCHAR"/>
+    <result column="CARD" property="card" jdbcType="VARCHAR"/>
+    <result column="BIRTHDAY" property="birthday" jdbcType="DATE"/>
+    <result column="PHONE" property="phone" jdbcType="VARCHAR"/>
+
+    <result column="NOW_PBM" property="nowPbm" jdbcType="VARCHAR"/>
+    <result column="NOW_CBM" property="nowCbm" jdbcType="VARCHAR"/>
+    <result column="NOW_XBM" property="nowXbm" jdbcType="VARCHAR"/>
+    <result column="NOW_ZHBM" property="nowZhbm" jdbcType="VARCHAR"/>
+    <result column="NOW_CUBM" property="nowCubm" jdbcType="VARCHAR"/>
+    <result column="NOW_ADDRESS" property="nowAddress" jdbcType="VARCHAR"/>
+
+
+    <result column="JUZHU_TYPE" property="juzhuType" jdbcType="VARCHAR"/>
+    <result column="ZZMM" property="zzMM" jdbcType="VARCHAR"/>
+
+    <result column="ZZDW_TYPE1" property="zzDWType1" jdbcType="VARCHAR"/>
+    <result column="ZZDW_TYPE2" property="zzDWType2" jdbcType="VARCHAR"/>
+    <result column="ZZDW_TYPE3" property="zzDWType3" jdbcType="VARCHAR"/>
+
+    <result column="JIEZH_TYPE" property="jieZhType" jdbcType="VARCHAR"/>
+    <result column="VACCINE_TYPE" property="vaccineType" jdbcType="VARCHAR"/>
+
+    <result column="DATE_FIRST" property="dateFirst" jdbcType="DATE"/>
+    <result column="ADDRESS_FIRST" property="addressFirst" jdbcType="VARCHAR"/>
+
+    <result column="DATE_SECOND" property="dateSecond" jdbcType="DATE"/>
+    <result column="ADDRESS_SECOND" property="addressSecond" jdbcType="VARCHAR"/>
+
+    <result column="DATE_THIRD" property="dateThird" jdbcType="DATE"/>
+    <result column="ADDRESS_THIRD" property="addressThird" jdbcType="VARCHAR"/>
+
+    <result column="NO_JZ_REASON_TYPE" property="noJieZhReasonType" jdbcType="VARCHAR"/>
+    <result column="NO_JZ_REASON_DETAILS" property="noJieZhReasonDetails" jdbcType="VARCHAR"/>
+    <result column="JIEZH_STATE" property="jieZhState" jdbcType="VARCHAR"/>
+
+    <result column="TTL_NUMBER" property="ttlNum" jdbcType="INTEGER"/>
+    <result column="NUMBER" property="number" jdbcType="INTEGER"/>
+    <result column="REMARK" property="remark" jdbcType="VARCHAR"/>
+
+    <result column="CREATE_ACCOUNT" property="createAccount" jdbcType="VARCHAR"/>
+    <result column="CREATE_TIME" property="createTime" jdbcType="DATE"/>
+    <result column="UPDATE_ACCOUNT" property="updateAccount" jdbcType="VARCHAR"/>
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="DATE"/>
+
+  </resultMap>
+
+  <!-- 字段集合 -->
+  <sql id="Base_Column_List">
+      "ID" , "NAME" , "SEX", "AGE", "CARD", "BIRTHDAY" , "PHONE",
+      "NOW_PBM" , "NOW_CBM", "NOW_XBM", "NOW_ZHBM","NOW_CUBM", "NOW_ADDRESS",
+      "JUZHU_TYPE", "ZZMM", "ZZDW_TYPE1", "ZZDW_TYPE2", "ZZDW_TYPE3", "JIEZH_TYPE", "VACCINE_TYPE",
+      "NO_JZ_REASON_TYPE", "NO_JZ_REASON_DETAILS", "JIEZH_STATE", "TTL_NUMBER", "NUMBER", "REMARK",
+       "CREATE_ACCOUNT", "CREATE_TIME", "UPDATE_ACCOUNT", "UPDATE_TIME"
+   </sql>
+
+  <!-- 根据主键查询 -->
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select
+    <include refid="Base_Column_List"/>
+    from "YQ_YQFK_JZ" where "ID" = #{id,jdbcType=CHAR} and rownum &lt;= 1
+  </select>
+
+  <!-- 根据条件查询，总数 -->
+  <select id="searchDataCount" resultType="java.lang.Integer"
+    parameterType="com.hengtianyi.dims.service.entity.YqfkJZRegisterEntity">
+    select count(1) from "YQ_YQFK_JZ"
+    <include refid="sql_where"/>
+  </select>
+
+  <!-- 根据条件查询，分页 -->
+  <select id="searchData" resultMap="BaseResultMap"
+    parameterType="com.hengtianyi.dims.service.entity.YqfkJZRegisterEntity">
+    <choose>
+      <when test="orderSql !=''">
+        select
+        "ID" , "NAME" , "SEX", "AGE", "CARD", "PHONE"
+        from (select ROWNUM as "ROW_ID",
+        "ID" , "NAME" , "SEX", "AGE", "CARD", "PHONE"
+        from (select Y."ID" , Y."NAME" , Y."SEX", Y."AGE", Y."CARD", Y."PHONE"
+        from (select "ID" , "NAME" , "SEX", "AGE", "CARD", "PHONE"
+        from "YQ_YQFK_JZ"
+        <include refid="sql_where"/> )Y
+        LEFT JOIN "SYS_USER" S
+        ON Y.CREATE_ACCOUNT = S.ID
+        order by ${orderSql})
+        where ROWNUM &lt;= #{pager.end}) "PAGINATION"
+        where "PAGINATION"."ROW_ID" &gt;= #{pager.first}
+      </when>
+      <otherwise>
+        select
+        <include refid="Base_Column_List"/>
+        from (select ROWNUM as "ROW_ID",
+        <include refid="Base_Column_List"/>
+        from "YQ_YQFK_JZ"
+        <include refid="sql_where"/>
+        and ROWNUM &lt;= #{pager.end}) "PAGINATION"
+        where "PAGINATION"."ROW_ID" &gt;= #{pager.first}
+      </otherwise>
+    </choose>
+  </select>
+
+
+  <!-- 根据条件查询，全部 -->
+  <select id="searchAllData" resultMap="BaseResultMap"
+    parameterType="com.hengtianyi.dims.service.entity.YqfkJZRegisterEntity">
+    select
+    <include refid="Base_Column_List"/>
+    from "YQ_YQFK_JZ"
+    <include refid="sql_where"/>
+    order by CREATE_TIME DESC
+  </select>
+
+  <!-- 单条删除 -->
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from "YQ_YQFK_JZ" where "ID" = #{id,jdbcType=CHAR}
+  </delete>
+
+  <!-- 多条删除 -->
+  <delete id="deleteByIds" parameterType="java.util.List">
+    delete from "YQ_YQFK_JZ" where "ID" in
+    <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+      #{item}
+    </foreach>
+  </delete>
+
+  <!-- 选择性删除，根据实际情况，对where条件进行删减 -->
+  <delete id="deleteSelective"
+    parameterType="com.hengtianyi.dims.service.entity.YqfkJZRegisterEntity">
+    delete from "YQ_YQFK_JZ"
+    <include refid="sql_where"/>
+  </delete>
+
+  <!-- 添加 -->
+  <insert id="insert" parameterType="com.hengtianyi.dims.service.entity.YqfkJZRegisterEntity">
+    insert into "YQ_YQFK_JZ" ("ID" , "NAME" , "SEX", "AGE") values (#{id,jdbcType=CHAR} , #{name,jdbcType=VARCHAR} , #{sex,jdbcType=VARCHAR},#{age,jdbcType=VARCHAR})
+  </insert>
+
+  <!-- 选择性添加 -->
+  <insert id="insertSelective"
+    parameterType="com.hengtianyi.dims.service.entity.YqfkJZRegisterEntity">
+    insert into "YQ_YQFK_JZ"
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null and id !=''">
+        "ID",
+      </if>
+      <if test="name != null and name !=''">
+        "NAME",
+      </if>
+      <if test="sex != null and sex !=''">
+        "SEX",
+      </if>
+      <if test="age != null and age !=''">
+        "AGE",
+      </if>
+      <if test="card != null and card !=''">
+        "CARD",
+      </if>
+      <if test="birthday != null ">
+        "BIRTHDAY",
+      </if>
+      <if test="phone != null and phone !=''">
+        "PHONE",
+      </if>
+
+
+      <if test="nowPbm != null and nowPbm !=''">
+        "NOW_PBM",
+      </if>
+      <if test="nowCbm != null and nowCbm !=''">
+        "NOW_CBM",
+      </if>
+      <if test="nowXbm != null and nowXbm !=''">
+        "NOW_XBM",
+      </if>
+      <if test="nowZhbm != null and nowZhbm !=''">
+        "NOW_ZHBM",
+      </if>
+      <if test="nowCubm != null and nowCubm !=''">
+        "NOW_CUBM",
+      </if>
+      <if test="nowAddress != null and nowAddress !=''">
+        "NOW_ADDRESS",
+      </if>
+
+      <if test="juzhuType != null and juzhuType !=''">
+        "JUZHU_TYPE",
+      </if>
+
+      <if test="zzMM != null and zzMM !=''">
+        "ZZMM",
+      </if>
+
+      <if test="zzDWType1 != null and zzDWType1 !=''">
+        "ZZDW_TYPE1",
+      </if>
+      <if test="zzDWType2 != null and zzDWType2 !=''">
+        "ZZDW_TYPE2",
+      </if>
+      <if test="zzDWType3 != null and zzDWType3 !=''">
+        "ZZDW_TYPE3",
+      </if>
+
+      <if test="jieZhType != null and jieZhType !=''">
+        "JIEZH_TYPE",
+      </if>
+
+      <if test="vaccineType != null and vaccineType !=''">
+        "VACCINE_TYPE",
+      </if>
+
+      <if test="dateFirst != null">
+        "DATE_FIRST",
+      </if>
+
+      <if test="addressFirst != null and addressFirst !=''">
+        "ADDRESS_FIRST",
+      </if>
+
+      <if test="dateSecond != null">
+        "DATE_SECOND",
+      </if>
+
+      <if test="addressSecond != null and addressSecond !=''">
+        "ADDRESS_SECOND",
+      </if>
+
+      <if test="dateThird != null">
+        "DATE_THIRD",
+      </if>
+
+      <if test="addressThird != null and addressThird !=''">
+        "ADDRESS_THIRD",
+      </if>
+
+      <if test="noJieZhReasonType != null and noJieZhReasonType !=''">
+        "NO_JZ_REASON_TYPE",
+      </if>
+      <if test="noJieZhReasonDetails != null and noJieZhReasonDetails !=''">
+        "NO_JZ_REASON_DETAILS",
+      </if>
+      <if test="jieZhState != null and jieZhState !=''">
+        "JIEZH_STATE",
+      </if>
+
+      <if test="ttlNum != null and ttlNum !=''">
+        "TTL_NUMBER",
+      </if>
+
+      <if test="number != null and number !=''">
+        "NUMBER",
+      </if>
+      <if test="remark != null and remark !=''">
+        "REMARK",
+      </if>
+
+
+      <if test="createAccount != null and createAccount !=''">
+        "CREATE_ACCOUNT",
+      </if>
+      <if test="createTime != null">
+        "CREATE_TIME",
+      </if>
+
+      <if test="updateAccount != null and updateAccount !=''">
+        "UPDATE_ACCOUNT",
+      </if>
+      <if test="updateTime != null">
+        "UPDATE_TIME",
+      </if>
+
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null and id !=''">
+        #{id,jdbcType=CHAR},
+      </if>
+      <if test="name != null and name !=''">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null and sex !=''">
+        #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null and age !=''">
+        #{age,jdbcType=VARCHAR},
+      </if>
+      <if test="card != null and card !=''">
+        #{card,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null ">
+        #{birthday,jdbcType=DATE},
+      </if>
+      <if test="phone != null and phone !=''">
+        #{phone,jdbcType=VARCHAR},
+      </if>
+
+
+      <if test="nowPbm != null and nowPbm !=''">
+        #{nowPbm,jdbcType=VARCHAR},
+      </if>
+      <if test="nowCbm != null and nowCbm !=''">
+        #{nowCbm,jdbcType=VARCHAR},
+      </if>
+      <if test="nowXbm != null and nowXbm !=''">
+        #{nowXbm,jdbcType=VARCHAR},
+      </if>
+      <if test="nowZhbm != null and nowZhbm !=''">
+        #{nowZhbm,jdbcType=VARCHAR},
+      </if>
+      <if test="nowCubm != null and nowCubm !=''">
+        #{nowCubm,jdbcType=VARCHAR},
+      </if>
+      <if test="nowAddress != null and nowAddress !=''">
+        #{nowAddress,jdbcType=VARCHAR},
+      </if>
+
+      <if test="juzhuType != null and juzhuType !=''">
+        #{juzhuType,jdbcType=VARCHAR},
+      </if>
+
+      <if test="zzMM != null and zzMM !=''">
+        #{zzMM,jdbcType=VARCHAR},
+      </if>
+
+      <if test="zzDWType1 != null and zzDWType1 !=''">
+        #{zzDWType1,jdbcType=VARCHAR},
+      </if>
+      <if test="zzDWType2 != null and zzDWType2 !=''">
+        #{zzDWType2,jdbcType=VARCHAR},
+      </if>
+      <if test="zzDWType3 != null and zzDWType3 !=''">
+        #{zzDWType3,jdbcType=VARCHAR},
+      </if>
+
+      <if test="jieZhType != null and jieZhType !=''">
+        #{jieZhType,jdbcType=VARCHAR},
+      </if>
+
+      <if test="vaccineType != null and vaccineType !=''">
+        #{vaccineType,jdbcType=VARCHAR},
+      </if>
+
+      <if test="dateFirst != null">
+        #{dateFirst,jdbcType=DATE},
+      </if>
+
+      <if test="addressFirst != null and addressFirst !=''">
+        #{addressFirst,jdbcType=VARCHAR},
+      </if>
+
+      <if test="dateSecond != null">
+        #{dateSecond,jdbcType=DATE},
+      </if>
+
+      <if test="addressSecond != null and addressSecond !=''">
+        #{addressSecond,jdbcType=VARCHAR},
+      </if>
+
+      <if test="dateThird != null">
+        #{dateThird,jdbcType=DATE},
+      </if>
+
+      <if test="addressThird != null and addressThird !=''">
+        #{addressThird,jdbcType=VARCHAR},
+      </if>
+
+
+      <if test="noJieZhReasonType != null and noJieZhReasonType !=''">
+        #{noJieZhReasonType,jdbcType=VARCHAR},
+      </if>
+      <if test="noJieZhReasonDetails != null and noJieZhReasonDetails !=''">
+        #{noJieZhReasonDetails,jdbcType=VARCHAR},
+      </if>
+      <if test="jieZhState != null and jieZhState !=''">
+        #{jieZhState,jdbcType=VARCHAR},
+      </if>
+
+      <if test="ttlNum != null and ttlNum !=''">
+        #{ttlNum,jdbcType=INTEGER},
+      </if>
+
+      <if test="number != null and number !=''">
+        #{number,jdbcType=INTEGER},
+      </if>
+
+
+
+      <if test="remark != null and remark !=''">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createAccount != null and createAccount !=''">
+        #{createAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=DATE},
+      </if>
+
+      <if test="updateAccount != null and updateAccount !=''">
+        #{updateAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=DATE},
+      </if>
+
+    </trim>
+  </insert>
+
+
+  <!-- 全部更新 -->
+  <update id="updateByPrimaryKey"
+    parameterType="com.hengtianyi.dims.service.entity.YqfkJZRegisterEntity">
+    update "YQ_YQFK_JZ" set
+      "NAME" = #{name,jdbcType=VARCHAR} , "SEX" = #{sex,jdbcType=VARCHAR}
+    where "ID" = #{id,jdbcType=CHAR}
+  </update>
+
+  <!-- 选择性更新 -->
+  <update id="updateByPrimaryKeySelective"
+    parameterType="com.hengtianyi.dims.service.entity.YqfkJZRegisterEntity">
+    update "YQ_YQFK_JZ"
+    <set>
+      <if test="name != null">
+        "NAME" = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        "SEX" = #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null and age !=''">
+        "AGE" = #{age,jdbcType=VARCHAR},
+      </if>
+      <if test="card != null and card !=''">
+        "CARD" = #{card,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null ">
+        "BIRTHDAY"= #{birthday,jdbcType=DATE},
+      </if>
+      <if test="phone != null and phone !=''">
+        "PHONE"=#{phone,jdbcType=VARCHAR},
+      </if>
+
+
+      <if test="nowPbm != null and nowPbm !=''">
+        "NOW_PBM" = #{nowPbm,jdbcType=VARCHAR},
+      </if>
+      <if test="nowCbm != null and nowCbm !=''">
+        "NOW_CBM" = #{nowCbm,jdbcType=VARCHAR},
+      </if>
+      <if test="nowXbm != null and nowXbm !=''">
+        "NOW_XBM" = #{nowXbm,jdbcType=VARCHAR},
+      </if>
+      <if test="nowZhbm != null and nowZhbm !=''">
+        "NOW_ZHBM" = #{nowZhbm,jdbcType=VARCHAR},
+      </if>
+      <if test="nowCubm != null and nowCubm !=''">
+        "NOW_CUBM" = #{nowCubm,jdbcType=VARCHAR},
+      </if>
+      <if test="nowAddress != null and nowAddress !=''">
+        "NOW_ADDRESS" = #{nowAddress,jdbcType=VARCHAR},
+      </if>
+
+
+      <if test="juzhuType != null and juzhuType !=''">
+        "JUZHU_TYPE"= #{juzhuType,jdbcType=VARCHAR},
+      </if>
+
+      <if test="zzMM != null and zzMM !=''">
+        "ZZMM"= #{zzMM,jdbcType=VARCHAR},
+      </if>
+
+      <if test="zzDWType1 != null and zzDWType1 !=''">
+        "ZZDW_TYPE1"= #{zzDWType1,jdbcType=VARCHAR},
+      </if>
+      <if test="zzDWType2 != null and zzDWType2 !=''">
+        "ZZDW_TYPE2"= #{zzDWType2,jdbcType=VARCHAR},
+      </if>
+      <if test="zzDWType3 != null and zzDWType3 !=''">
+        "ZZDW_TYPE3"= #{zzDWType3,jdbcType=VARCHAR},
+      </if>
+
+      <if test="jieZhType != null and jieZhType !=''">
+        "JIEZH_TYPE"= #{jieZhType,jdbcType=VARCHAR},
+      </if>
+
+      <if test="vaccineType != null and vaccineType !=''">
+        "VACCINE_TYPE"= #{vaccineType,jdbcType=VARCHAR},
+      </if>
+
+      <if test="dateFirst != null">
+        "DATE_FIRST" =#{dateFirst,jdbcType=DATE},
+      </if>
+
+      <if test="addressFirst != null and addressFirst !=''">
+        "ADDRESS_FIRST" = #{addressFirst,jdbcType=VARCHAR},
+      </if>
+
+      <if test="dateSecond != null">
+        "DATE_SECOND" = #{dateSecond,jdbcType=DATE},
+      </if>
+
+      <if test="addressSecond != null and addressSecond !=''">
+        "ADDRESS_SECOND" = #{addressSecond,jdbcType=VARCHAR},
+      </if>
+
+      <if test="dateThird != null">
+        "DATE_THIRD" = #{dateThird,jdbcType=DATE},
+      </if>
+
+      <if test="addressThird != null and addressThird !=''">
+        "ADDRESS_THIRD" = #{addressThird,jdbcType=VARCHAR},
+      </if>
+
+
+      <if test="noJieZhReasonType != null and noJieZhReasonType !=''">
+        "NO_JZ_REASON_TYPE"= #{noJieZhReasonType,jdbcType=VARCHAR},
+      </if>
+      <if test="noJieZhReasonDetails != null and noJieZhReasonDetails !=''">
+        "NO_JZ_REASON_DETAILS"= #{noJieZhReasonDetails,jdbcType=VARCHAR},
+      </if>
+      <if test="jieZhState != null and jieZhState !=''">
+        "JIEZH_STATE"= #{jieZhState,jdbcType=VARCHAR},
+      </if>
+
+      <if test="ttlNum != null and ttlNum !=''">
+        "TTL_NUMBER"= #{ttlNum,jdbcType=INTEGER},
+      </if>
+
+      <if test="number != null and number !=''">
+        "NUMBER"= #{number,jdbcType=INTEGER},
+      </if>
+
+      <if test="remark != null and remark !=''">
+        "REMARK"= #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createAccount != null and createAccount !=''">
+        "CREATE_ACCOUNT"=#{createAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        "CREATE_TIME"= #{createTime,jdbcType=TIMESTAMP},
+      </if>
+
+      <if test="updateAccount != null and updateAccount !=''">
+        "UPDATE_ACCOUNT"= #{updateAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        "UPDATE_TIME" = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+
+    </set>
+    where "ID" = #{id,jdbcType=CHAR}
+  </update>
+
+  <!--分页-->
+  <select id="pagelist" resultMap="BaseResultMap"
+    parameterType="com.hengtianyi.dims.service.dto.QueryDto">
+    select
+    p."ID" , p."NAME" , p."SEX", p."AGE", p."CARD", p."BIRTHDAY" , p."PHONE",
+    p."NOW_PBM" , p."NOW_CBM", p."NOW_XBM", p."NOW_ZHBM",p."NOW_CUBM", p."NOW_ADDRESS",
+    p."JUZHU_TYPE", p."ZZMM", p."ZZDW_TYPE1", p."ZZDW_TYPE2", p."ZZDW_TYPE3", p."JIEZH_TYPE", p."VACCINE_TYPE",
+    p."DATE_FIRST", p."ADDRESS_FIRST", p."DATE_SECOND", p."ADDRESS_SECOND", p."DATE_THIRD", p."ADDRESS_THIRD",
+    p."NO_JZ_REASON_TYPE", p."NO_JZ_REASON_DETAILS", p."JIEZH_STATE", p."TTL_NUMBER", p."NUMBER", p."REMARK",
+    p."CREATE_ACCOUNT", p."CREATE_TIME", p."UPDATE_ACCOUNT", p."UPDATE_TIME"
+
+    from (select ROWNUM as "ROW_ID",
+    <include refid="Base_Column_List"/>
+    from (select t.* from "YQ_YQFK_JZ" t
+    <include refid="page_where"/>
+    order by t.update_time desc)
+    where ROWNUM &lt;= #{dto.end}) p
+    where p."ROW_ID" &gt; #{dto.first}
+  </select>
+
+  <sql id="page_where">
+    <where>
+      <choose>
+        <when test="dto.userId != null and dto.userId != ''">
+          <if test="dto.roleId == 3000"><!--乡镇管理员-->
+            and t."CREATE_ACCOUNT" in (
+            select s.id from sys_user s where s.area_code like (#{dto.areaCode,jdbcType=CHAR} ||'%'))
+          </if>
+          <if test="dto.roleId==1001"> <!--网格员，只能查看自己的-->
+            and t."CREATE_ACCOUNT" = #{dto.userId,jdbcType=CHAR}
+          </if>
+        </when>
+        <otherwise>
+          <!--暂时空-->
+        </otherwise>
+      </choose>
+
+      <if test="dto.name !=null">
+        and t."NAME" like (#{dto.name,jdbcType=VARCHAR} ||'%'))
+      </if>
+
+    </where>
+  </sql>
+
+
+  <select id="pagecount" resultType="java.lang.Integer"
+    parameterType="com.hengtianyi.dims.service.dto.QueryDto">
+    select count(1) from "YQ_YQFK_JZ" t   <include refid="page_where"/>
+  </select>
+
+  <select id="checkCard" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from "YQ_YQFK_JZ" where CARD=#{card,jdbcType=VARCHAR}
+  </select>
+
+
+
+  <!-- 总剂次数 ！= 已经打过的剂次数 -->
+  <select id="getCount" parameterType="com.hengtianyi.dims.service.entity.YqfkJZRegisterEntity" resultType="java.lang.Integer">
+    select count(1) from YQ_YQFK_JZ where CREATE_ACCOUNT = #{entity.createAccount,jdbcType=VARCHAR} and "TTL_NUM" != "NUMBER"
+  </select>
+
+
+</mapper>

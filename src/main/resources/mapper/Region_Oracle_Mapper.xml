@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<!--
- Oracle
- table name  CLUE_FLOW
- remarks     线索流程
- author      LY
--->
+
 <mapper namespace="com.hengtianyi.dims.service.dao.RegionDao">
 
 
@@ -38,15 +33,6 @@
       <if test="valid !=null and valid !=''">
         and "VALID" = #{valid,jdbcType=VARCHAR}
       </if>
-<!--      <if test="province !=null and province !='' and city ='' and county =''">-->
-<!--        and "PARENT" = #{province,jdbcType=VARCHAR}-->
-<!--      </if>-->
-<!--      <if test="province !=null and province !='' and city !='' and county =''">-->
-<!--        and "PARENT" = #{city,jdbcType=VARCHAR}-->
-<!--      </if>-->
-<!--      <if test="province !=null and province !=''  and city !=''  and county !=''">-->
-<!--        and "ID" = #{county,jdbcType=VARCHAR}-->
-<!--      </if>-->
     </where>
   </sql>
 
@@ -116,7 +102,7 @@
   <update id="updateByPrimaryKey"
           parameterType="com.hengtianyi.dims.service.entity.Region">
     update "YQFK_PCX" set
-      "VALID" = #{vaid,jdbcType=VARCHAR}  /*, "CREATE_TIME" = #{createTime,jdbcType=TIMESTAMP}*/
+      "VALID" = #{vaid,jdbcType=VARCHAR}
     where "ID" = #{id,jdbcType=CHAR}
   </update>
 
@@ -169,73 +155,4 @@
 
   </select>
 
-
-
-
-
-
-  <!--  &lt;!&ndash; 单条删除 &ndash;&gt;-->
-  <!--  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">-->
-  <!--    delete from "YQFK_PCX" where "ID" = #{id,jdbcType=CHAR}-->
-  <!--  </delete>-->
-
-  <!--  &lt;!&ndash; 多条删除 &ndash;&gt;-->
-  <!--  <delete id="deleteByIds" parameterType="java.util.List">-->
-  <!--    delete from "YQFK_PCX" where "ID" in-->
-  <!--    <foreach item="item" index="index" collection="list" open="(" separator="," close=")">-->
-  <!--      #{item}-->
-  <!--    </foreach>-->
-  <!--  </delete>-->
-
-  <!--  &lt;!&ndash; 选择性删除，根据实际情况，对where条件进行删减 &ndash;&gt;-->
-  <!--  <delete id="deleteSelective"-->
-  <!--          parameterType="com.hengtianyi.dims.service.entity.Region">-->
-  <!--    delete from "YQFK_PCX"-->
-  <!--    <include refid="sql_where"/>-->
-  <!--  </delete>-->
-
-  <!--  &lt;!&ndash; 添加 &ndash;&gt;-->
-  <!--  <insert id="insert" parameterType="com.hengtianyi.dims.service.entity.Region">-->
-  <!--    insert into "YQFK_PCX" ("ID" , "NAME" , "SEX", "AGE") values (#{id,jdbcType=CHAR} , #{name,jdbcType=VARCHAR} , #{sex,jdbcType=VARCHAR},#{age,jdbcType=VARCHAR})-->
-  <!--  </insert>-->
-
-  <!--  &lt;!&ndash; 选择性添加 &ndash;&gt;-->
-  <!--  <insert id="insertSelective"-->
-  <!--          parameterType="com.hengtianyi.dims.service.entity.Region">-->
-  <!--    insert into "YQFK_PCX"-->
-  <!--    <trim prefix="(" suffix=")" suffixOverrides=",">-->
-  <!--      <if test="id != null and id !=''">-->
-  <!--        "ID",-->
-  <!--      </if>-->
-  <!--      <if test="name != null and name !=''">-->
-  <!--        "NAME",-->
-  <!--      </if>-->
-  <!--      <if test="sex != null and sex !=''">-->
-  <!--        "SEX",-->
-  <!--      </if>-->
-  <!--      <if test="age != null and age !=''">-->
-  <!--        "AGE",-->
-  <!--      </if>-->
-  <!--      <if test="card != null and card !=''">-->
-  <!--        "CARD",-->
-  <!--      </if>-->
-  <!--    </trim>-->
-  <!--    <trim prefix="values (" suffix=")" suffixOverrides=",">-->
-  <!--      <if test="id != null and id !=''">-->
-  <!--        #{id,jdbcType=CHAR},-->
-  <!--      </if>-->
-  <!--      <if test="name != null and name !=''">-->
-  <!--        #{name,jdbcType=VARCHAR},-->
-  <!--      </if>-->
-  <!--      <if test="sex != null and sex !=''">-->
-  <!--        #{sex,jdbcType=VARCHAR},-->
-  <!--      </if>-->
-  <!--      <if test="age != null and age !=''">-->
-  <!--        #{age,jdbcType=VARCHAR},-->
-  <!--      </if>-->
-  <!--      <if test="card != null and card !=''">-->
-  <!--        #{card,jdbcType=VARCHAR},-->
-  <!--      </if>-->
-  <!--    </trim>-->
-  <!--  </insert>-->
 </mapper>
