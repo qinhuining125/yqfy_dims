@@ -74,6 +74,9 @@ public class QueryDto extends BaseBean {
      * **/
  private String name;
 
+
+    private String jieZhState;
+
     public String getName() {
         return name;
     }
@@ -185,4 +188,12 @@ public class QueryDto extends BaseBean {
   public void setReportRoleId(Integer reportRoleId) {
     this.reportRoleId = reportRoleId;
   }
+
+    public String getJieZhState() {
+        return jieZhState;
+    }
+
+    public void setJieZhState(String jieZhState) {
+        this.jieZhState = jieZhState;
+    }
 }

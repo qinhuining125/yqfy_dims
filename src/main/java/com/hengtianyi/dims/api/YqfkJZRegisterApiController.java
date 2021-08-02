@@ -66,6 +66,12 @@ public class YqfkJZRegisterApiController {
       queryDto.setUserId(userEntity.getId());
       queryDto.setAreaCode(userEntity.getAreaCode());
 
+      if (dto.getQuery() != null) {
+        if (dto.getQuery().getJieZhState() != null && !dto.getQuery().getJieZhState().equals("") && !(dto.getQuery().getJieZhState().equals("全部"))) {
+          queryDto.setJieZhState(dto.getQuery().getJieZhState());
+        }
+      }
+
       CommonEntityDto<YqfkJZRegisterEntity> cpDto = yqfkJZRegisterService.pagelist(queryDto);
       result.setResult(cpDto);
       result.setSuccess(true);

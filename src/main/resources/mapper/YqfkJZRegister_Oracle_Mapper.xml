@@ -769,7 +769,9 @@
           <!--暂时空-->
         </otherwise>
       </choose>
-
+      <if test="dto.jieZhState !=null">
+        and t."JIEZH_STATE" = #{dto.jieZhState,jdbcType=VARCHAR}
+      </if>
     </where>
   </sql>
 
@@ -789,7 +791,7 @@
 
   <!-- 状态是接种进行中 -->
   <select id="getCount" parameterType="com.hengtianyi.dims.service.entity.YqfkJZRegisterEntity" resultType="java.lang.Integer">
-    select count(1) from YQ_YQFK_JZ where CREATE_ACCOUNT = #{entity.createAccount,jdbcType=VARCHAR} and "JIEZH_STATE" != '接种进行中'
+    select count(1) from YQ_YQFK_JZ where CREATE_ACCOUNT = #{entity.createAccount,jdbcType=VARCHAR} and "JIEZH_STATE" = '接种进行中'
   </select>
 
 
