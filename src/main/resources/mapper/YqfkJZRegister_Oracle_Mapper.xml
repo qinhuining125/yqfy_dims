@@ -786,10 +786,32 @@
 
 
 
-  <!-- 总剂次数 ！= 已经打过的剂次数 -->
+  <!-- 状态是接种进行中 -->
   <select id="getCount" parameterType="com.hengtianyi.dims.service.entity.YqfkJZRegisterEntity" resultType="java.lang.Integer">
     select count(1) from YQ_YQFK_JZ where CREATE_ACCOUNT = #{entity.createAccount,jdbcType=VARCHAR} and "JIEZH_STATE" != '接种进行中'
   </select>
+
+
+  <select id="getEchartsDataStatus" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select
+    t."ID" , t."JIEZH_STATE"
+    from "YQ_YQFK_JZ" t
+    where 1=1
+    <choose>
+      <when test="endTime!=null and endTime!=''">
+        and t."CREATE_TIME" >= to_date(#{startTime,jdbcType=VARCHAR},'yyyy-mm-dd hh24:mi:ss')
+        and t."CREATE_TIME" &lt; to_date(#{endTime,jdbcType=VARCHAR},'yyyy-mm-dd hh24:mi:ss')
+      </when>
+      <otherwise>
+        and t."CREATE_TIME" &lt; sysdate
+      </otherwise>
+    </choose>
+    <if test="areaCode!=null and areaCode!=''">
+      and t."CREATE_ACCOUNT" in (select a.id from sys_user a where a.area_code like
+      (#{areaCode,jdbcType=VARCHAR} ||'%'))
+    </if>
+  </select>
+
 
 
 </mapper>

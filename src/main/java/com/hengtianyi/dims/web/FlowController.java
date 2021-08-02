@@ -33,6 +33,10 @@ public class FlowController {
 
     @Resource
     private YqfkRegisterService yqfkRegisterService;
+
+    @Resource
+    private YqfkJZRegisterService yqfkJZRegisterService;
+
     @Resource
     private RegionService regionService;
 
@@ -76,11 +80,28 @@ public class FlowController {
         return clueReportService.echartsData(start, end, areaCode);
     }
 
+    @GetMapping(value = "a/analysis/yqfkJZstatus.html", produces = BaseConstant.HTML)
+    public String analysisYqfkJZStatus(Model model) {
+        model.addAttribute("areaList", townshipService.areaList());
+        return "web/analysis/yqfkJZstatus_index";
+    }
+
     @GetMapping(value = "a/analysis/status.html", produces = BaseConstant.HTML)
     public String analysisStatus(Model model) {
         model.addAttribute("areaList", townshipService.areaList());
         return "web/analysis/status_index";
     }
+
+    @ResponseBody
+    @PostMapping(value = "a/analysis/yqfkJZstatusData.json", produces = BaseConstant.JSON)
+    public String yqfkJZstatusData(@RequestParam(required = false) Long startTime,
+                             @RequestParam(required = false) Long endTime,
+                             @RequestParam(required = false) String areaCode) {
+        String start = startTime != null ? TimeUtil.format(startTime, BaseConstant.DATE_FORMAT2) : "";
+        String end = endTime != null ? TimeUtil.format(endTime, BaseConstant.DATE_FORMAT2) : "";
+        return yqfkJZRegisterService.echartsDataStatus(start, end, areaCode);
+    }
+
 
     @ResponseBody
     @PostMapping(value = "a/analysis/statusData.json", produces = BaseConstant.JSON)

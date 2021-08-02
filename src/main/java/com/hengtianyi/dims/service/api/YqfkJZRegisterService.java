@@ -15,6 +15,9 @@ import java.util.List;
 public interface YqfkJZRegisterService extends AbstractGenericService<YqfkJZRegisterEntity, String> {
 
 
+  String echartsDataStatus(String startTime, String endTime, String areaCode);
+
+
   /**
    * 自定义分页
    *

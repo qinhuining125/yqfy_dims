@@ -39,4 +39,12 @@ public interface YqfkJZRegisterDao extends AbstractGenericDao<YqfkJZRegisterEnti
 
 
     Integer getCount(@Param("entity") YqfkJZRegisterEntity entity);
+
+
+
+    List<YqfkJZRegisterEntity> getEchartsDataStatus(@Param("startTime") String startTime,
+                                                  @Param("endTime") String endTime,
+                                                  @Param("areaCode") String areaCode);
+
+
 }
