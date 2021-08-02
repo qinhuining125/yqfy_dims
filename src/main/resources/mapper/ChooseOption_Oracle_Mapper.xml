@@ -55,7 +55,7 @@
   <select id="getSecondCategoryByParentName" resultMap="BaseResultMap" parameterType="java.lang.String">
     select
     t."NAME"
-    from "YQFK_CHOOSE_OPTION" t  where t."PARENT"= (select tt."ID" from YQFK_CHOOSE_OPTION tt where tt."NAME"=#{parentName,jdbcType=VARCHAR})
+    from "YQFK_CHOOSE_OPTION" t  where t."PARENT"= (select tt."ID" from YQFK_CHOOSE_OPTION tt where  tt.CODE='ZZDW' and tt."NAME"=#{parentName,jdbcType=VARCHAR})
 
   </select>
 

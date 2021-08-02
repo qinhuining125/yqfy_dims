@@ -26,6 +26,12 @@
                                 <input type="hidden" id="endTime" name="endTime">
                                 <input type="hidden" id="createBelZhbm" name="createBelZhbm">
                                 <input type="hidden" id="createBelCubm" name="createBelCubm">
+
+                                <input type="hidden" id="nowZhbm" name="nowZhbm">
+                                <input type="hidden" id="nowCubm" name="nowCubm">
+
+                                <input type="hidden" id="zzDWType1" name="zzDWType1">
+                                <input type="hidden" id="zzDWType2" name="zzDWType2">
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-4 control-label">姓名:</label>
@@ -179,11 +185,21 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-4 control-label">工作单位详细:</label>
+                                <label class="col-sm-4 control-label">工作单位小类:</label>
                                 <div class="col-sm-7">
-                                    <select id="queryzzDWType2" class="form-control" name="" onchange="searchZZDW2(this);">
+                                    <select id="queryzzDWType2" class="form-control" name="" onchange="choseZZDW2(this);">
                                         <option value="">全部</option>
                                     </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label">工作单位详细:</label>
+                                <div class="col-sm-7">
+<#--                                    <select id="queryzzDWType3" class="form-control" name="" onchange="searchZZDW2(this);">-->
+<#--                                        <option value="">全部</option>-->
+<#--                                    </select>-->
+                                    <input type="text" id="queryzzDWType2" name="zzDWType3" class="form-control"
+                                           autocomplete="off">
                                 </div>
                             </div>
                         </div>
@@ -688,15 +704,34 @@
 
 
     function choseZZDW1(obj) {
-
-        var zzDWType2 = $(obj).val();
-        if (zzDWType2 == '') {
-            zzDWType2 = $("#queryzzDWType1").val();
+        const zzDWType1 = $(obj).val();
+        $("#zzDWType1").val(zzDWType1);
+        if (zzDWType1 == '') {
+            return false;
         }
-        $("#zzDWType2").val(zzDWType2);
-
+        console.log(zzDWType1)
+        $.ajax({
+            "type": "GET",
+            "cache": false,
+            "url": "/a/yqfkJZRegister/listZZDW2.json",
+            "data": {
+                "zzDWType1": zzDWType1
+            },
+            "dataType": "json",
+            "success": function (data) {
+                console.log(data)
+                const template = Handlebars.compile($("#template-zzDWType2").html());
+                $("#queryzzDWType2").html(template(data.result));
+            }
+        });
     }
-
+    function choseZZDW2(obj) {
+        const zzDWType2 = $(obj).val();
+        $("#zzDWType2").val(zzDWType2);
+        if (zzDWType2 == '') {
+            return false;
+        }
+    }
 
     function searchZZDW2(obj) {
         const zzDWType1 = $(obj).val();
@@ -704,6 +739,7 @@
         if (zzDWType1 == '') {
             return false;
         }
+        console.log(zzDWType1)
         $.ajax({
             "type": "GET",
             "cache": false,
