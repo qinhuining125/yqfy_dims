@@ -17,6 +17,12 @@ public interface YqfkJZRegisterService extends AbstractGenericService<YqfkJZRegi
 
   String echartsDataStatus(String startTime, String endTime, String areaCode);
 
+  String echartsDataNoJZStatus(String startTime, String endTime, String areaCode);
+
+  String echartsDataYqfkJZzzmm(String startTime, String endTime, String areaCode, String jieZhState);
+
+  String echartsDataYqfkJZzzdw(String startTime, String endTime, String areaCode, String queryzzDWType1, String queryzzDWType2);
+
 
   /**
    * 自定义分页

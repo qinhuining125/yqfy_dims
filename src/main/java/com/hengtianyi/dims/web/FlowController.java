@@ -22,6 +22,11 @@ public class FlowController {
 
     @Resource
     private TownshipService townshipService;
+
+    @Resource
+    private ChooseOptionService chooseOptionService;
+
+
     @Resource
     private ClueReportService clueReportService;
     @Resource
@@ -80,99 +85,6 @@ public class FlowController {
         return clueReportService.echartsData(start, end, areaCode);
     }
 
-    @GetMapping(value = "a/analysis/yqfkJZstatus.html", produces = BaseConstant.HTML)
-    public String analysisYqfkJZStatus(Model model) {
-        model.addAttribute("areaList", townshipService.areaList());
-        return "web/analysis/yqfkJZstatus_index";
-    }
-
-    @GetMapping(value = "a/analysis/status.html", produces = BaseConstant.HTML)
-    public String analysisStatus(Model model) {
-        model.addAttribute("areaList", townshipService.areaList());
-        return "web/analysis/status_index";
-    }
-
-    @ResponseBody
-    @PostMapping(value = "a/analysis/yqfkJZstatusData.json", produces = BaseConstant.JSON)
-    public String yqfkJZstatusData(@RequestParam(required = false) Long startTime,
-                             @RequestParam(required = false) Long endTime,
-                             @RequestParam(required = false) String areaCode) {
-        String start = startTime != null ? TimeUtil.format(startTime, BaseConstant.DATE_FORMAT2) : "";
-        String end = endTime != null ? TimeUtil.format(endTime, BaseConstant.DATE_FORMAT2) : "";
-        return yqfkJZRegisterService.echartsDataStatus(start, end, areaCode);
-    }
-
-
-    @ResponseBody
-    @PostMapping(value = "a/analysis/statusData.json", produces = BaseConstant.JSON)
-    public String statusData(@RequestParam(required = false) Long startTime,
-                             @RequestParam(required = false) Long endTime,
-                             @RequestParam(required = false) String areaCode) {
-        String start = startTime != null ? TimeUtil.format(startTime, BaseConstant.DATE_FORMAT2) : "";
-        String end = endTime != null ? TimeUtil.format(endTime, BaseConstant.DATE_FORMAT2) : "";
-        return yqfkRegisterService.echartsDataStatus(start, end, areaCode);
-    }
-
-
-    @GetMapping(value = "a/analysis/industry.html", produces = BaseConstant.HTML)
-    public String analysisIndustry(Model model) {
-        model.addAttribute("areaList", townshipService.areaList());
-        return "web/analysis/industry_index";
-    }
-
-    /**
-     * 按照风险等级来统计
-     */
-    @ResponseBody
-    @PostMapping(value = "a/analysis/riskData.json", produces = BaseConstant.JSON)
-    public String riskData(@RequestParam(required = false) Long startTime,
-                           @RequestParam(required = false) Long endTime,
-                           @RequestParam(required = false) String areaCode,
-                           @RequestParam(required = false) String returnState) {
-        String start = startTime != null ? TimeUtil.format(startTime, BaseConstant.DATE_FORMAT2) : "";
-        String end = endTime != null ? TimeUtil.format(endTime, BaseConstant.DATE_FORMAT2) : "";
-        return yqfkRegisterService.echartsDataRisk(start, end, areaCode,returnState);
-    }
-
-    /**
-     * 按照风险等级视图
-     */
-    @GetMapping(value = "a/analysis/risk.html", produces = BaseConstant.HTML)
-    public String analysisRisk(Model model) {
-        model.addAttribute("areaList", townshipService.areaList());
-        return "web/analysis/risk_index";
-    }
-
-    @ResponseBody
-    @PostMapping(value = "a/analysis/industryData.json", produces = BaseConstant.JSON)
-    public String industryData(@RequestParam(required = false) Long startTime,
-                               @RequestParam(required = false) Long endTime,
-                               @RequestParam(required = false) String areaCode,
-                               @RequestParam(required = false) String returnState) {
-        String start = startTime != null ? TimeUtil.format(startTime, BaseConstant.DATE_FORMAT2) : "";
-        String end = endTime != null ? TimeUtil.format(endTime, BaseConstant.DATE_FORMAT2) : "";
-        String df = yqfkRegisterService.echartsDataIndustry(start, end, areaCode,returnState);
-        return yqfkRegisterService.echartsDataIndustry(start, end, areaCode,returnState);
-    }
-
-
-    @GetMapping(value = "a/analysis/vehicle.html", produces = BaseConstant.HTML)
-    public String analysisVehicle(Model model) {
-        model.addAttribute("areaList", townshipService.areaList());
-        return "web/analysis/vehicle_index";
-    }
-
-    @ResponseBody
-    @PostMapping(value = "a/analysis/vehicleData.json", produces = BaseConstant.JSON)
-    public String vehicleData(@RequestParam(required = false) Long startTime,
-                              @RequestParam(required = false) Long endTime,
-                              @RequestParam(required = false) String areaCode,
-                              @RequestParam(required = false) String returnState) {
-        String start = startTime != null ? TimeUtil.format(startTime, BaseConstant.DATE_FORMAT2) : "";
-        String end = endTime != null ? TimeUtil.format(endTime, BaseConstant.DATE_FORMAT2) : "";
-        return yqfkRegisterService.echartsDataVehicle(start, end, areaCode, returnState);
-    }
-
     @GetMapping(value = "a/analysis/advice.html", produces = BaseConstant.HTML)
     public String analysisAdvice(Model model) {
         model.addAttribute("areaList", townshipService.areaList());
@@ -222,8 +134,100 @@ public class FlowController {
         return taskInfoService.echartsData(start, end, areaCode);
     }
 
+
     /**
-     * 返乡前区域统计
+     * 来返寿登记统计分析--按照状态统计
+     * @param model
+     * @return
+     */
+    @GetMapping(value = "a/analysis/status.html", produces = BaseConstant.HTML)
+    public String analysisStatus(Model model) {
+        model.addAttribute("areaList", townshipService.areaList());
+        return "web/analysis/status_index";
+    }
+
+
+    @ResponseBody
+    @PostMapping(value = "a/analysis/statusData.json", produces = BaseConstant.JSON)
+    public String statusData(@RequestParam(required = false) Long startTime,
+                             @RequestParam(required = false) Long endTime,
+                             @RequestParam(required = false) String areaCode) {
+        String start = startTime != null ? TimeUtil.format(startTime, BaseConstant.DATE_FORMAT2) : "";
+        String end = endTime != null ? TimeUtil.format(endTime, BaseConstant.DATE_FORMAT2) : "";
+        return yqfkRegisterService.echartsDataStatus(start, end, areaCode);
+    }
+
+    /**
+     * 来返寿登记统计分析--按照风险等级来统计
+     * @param model
+     * @return
+     */
+    @GetMapping(value = "a/analysis/risk.html", produces = BaseConstant.HTML)
+    public String analysisRisk(Model model) {
+        model.addAttribute("areaList", townshipService.areaList());
+        return "web/analysis/risk_index";
+    }
+
+    @ResponseBody
+    @PostMapping(value = "a/analysis/riskData.json", produces = BaseConstant.JSON)
+    public String riskData(@RequestParam(required = false) Long startTime,
+                           @RequestParam(required = false) Long endTime,
+                           @RequestParam(required = false) String areaCode,
+                           @RequestParam(required = false) String returnState) {
+        String start = startTime != null ? TimeUtil.format(startTime, BaseConstant.DATE_FORMAT2) : "";
+        String end = endTime != null ? TimeUtil.format(endTime, BaseConstant.DATE_FORMAT2) : "";
+        return yqfkRegisterService.echartsDataRisk(start, end, areaCode,returnState);
+    }
+
+
+    /**
+     * 来返寿登记统计分析--按照人员类别统计
+     * @param model
+     * @return
+     */
+    @GetMapping(value = "a/analysis/industry.html", produces = BaseConstant.HTML)
+    public String analysisIndustry(Model model) {
+        model.addAttribute("areaList", townshipService.areaList());
+        return "web/analysis/industry_index";
+    }
+
+    @ResponseBody
+    @PostMapping(value = "a/analysis/industryData.json", produces = BaseConstant.JSON)
+    public String industryData(@RequestParam(required = false) Long startTime,
+                               @RequestParam(required = false) Long endTime,
+                               @RequestParam(required = false) String areaCode,
+                               @RequestParam(required = false) String returnState) {
+        String start = startTime != null ? TimeUtil.format(startTime, BaseConstant.DATE_FORMAT2) : "";
+        String end = endTime != null ? TimeUtil.format(endTime, BaseConstant.DATE_FORMAT2) : "";
+        String df = yqfkRegisterService.echartsDataIndustry(start, end, areaCode,returnState);
+        return yqfkRegisterService.echartsDataIndustry(start, end, areaCode,returnState);
+    }
+
+    /**
+     * 来返寿登记统计分析--按照交通工具
+     * @param model
+     * @return
+     */
+    @GetMapping(value = "a/analysis/vehicle.html", produces = BaseConstant.HTML)
+    public String analysisVehicle(Model model) {
+        model.addAttribute("areaList", townshipService.areaList());
+        return "web/analysis/vehicle_index";
+    }
+
+    @ResponseBody
+    @PostMapping(value = "a/analysis/vehicleData.json", produces = BaseConstant.JSON)
+    public String vehicleData(@RequestParam(required = false) Long startTime,
+                              @RequestParam(required = false) Long endTime,
+                              @RequestParam(required = false) String areaCode,
+                              @RequestParam(required = false) String returnState) {
+        String start = startTime != null ? TimeUtil.format(startTime, BaseConstant.DATE_FORMAT2) : "";
+        String end = endTime != null ? TimeUtil.format(endTime, BaseConstant.DATE_FORMAT2) : "";
+        return yqfkRegisterService.echartsDataVehicle(start, end, areaCode, returnState);
+    }
+
+
+    /**
+     * 来返寿登记统计分析--按照返乡前地址统计
      *
      * @param model
      * @return
@@ -247,5 +251,102 @@ public class FlowController {
         String end = endTime != null ? TimeUtil.format(endTime, BaseConstant.DATE_FORMAT2) : "";
         return yqfkRegisterService.echartsDataBefore(start, end, areaCode, beforeAreaPbm,beforeAreaCbm,beforeAreaXbm);
     }
+
+
+    /**
+     * 疫苗接种登记统计分析--按照工作单位统计
+     * @param model
+     * @return
+     */
+    @GetMapping(value = "a/analysis/yqfkJZzzdw.html", produces = BaseConstant.HTML)
+    public String analysisYqfkJZzzdw(Model model) {
+        model.addAttribute("areaList", townshipService.areaList());
+        model.addAttribute("zzDWList", chooseOptionService.getFirstCategoryByCode("ZZDW"));
+        return "web/analysis/yqfkJZzzdw_index";
+    }
+
+    @ResponseBody
+    @PostMapping(value = "a/analysis/yqfkJZzzdwData.json", produces = BaseConstant.JSON)
+    public String yqfkJZzzdwData(@RequestParam(required = false) Long startTime,
+                             @RequestParam(required = false) Long endTime,
+                             @RequestParam(required = false) String areaCode,
+                             @RequestParam(required = false) String queryzzDWType1,
+                             @RequestParam(required = false) String queryzzDWType2) {
+        String start = startTime != null ? TimeUtil.format(startTime, BaseConstant.DATE_FORMAT2) : "";
+        String end = endTime != null ? TimeUtil.format(endTime, BaseConstant.DATE_FORMAT2) : "";
+        return yqfkJZRegisterService.echartsDataYqfkJZzzdw(start, end, areaCode, queryzzDWType1,queryzzDWType2);
+    }
+
+
+
+
+    /**
+     * 疫苗接种登记统计分析--按照政治面貌统计
+     * @param model
+     * @return
+     */
+    @GetMapping(value = "a/analysis/yqfkJZzzmm.html", produces = BaseConstant.HTML)
+    public String analysisYqfkJZzzmm(Model model) {
+        model.addAttribute("areaList", townshipService.areaList());
+        return "web/analysis/yqfkJZzzmm_index";
+    }
+
+
+    @ResponseBody
+    @PostMapping(value = "a/analysis/yqfkJZzzmmData.json", produces = BaseConstant.JSON)
+    public String yqfkJZzzmmData(@RequestParam(required = false) Long startTime,
+                                 @RequestParam(required = false) Long endTime,
+                                 @RequestParam(required = false) String areaCode,
+                                 @RequestParam(required = false) String jieZhState) {
+        String start = startTime != null ? TimeUtil.format(startTime, BaseConstant.DATE_FORMAT2) : "";
+        String end = endTime != null ? TimeUtil.format(endTime, BaseConstant.DATE_FORMAT2) : "";
+        return yqfkJZRegisterService.echartsDataYqfkJZzzmm(start, end, areaCode,jieZhState);
+    }
+
+
+    /**
+     * 疫苗接种登记统计分析--按照接种状态统计
+     * @param model
+     * @return
+     */
+    @GetMapping(value = "a/analysis/yqfkJZstatus.html", produces = BaseConstant.HTML)
+    public String analysisYqfkJZStatus(Model model) {
+        model.addAttribute("areaList", townshipService.areaList());
+        return "web/analysis/yqfkJZstatus_index";
+    }
+
+
+    @ResponseBody
+    @PostMapping(value = "a/analysis/yqfkJZstatusData.json", produces = BaseConstant.JSON)
+    public String yqfkJZstatusData(@RequestParam(required = false) Long startTime,
+                                   @RequestParam(required = false) Long endTime,
+                                   @RequestParam(required = false) String areaCode) {
+        String start = startTime != null ? TimeUtil.format(startTime, BaseConstant.DATE_FORMAT2) : "";
+        String end = endTime != null ? TimeUtil.format(endTime, BaseConstant.DATE_FORMAT2) : "";
+        return yqfkJZRegisterService.echartsDataStatus(start, end, areaCode);
+    }
+
+
+    /**
+     * 疫苗接种登记统计分析--按照不接种原因统计
+     * @param model
+     * @return
+     */
+    @GetMapping(value = "a/analysis/yqfkNoJZstatus.html", produces = BaseConstant.HTML)
+    public String yqfkNoJZstatus(Model model) {
+        model.addAttribute("areaList", townshipService.areaList());
+        return "web/analysis/yqfkNoJZstatus_index";
+    }
+
+    @ResponseBody
+    @PostMapping(value = "a/analysis/yqfkNoJZstatusData.json", produces = BaseConstant.JSON)
+    public String yqfkNoJZstatusData(@RequestParam(required = false) Long startTime,
+                                     @RequestParam(required = false) Long endTime,
+                                     @RequestParam(required = false) String areaCode) {
+        String start = startTime != null ? TimeUtil.format(startTime, BaseConstant.DATE_FORMAT2) : "";
+        String end = endTime != null ? TimeUtil.format(endTime, BaseConstant.DATE_FORMAT2) : "";
+        return yqfkJZRegisterService.echartsDataNoJZStatus(start, end, areaCode);
+    }
+
 
 }

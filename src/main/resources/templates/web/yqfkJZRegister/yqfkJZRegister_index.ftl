@@ -136,7 +136,7 @@
                             <div class="form-group">
                                 <label class="col-sm-4 control-label">禁忌原因</label>
                                 <div class="col-sm-7">
-                                    <select name="industray" class="form-control" id="industray">
+                                    <select name="noJieZhReasonDetails" class="form-control" id="noJieZhReasonDetails">
                                         <option value="">全部</option>
                                         <option value="对疫苗的活性成分、任何一种非活性成分、生产工艺中使用的物质过敏者，或以前接种同类疫苗时出现过敏者">对疫苗的活性成分、任何一种非活性成分、生产工艺中使用的物质过敏者，或以前接种同类疫苗时出现过敏者</option>
                                         <option value="既往发生过疫苗严重过敏反应者（如急性过敏反应、血管神经性水肿、呼吸困难等）">既往发生过疫苗严重过敏反应者（如急性过敏反应、血管神经性水肿、呼吸困难等）</option>

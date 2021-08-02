@@ -132,8 +132,9 @@
         and "NO_JZ_REASON_TYPE"= #{noJieZhReasonType,jdbcType=VARCHAR}
       </if>
       <if test="noJieZhReasonDetails != null and noJieZhReasonDetails !=''">
+        and "NO_JZ_REASON_DETAILS" is not null
+        and "NO_JZ_REASON_DETAILS" != ' '
         and "NO_JZ_REASON_DETAILS" like concat(concat('%', #{noJieZhReasonDetails}), '%')
-
       </if>
       <if test="jieZhState != null and jieZhState !=''">
         and "JIEZH_STATE"= #{jieZhState,jdbcType=VARCHAR}
@@ -794,7 +795,7 @@
 
   <select id="getEchartsDataStatus" resultMap="BaseResultMap" parameterType="java.lang.String">
     select
-    t."ID" , t."JIEZH_STATE"
+    t."ID" , t."JIEZH_STATE", t."NO_JZ_REASON_TYPE"
     from "YQ_YQFK_JZ" t
     where 1=1
     <choose>
@@ -810,6 +811,58 @@
       and t."CREATE_ACCOUNT" in (select a.id from sys_user a where a.area_code like
       (#{areaCode,jdbcType=VARCHAR} ||'%'))
     </if>
+  </select>
+
+  <select id="getEchartsDataYqfkJZzzmm" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select
+    t."ID" , t."ZZMM", t."JIEZH_STATE"
+    from "YQ_YQFK_JZ" t
+    where 1=1
+    <choose>
+      <when test="endTime!=null and endTime!=''">
+        and t."CREATE_TIME" >= to_date(#{startTime,jdbcType=VARCHAR},'yyyy-mm-dd hh24:mi:ss')
+        and t."CREATE_TIME" &lt; to_date(#{endTime,jdbcType=VARCHAR},'yyyy-mm-dd hh24:mi:ss')
+      </when>
+      <otherwise>
+        and t."CREATE_TIME" &lt; sysdate
+      </otherwise>
+    </choose>
+    <if test="areaCode!=null and areaCode!=''">
+      and t."CREATE_ACCOUNT" in (select a.id from sys_user a where a.area_code like
+      (#{areaCode,jdbcType=VARCHAR} ||'%'))
+    </if>
+    <if test="jieZhState !=null and jieZhState!='' ">
+      and t."JIEZH_STATE" = #{jieZhState,jdbcType=VARCHAR}
+    </if>
+  </select>
+
+
+  <select id="getEchartsDataYqfkJZzzdw" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select
+    t."ID" ,  t."JIEZH_STATE"
+    from "YQ_YQFK_JZ" t
+    where 1=1
+    <choose>
+      <when test="endTime!=null and endTime!=''">
+        and t."CREATE_TIME" >= to_date(#{startTime,jdbcType=VARCHAR},'yyyy-mm-dd hh24:mi:ss')
+        and t."CREATE_TIME" &lt; to_date(#{endTime,jdbcType=VARCHAR},'yyyy-mm-dd hh24:mi:ss')
+      </when>
+      <otherwise>
+        and t."CREATE_TIME" &lt; sysdate
+      </otherwise>
+    </choose>
+    <if test="areaCode!=null and areaCode!=''">
+      and t."CREATE_ACCOUNT" in (select a.id from sys_user a where a.area_code like
+      (#{areaCode,jdbcType=VARCHAR} ||'%'))
+    </if>
+    <if test="queryzzDWType1 !=null and queryzzDWType1!='' ">
+      and t."ZZDW_TYPE1" = #{queryzzDWType1,jdbcType=VARCHAR}
+    </if>
+
+    <if test="queryzzDWType2 !=null and queryzzDWType2!='' ">
+      and t."ZZDW_TYPE2" = #{queryzzDWType2,jdbcType=VARCHAR}
+    </if>
+
   </select>
 
 
