@@ -98,6 +98,7 @@ public class YqfkJZRegisterApiController {
       entity.setUpdateTime(SystemClock.nowDate());
       entity.setCreateAccount(WebUtil.getUserIdByToken(request));
       entity.setUpdateAccount(WebUtil.getUserIdByToken(request));
+      entity.setCard(entity.getCard().toUpperCase());
 
 //      entity.setNowPbm(entity.getNowPbm());
 //      entity.setNowCbm(entity.getNowCbm());
@@ -140,8 +141,6 @@ public class YqfkJZRegisterApiController {
     ServiceResult<Object> result = new ServiceResult<>();
     try {
       YqfkJZRegisterEntity entity=yqfkJZRegisterService.searchDataById(id);
-//      List<YqfkPlaceEntity> list=yqfkPlaceService.getListByYQID(id);
-//      entity.setPlaces(list);
       result.setResult(entity);
       result.setSuccess(true);
     } catch (Exception e) {
@@ -161,7 +160,7 @@ public class YqfkJZRegisterApiController {
     ServiceResult<Object> result = new ServiceResult<>();
     try {
       if(card!=null){
-        List<YqfkJZRegisterEntity> entity=yqfkJZRegisterService.checkCard(card);
+        List<YqfkJZRegisterEntity> entity=yqfkJZRegisterService.checkCard(card.toUpperCase());
         if (entity.size()!=0) {//表示没有这个时间段的
           result.setResult(false);
         } else {//表示有正在进行的信息
