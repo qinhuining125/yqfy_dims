@@ -32,6 +32,8 @@ public interface YqfkJZRegisterService extends AbstractGenericService<YqfkJZRegi
    */
   CommonEntityDto<YqfkJZRegisterEntity> pagelist(QueryDto dto);
 
+  CommonEntityDto<YqfkJZRegisterEntity> todopagelist(QueryDto dto);
+
   /**
    * @param dto
    * @return

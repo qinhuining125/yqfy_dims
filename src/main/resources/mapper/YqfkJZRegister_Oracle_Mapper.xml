@@ -781,6 +781,59 @@
     select count(1) from "YQ_YQFK_JZ" t   <include refid="page_where"/>
   </select>
 
+
+
+  <!--待办列表-->
+  <select id="todopagelist" resultMap="BaseResultMap"
+          parameterType="com.hengtianyi.dims.service.dto.QueryDto">
+    select
+    p."ID" , p."NAME" , p."SEX", p."AGE", p."CARD", p."BIRTHDAY" , p."PHONE",
+    p."NOW_PBM" , p."NOW_CBM", p."NOW_XBM", p."NOW_ZHBM",p."NOW_CUBM", p."NOW_ADDRESS",
+    p."JUZHU_TYPE", p."ZZMM", p."ZZDW_TYPE1", p."ZZDW_TYPE2", p."ZZDW_TYPE3", p."JIEZH_TYPE", p."VACCINE_TYPE",
+    p."DATE_FIRST", p."ADDRESS_FIRST", p."DATE_SECOND", p."ADDRESS_SECOND", p."DATE_THIRD", p."ADDRESS_THIRD",
+    p."NO_JZ_REASON_TYPE", p."NO_JZ_REASON_DETAILS", p."JIEZH_STATE", p."TTL_NUMBER", p."NUMBER", p."REMARK",
+    p."CREATE_ACCOUNT", p."CREATE_TIME", p."UPDATE_ACCOUNT", p."UPDATE_TIME"
+
+    from (select ROWNUM as "ROW_ID",
+    <include refid="Base_Column_List"/>
+    from (select t.*
+    from "YQ_YQFK_JZ" t
+    <include refid="todopage_where"/>
+    order by t.update_time desc)
+    where ROWNUM &lt;= #{dto.end}) p
+    where p."ROW_ID" &gt; #{dto.first}
+  </select>
+
+  <sql id="todopage_where">
+    <where>
+      <choose>
+        <when test="dto.userId != null and dto.userId != ''">
+          <if test="dto.roleId == 3000"><!--乡镇管理员-->
+            and t."CREATE_ACCOUNT" in (
+            select s.id from sys_user s where s.area_code like (#{dto.areaCode,jdbcType=CHAR} ||'%'))
+          </if>
+          <if test="dto.roleId==1001"> <!--网格员，只能查看自己的-->
+            and t."CREATE_ACCOUNT" = #{dto.userId,jdbcType=CHAR}
+          </if>
+        </when>
+        <otherwise>
+          <!--暂时空-->
+        </otherwise>
+      </choose>
+      and t."JIEZH_STATE" != '接种已完成'
+      <if test="dto.jieZhState !=null">
+        and t."JIEZH_STATE" = #{dto.jieZhState,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </sql>
+
+
+  <select id="todopagecount" resultType="java.lang.Integer"
+          parameterType="com.hengtianyi.dims.service.dto.QueryDto">
+    select count(1) from "YQ_YQFK_JZ" t   <include refid="todopage_where"/>
+  </select>
+
+
   <select id="checkCard" parameterType="java.lang.String" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List"/>
@@ -788,10 +841,8 @@
   </select>
 
 
-
-  <!-- 状态是接种进行中 -->
   <select id="getCount" parameterType="com.hengtianyi.dims.service.entity.YqfkJZRegisterEntity" resultType="java.lang.Integer">
-    select count(1) from YQ_YQFK_JZ where CREATE_ACCOUNT = #{entity.createAccount,jdbcType=VARCHAR} and "JIEZH_STATE" = '接种进行中'
+    select count(1) from YQ_YQFK_JZ where CREATE_ACCOUNT = #{entity.createAccount,jdbcType=VARCHAR} and "JIEZH_STATE" != '接种已完成'
   </select>
 
 

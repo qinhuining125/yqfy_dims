@@ -23,7 +23,12 @@ public interface YqfkJZRegisterDao extends AbstractGenericDao<YqfkJZRegisterEnti
      * @param dto dto
      * @return list
      */
+    //全部已登记列表
     List<YqfkJZRegisterEntity> pagelist(@Param("dto") QueryDto dto);
+
+
+    //待办列表
+    List<YqfkJZRegisterEntity> todopagelist(@Param("dto") QueryDto dto);
 
 
     /**
@@ -33,6 +38,8 @@ public interface YqfkJZRegisterDao extends AbstractGenericDao<YqfkJZRegisterEnti
      * @return count
      */
     Integer pagecount(@Param("dto") QueryDto dto);
+
+    Integer todopagecount(@Param("dto") QueryDto dto);
 
 
     List<YqfkJZRegisterEntity> checkCard(@Param("card") String card);

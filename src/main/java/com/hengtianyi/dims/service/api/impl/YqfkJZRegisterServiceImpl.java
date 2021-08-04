@@ -105,6 +105,17 @@ public class YqfkJZRegisterServiceImpl extends
         return result;
     }
 
+    @Override
+    public CommonEntityDto<YqfkJZRegisterEntity> todopagelist(QueryDto dto) {
+        Integer count = yqfkJZRegisterDao.todopagecount(dto);
+        List<YqfkJZRegisterEntity> list = yqfkJZRegisterDao.todopagelist(dto);
+        CommonEntityDto<YqfkJZRegisterEntity> result = new CommonEntityDto<>(list);
+        result.setCurrentPage(dto.getCurrentPage());
+        result.setSize(FrameConstant.PAGE_SIZE);
+        result.setTotal(count);
+        return result;
+    }
+
     /**
      * @param dto
      * @return

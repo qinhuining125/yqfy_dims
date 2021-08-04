@@ -17,8 +17,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -83,6 +81,44 @@ public class YqfkJZRegisterApiController {
     }
     return result.toJson();
   }
+
+
+  /**
+   * 分页查询
+   * 待办列表
+   * @param dto 分页
+   * @return list
+   */
+  @PostMapping(value = "/todopagelist.json", produces = BaseConstant.JSON)
+  public String todopagelist(@RequestBody CommonEntityDto<YqfkJZRegisterEntity> dto,HttpServletRequest request) {
+    ServiceResult<Object> result = new ServiceResult<>();
+    try {
+
+      QueryDto queryDto = new QueryDto();
+      queryDto.setFirst((dto.getCurrentPage() - 1) * FrameConstant.PAGE_SIZE);
+      queryDto.setEnd(dto.getCurrentPage() * FrameConstant.PAGE_SIZE);
+      //控制了登陆的账号自己只能看自己的
+      SysUserEntity userEntity = sysUserService.searchDataById(WebUtil.getUserIdByToken(request));
+      queryDto.setRoleId(userEntity.getRoleId());
+      queryDto.setUserId(userEntity.getId());
+      queryDto.setAreaCode(userEntity.getAreaCode());
+
+      if (dto.getQuery() != null) {
+        if (dto.getQuery().getJieZhState() != null && !dto.getQuery().getJieZhState().equals("") && !(dto.getQuery().getJieZhState().equals("全部"))) {
+          queryDto.setJieZhState(dto.getQuery().getJieZhState());
+        }
+      }
+
+      CommonEntityDto<YqfkJZRegisterEntity> cpDto = yqfkJZRegisterService.todopagelist(queryDto);
+      result.setResult(cpDto);
+      result.setSuccess(true);
+    } catch (Exception ex) {
+      result.setError("error");
+      LOGGER.error("[todopagelist]{}, todopageDto = {}, dto = {}", ex.getMessage(), ex);
+    }
+    return result.toJson();
+  }
+
 
   /**
    * @param entity
@@ -217,7 +253,7 @@ public class YqfkJZRegisterApiController {
 
 
   /**
-   * 登陆上来 未完全接种人数
+   * 登陆上来 未完全接种人数（状态是未接种和接种进行中的，都需要放到待办列表）
    *
    * @return json
    */
