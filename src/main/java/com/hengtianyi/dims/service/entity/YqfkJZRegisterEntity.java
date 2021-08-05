@@ -63,8 +63,12 @@ public class YqfkJZRegisterEntity extends BaseEntity {
     //其他（备注单位名称或职业情况）
     //1:八大行业系统（煤炭工矿、三产服务、党政机关事业单位、电力能源、经济技术开发区、市政重点工程领域、农业畜牧、交通运输）
     //2:学校 (幼儿园、小学、初中、高中、大学自填学校名称）
+    //2.5:本地学校，外地学校
     //3:其他（备注单位名称或职业情）
     private String zzDWType2;
+
+    //2.5:本地学校，外地学校
+    private String zzDWType25;
 
     //具体名称（或者备注）
     private String zzDWType3;
@@ -283,6 +287,14 @@ public class YqfkJZRegisterEntity extends BaseEntity {
 
     public void setZzDWType1(String zzDWType1) {
         this.zzDWType1 = zzDWType1;
+    }
+
+    public String getZzDWType25() {
+        return zzDWType25;
+    }
+
+    public void setZzDWType25(String zzDWType25) {
+        this.zzDWType25 = zzDWType25;
     }
 
     public String getZzDWType2() {

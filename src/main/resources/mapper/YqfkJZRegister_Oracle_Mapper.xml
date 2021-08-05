@@ -92,6 +92,9 @@
       <if test="zzDWType2 != null and zzDWType2 !=''">
         and "ZZDW_TYPE2"= #{zzDWType2,jdbcType=VARCHAR}
       </if>
+      <if test="zzDWType25 != null and zzDWType25 !=''">
+        and "ZZDW_TYPE25"= #{zzDWType25,jdbcType=VARCHAR}
+      </if>
       <if test="zzDWType3 != null and zzDWType3 !=''">
         and "ZZDW_TYPE3"= #{zzDWType3,jdbcType=VARCHAR}
       </if>
@@ -179,6 +182,7 @@
 
     <result column="ZZDW_TYPE1" property="zzDWType1" jdbcType="VARCHAR"/>
     <result column="ZZDW_TYPE2" property="zzDWType2" jdbcType="VARCHAR"/>
+    <result column="ZZDW_TYPE25" property="zzDWType25" jdbcType="VARCHAR"/>
     <result column="ZZDW_TYPE3" property="zzDWType3" jdbcType="VARCHAR"/>
 
     <result column="JIEZH_TYPE" property="jieZhType" jdbcType="VARCHAR"/>
@@ -212,7 +216,7 @@
   <sql id="Base_Column_List">
       "ID" , "NAME" , "SEX", "AGE", "CARD", "BIRTHDAY" , "PHONE",
       "NOW_PBM" , "NOW_CBM", "NOW_XBM", "NOW_ZHBM","NOW_CUBM", "NOW_ADDRESS",
-      "JUZHU_TYPE", "ZZMM", "ZZDW_TYPE1", "ZZDW_TYPE2", "ZZDW_TYPE3", "JIEZH_TYPE", "VACCINE_TYPE",
+      "JUZHU_TYPE", "ZZMM", "ZZDW_TYPE1", "ZZDW_TYPE2", "ZZDW_TYPE25", "ZZDW_TYPE3", "JIEZH_TYPE", "VACCINE_TYPE",
       "DATE_FIRST", "ADDRESS_FIRST", "DATE_SECOND", "ADDRESS_SECOND", "DATE_THIRD", "ADDRESS_THIRD",
       "NO_JZ_REASON_TYPE", "NO_JZ_REASON_DETAILS", "JIEZH_STATE", "TTL_NUMBER", "NUMBER", "REMARK",
        "CREATE_ACCOUNT", "CREATE_TIME", "UPDATE_ACCOUNT", "UPDATE_TIME"
@@ -222,7 +226,7 @@
   <sql id="Base_Column_List2">
       "ID" , "NAME" , "SEX", "AGE", "CARD", "BIRTHDAY" , "PHONE",
       "NOW_PBM" , "NOW_CBM", "NOW_XBM", "NOW_ZHBM","NOW_CUBM", "NOW_ADDRESS",
-      "JUZHU_TYPE", "ZZMM", "ZZDW_TYPE1", "ZZDW_TYPE2", "ZZDW_TYPE3", "JIEZH_TYPE", "VACCINE_TYPE",
+      "JUZHU_TYPE", "ZZMM", "ZZDW_TYPE1", "ZZDW_TYPE2", "ZZDW_TYPE25", "ZZDW_TYPE3", "JIEZH_TYPE", "VACCINE_TYPE",
       "DATE_FIRST", "ADDRESS_FIRST", "DATE_SECOND", "ADDRESS_SECOND", "DATE_THIRD", "ADDRESS_THIRD",
       "NO_JZ_REASON_TYPE", "NO_JZ_REASON_DETAILS", "JIEZH_STATE", "TTL_NUMBER", "NUMBER", "REMARK",
        "CREATE_ACCOUNT", "CREATE_TIME", "UPDATE_ACCOUNT", "UPDATE_TIME", "CREATE_TIME" as "CREATE_TIME_UNIX"
@@ -255,7 +259,7 @@
 
         Y."ID" , Y."NAME" , Y."SEX", Y."AGE", Y."CARD", Y."BIRTHDAY" , Y."PHONE",
         Y."NOW_PBM" , Y."NOW_CBM", Y."NOW_XBM", Y."NOW_ZHBM",Y."NOW_CUBM", Y."NOW_ADDRESS",
-        Y."JUZHU_TYPE", Y."ZZMM", Y."ZZDW_TYPE1", Y."ZZDW_TYPE2", Y."ZZDW_TYPE3", Y."JIEZH_TYPE", Y."VACCINE_TYPE",
+        Y."JUZHU_TYPE", Y."ZZMM", Y."ZZDW_TYPE1", Y."ZZDW_TYPE2",Y."ZZDW_TYPE25", Y."ZZDW_TYPE3", Y."JIEZH_TYPE", Y."VACCINE_TYPE",
         Y."DATE_FIRST", Y."ADDRESS_FIRST", Y."DATE_SECOND", Y."ADDRESS_SECOND", Y."DATE_THIRD", Y."ADDRESS_THIRD",
         Y."NO_JZ_REASON_TYPE", Y."NO_JZ_REASON_DETAILS", Y."JIEZH_STATE", Y."TTL_NUMBER", Y."NUMBER",Y."REMARK",
         S."USER_NAME" AS CREATE_ACCOUNT, Y."CREATE_TIME",Y."UPDATE_ACCOUNT", Y."UPDATE_TIME"
@@ -381,6 +385,11 @@
       <if test="zzDWType2 != null and zzDWType2 !=''">
         "ZZDW_TYPE2",
       </if>
+
+      <if test="zzDWType25 != null and zzDWType25 !=''">
+        "ZZDW_TYPE25",
+      </if>
+
       <if test="zzDWType3 != null and zzDWType3 !=''">
         "ZZDW_TYPE3",
       </if>
@@ -510,6 +519,9 @@
       </if>
       <if test="zzDWType2 != null and zzDWType2 !=''">
         #{zzDWType2,jdbcType=VARCHAR},
+      </if>
+      <if test="zzDWType25 != null and zzDWType25 !=''">
+        #{zzDWType25,jdbcType=VARCHAR},
       </if>
       <if test="zzDWType3 != null and zzDWType3 !=''">
         #{zzDWType3,jdbcType=VARCHAR},
@@ -656,6 +668,9 @@
       <if test="zzDWType2 != null and zzDWType2 !=''">
         "ZZDW_TYPE2"= #{zzDWType2,jdbcType=VARCHAR},
       </if>
+      <if test="zzDWType25 != null and zzDWType25 !=''">
+        "ZZDW_TYPE25"= #{zzDWType25,jdbcType=VARCHAR},
+      </if>
       <if test="zzDWType3 != null and zzDWType3 !=''">
         "ZZDW_TYPE3"= #{zzDWType3,jdbcType=VARCHAR},
       </if>
@@ -738,7 +753,7 @@
     select
     p."ID" , p."NAME" , p."SEX", p."AGE", p."CARD", p."BIRTHDAY" , p."PHONE",
     p."NOW_PBM" , p."NOW_CBM", p."NOW_XBM", p."NOW_ZHBM",p."NOW_CUBM", p."NOW_ADDRESS",
-    p."JUZHU_TYPE", p."ZZMM", p."ZZDW_TYPE1", p."ZZDW_TYPE2", p."ZZDW_TYPE3", p."JIEZH_TYPE", p."VACCINE_TYPE",
+    p."JUZHU_TYPE", p."ZZMM", p."ZZDW_TYPE1", p."ZZDW_TYPE2", p."ZZDW_TYPE25", p."ZZDW_TYPE3", p."JIEZH_TYPE", p."VACCINE_TYPE",
     p."DATE_FIRST", p."ADDRESS_FIRST", p."DATE_SECOND", p."ADDRESS_SECOND", p."DATE_THIRD", p."ADDRESS_THIRD",
     p."NO_JZ_REASON_TYPE", p."NO_JZ_REASON_DETAILS", p."JIEZH_STATE", p."TTL_NUMBER", p."NUMBER", p."REMARK",
     p."CREATE_ACCOUNT", p."CREATE_TIME", p."UPDATE_ACCOUNT", p."UPDATE_TIME"
@@ -789,7 +804,7 @@
     select
     p."ID" , p."NAME" , p."SEX", p."AGE", p."CARD", p."BIRTHDAY" , p."PHONE",
     p."NOW_PBM" , p."NOW_CBM", p."NOW_XBM", p."NOW_ZHBM",p."NOW_CUBM", p."NOW_ADDRESS",
-    p."JUZHU_TYPE", p."ZZMM", p."ZZDW_TYPE1", p."ZZDW_TYPE2", p."ZZDW_TYPE3", p."JIEZH_TYPE", p."VACCINE_TYPE",
+    p."JUZHU_TYPE", p."ZZMM", p."ZZDW_TYPE1", p."ZZDW_TYPE2", p."ZZDW_TYPE25", p."ZZDW_TYPE3", p."JIEZH_TYPE", p."VACCINE_TYPE",
     p."DATE_FIRST", p."ADDRESS_FIRST", p."DATE_SECOND", p."ADDRESS_SECOND", p."DATE_THIRD", p."ADDRESS_THIRD",
     p."NO_JZ_REASON_TYPE", p."NO_JZ_REASON_DETAILS", p."JIEZH_STATE", p."TTL_NUMBER", p."NUMBER", p."REMARK",
     p."CREATE_ACCOUNT", p."CREATE_TIME", p."UPDATE_ACCOUNT", p."UPDATE_TIME"
