@@ -13,9 +13,9 @@
             <div class="ibox-content">
                 <form class="form-horizontal" id="frm-search-yqfkJZRegister">
                     <div class="row">
-                        <div class="col-xs-6 col-sm-4 col-lg-3">
+                        <div class="col-xs-6 col-sm-5 col-lg-3">
                             <div class="form-group">
-                                <label class="col-sm-4 control-label">登记时间段：</label>
+                                <label class="col-sm-5 control-label">登记时间段：</label>
                                 <div class="col-sm-7">
                                     <div class="input-group">
                                         <input type="text" class="form-control" id="timeRange"
@@ -34,14 +34,14 @@
                                 <input type="hidden" id="zzDWType2" name="zzDWType2">
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-4 control-label">姓名:</label>
+                                <label class="col-sm-5 control-label">姓名:</label>
                                 <div class="col-sm-7">
                                     <input type="text" id="name" name="name" class="form-control" autocomplete="off">
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label class="col-sm-4 control-label">接种状态</label>
+                                <label class="col-sm-5 control-label">接种状态</label>
                                 <div class="col-sm-7">
                                     <select name="jieZhState" class="form-control" id="jieZhState">
                                         <option value="">全部</option>
@@ -51,10 +51,23 @@
                                     </select>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-xs-6 col-sm-4 col-lg-3">
                             <div class="form-group">
-                                <label class="col-sm-4 control-label">网格员所属乡镇:</label>
+                                <label class="col-sm-5 control-label">年龄(>=):</label>
+                                <div class="col-sm-7">
+                                    <input type="text" id="ageFrom" name="ageFrom" class="form-control" autocomplete="off">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-5 control-label">年龄(<=):</label>
+                                <div class="col-sm-7">
+                                    <input type="text" id="ageTo" name="ageTo" class="form-control" autocomplete="off">
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-xs-6 col-sm-5 col-lg-3">
+                            <div class="form-group">
+                                <label class="col-sm-5 control-label">网格员所属乡镇:</label>
                                 <div class="col-sm-7">
                                     <select class="form-control" id="belTownship" name=""
                                             onchange="belSearchVillage(this);">
@@ -66,7 +79,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-4 control-label">村:</label>
+                                <label class="col-sm-5 control-label">村:</label>
                                 <div class="col-sm-7">
                                     <select id="belVlliage" class="form-control" name="" onchange="bleChoseArea(this);">
                                         <option value="">全部</option>
@@ -74,17 +87,38 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-4 control-label">网格员:</label>
+                                <label class="col-sm-5 control-label">网格员:</label>
                                 <div class="col-sm-7">
                                     <input type="text" id="createAccount" name="createAccount" class="form-control"
                                            autocomplete="off">
                                 </div>
                             </div>
+                            <div class="form-group">
+                                <label class="col-sm-5 control-label">性别</label>
+                                <div class="col-sm-7">
+                                    <select name="sex" class="form-control" id="sex">
+                                        <option value="">全部</option>
+                                        <option value="男">男</option>
+                                        <option value="女">女</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-5 control-label">外地/本地学校</label>
+                                <div class="col-sm-7">
+                                    <select name="zzDWType25" class="form-control" id="zzDWType25">
+                                        <option value="">全部</option>
+                                        <option value="本地学校">本地学校</option>
+                                        <option value="外地学校">外地学校</option>
+                                    </select>
+                                </div>
+                            </div>
                         </div>
 
-                        <div class="col-xs-6 col-sm-4 col-lg-3">
+                        <div class="col-xs-6 col-sm-5 col-lg-3">
                             <div class="form-group">
-                                <label class="col-sm-4 control-label">接种疫苗类型</label>
+                                <label class="col-sm-5 control-label">接种疫苗类型</label>
                                 <div class="col-sm-7">
                                     <select name="vaccineType" class="form-control" id="vaccineType">
                                         <option value="">全部</option>
@@ -96,7 +130,7 @@
                             </div>
 
                             <div class="form-group">
-                                <label class="col-sm-4 control-label">政治面貌</label>
+                                <label class="col-sm-5 control-label">政治面貌</label>
                                 <div class="col-sm-7">
                                     <select name="zzMM" class="form-control" id="zzMM">
                                         <option value="">全部</option>
@@ -108,7 +142,7 @@
                             </div>
 
                             <div class="form-group">
-                                <label class="col-sm-4 control-label">居住类型</label>
+                                <label class="col-sm-5 control-label">居住类型</label>
                                 <div class="col-sm-7">
                                     <select name="juzhuType" class="form-control" id="juzhuType">
                                         <option value="">全部</option>
@@ -119,7 +153,7 @@
                             </div>
 
                             <div class="form-group">
-                                <label class="col-sm-4 control-label">不接种原因</label>
+                                <label class="col-sm-5 control-label">不接种原因</label>
                                 <div class="col-sm-7">
                                     <select name="noJieZhReasonType" class="form-control" id="noJieZhReasonType">
                                         <option value="">全部</option>
@@ -134,7 +168,7 @@
 
 
                             <div class="form-group">
-                                <label class="col-sm-4 control-label">禁忌原因</label>
+                                <label class="col-sm-5 control-label">禁忌原因</label>
                                 <div class="col-sm-7">
                                     <select name="noJieZhReasonDetails" class="form-control" id="noJieZhReasonDetails">
                                         <option value="">全部</option>
@@ -149,9 +183,9 @@
                             </div>
                         </div>
 
-                        <div class="col-xs-6 col-sm-4 col-lg-3">
+                        <div class="col-xs-6 col-sm-5 col-lg-3">
                             <div class="form-group">
-                                <label class="col-sm-4 control-label">现居住乡镇:</label>
+                                <label class="col-sm-5 control-label">现居住乡镇:</label>
                                 <div class="col-sm-7">
                                     <select class="form-control" id="township" name="" onchange="searchVillage(this);">
                                         <option value="">全部</option>
@@ -162,7 +196,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-4 control-label">村:</label>
+                                <label class="col-sm-5 control-label">村:</label>
                                 <div class="col-sm-7">
                                     <select id="valliage" class="form-control" name="" onchange="choseArea(this);">
                                         <option value="">全部</option>
@@ -171,9 +205,9 @@
                             </div>
                         </div>
 
-                        <div class="col-xs-6 col-sm-4 col-lg-3">
+                        <div class="col-xs-6 col-sm-5 col-lg-3">
                             <div class="form-group">
-                                <label class="col-sm-4 control-label">工作单位大类:</label>
+                                <label class="col-sm-5 control-label">工作单位大类:</label>
                                 <div class="col-sm-7">
                                     <select class="form-control" id="queryzzDWType1" name=""
                                             onchange="choseZZDW1(this);">
@@ -185,7 +219,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-4 control-label">工作单位小类:</label>
+                                <label class="col-sm-5 control-label">工作单位小类:</label>
                                 <div class="col-sm-7">
                                     <select id="queryzzDWType2" class="form-control" name="" onchange="choseZZDW2(this);">
                                         <option value="">全部</option>
@@ -193,7 +227,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-4 control-label">工作单位详细:</label>
+                                <label class="col-sm-5 control-label">工作单位详细:</label>
                                 <div class="col-sm-7">
 <#--                                    <select id="queryzzDWType3" class="form-control" name="" onchange="searchZZDW2(this);">-->
 <#--                                        <option value="">全部</option>-->

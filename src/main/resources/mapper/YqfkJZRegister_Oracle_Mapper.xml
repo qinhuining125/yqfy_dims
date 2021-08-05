@@ -31,8 +31,6 @@
         and "CREATE_TIME" &lt; to_date(#{endTime,jdbcType=VARCHAR},'yyyy-mm-dd hh24:mi:ss')
       </if>
 
-
-
       <if test="id !=null and id !=''">
         and "ID" = #{id,jdbcType=CHAR}
       </if>
@@ -41,12 +39,20 @@
         and "NAME"  like concat(concat('%', #{name}), '%')
       </if>
 
-      <if test="sex != null">
+      <if test="sex != null and sex !=''">
         and "SEX" = #{sex,jdbcType=VARCHAR}
       </if>
       <if test="age != null and age !=''">
         and "AGE" = #{age,jdbcType=VARCHAR}
       </if>
+
+      <if test="ageFrom !=null and ageFrom !=''">
+        and CAST("AGE" as int) >=  CAST(#{ageFrom,jdbcType=INTEGER} as int)
+      </if>
+      <if test="ageTo !=null and ageTo !=''">
+        and CAST("AGE" as int)  &lt;=   CAST(#{ageTo,jdbcType=INTEGER} as int)
+      </if>
+
       <if test="card != null and card !=''">
         and "CARD" = #{card,jdbcType=VARCHAR}
       </if>
@@ -263,7 +269,6 @@
         Y."DATE_FIRST", Y."ADDRESS_FIRST", Y."DATE_SECOND", Y."ADDRESS_SECOND", Y."DATE_THIRD", Y."ADDRESS_THIRD",
         Y."NO_JZ_REASON_TYPE", Y."NO_JZ_REASON_DETAILS", Y."JIEZH_STATE", Y."TTL_NUMBER", Y."NUMBER",Y."REMARK",
         S."USER_NAME" AS CREATE_ACCOUNT, Y."CREATE_TIME",Y."UPDATE_ACCOUNT", Y."UPDATE_TIME"
-
 
         from (select
         <include refid="Base_Column_List"/>
@@ -708,12 +713,17 @@
       </if>
 
 
-      <if test="noJieZhReasonType != null and noJieZhReasonType !=''">
-        "NO_JZ_REASON_TYPE"= #{noJieZhReasonType,jdbcType=VARCHAR},
-      </if>
-      <if test="noJieZhReasonDetails != null and noJieZhReasonDetails !=''">
-        "NO_JZ_REASON_DETAILS"= #{noJieZhReasonDetails,jdbcType=VARCHAR},
-      </if>
+<!--      <if test="noJieZhReasonType != null and noJieZhReasonType !=''">-->
+<!--        "NO_JZ_REASON_TYPE"= #{noJieZhReasonType,jdbcType=VARCHAR},-->
+<!--      </if>-->
+
+<!--      <if test="noJieZhReasonDetails != null and noJieZhReasonDetails !=''">-->
+<!--        "NO_JZ_REASON_DETAILS"= #{noJieZhReasonDetails,jdbcType=VARCHAR},-->
+<!--      </if>-->
+
+      "NO_JZ_REASON_TYPE"= #{noJieZhReasonType,jdbcType=VARCHAR},
+      "NO_JZ_REASON_DETAILS"= #{noJieZhReasonDetails,jdbcType=VARCHAR},
+
       <if test="jieZhState != null and jieZhState !=''">
         "JIEZH_STATE"= #{jieZhState,jdbcType=VARCHAR},
       </if>

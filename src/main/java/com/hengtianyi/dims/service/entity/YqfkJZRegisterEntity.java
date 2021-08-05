@@ -69,7 +69,6 @@ public class YqfkJZRegisterEntity extends BaseEntity {
 
     //2.5:本地学校，外地学校
     private String zzDWType25;
-
     //具体名称（或者备注）
     private String zzDWType3;
 
@@ -159,6 +158,12 @@ public class YqfkJZRegisterEntity extends BaseEntity {
 
     //  查询结束时间
     private String endTime;
+
+    //  查询年龄开始
+    private String ageFrom;
+
+    //  查询年龄结束
+    private String ageTo;
 
 
     public String getId() {
@@ -504,6 +509,22 @@ public class YqfkJZRegisterEntity extends BaseEntity {
 
     public void setEndTime(String endTime) {
         this.endTime = endTime;
+    }
+
+    public String getAgeFrom() {
+        return ageFrom;
+    }
+
+    public void setAgeFrom(String ageFrom) {
+        this.ageFrom = ageFrom;
+    }
+
+    public String getAgeTo() {
+        return ageTo;
+    }
+
+    public void setAgeTo(String ageTo) {
+        this.ageTo = ageTo;
     }
 
     @Override
