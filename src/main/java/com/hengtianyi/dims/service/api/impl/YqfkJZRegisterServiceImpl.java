@@ -128,7 +128,6 @@ public class YqfkJZRegisterServiceImpl extends
     }
 
 
-
     @Override
     public List<YqfkJZRegisterEntity> checkCard(String card) {
         return yqfkJZRegisterDao.checkCard(card);
@@ -145,6 +144,102 @@ public class YqfkJZRegisterServiceImpl extends
         return yqfkJZRegisterDao.searchAllData(dto);
     }
 
+    @Override
+    public String echartsDataPlace(String startTime, String endTime, String areaCode, String dateFirst, String addressFirst, String dateSecond, String addressSecond, String dateThird, String addressThird) {
+        ServiceResult<Object> result = new ServiceResult();
+        String temp=" 08:00:00";
+        if (dateFirst!=null&&dateFirst.length()>0){
+            dateFirst=dateFirst+temp;
+        }
+        if (dateSecond!=null && dateSecond.length()>0){
+            dateSecond=dateSecond+temp;
+        }
+        if (dateThird!=null && dateThird.length()>0){
+            dateThird=dateThird+temp;
+        }
+        try {
+            List<YqfkJZRegisterEntity> yqfkJZRegisterEntityList = yqfkJZRegisterDao.getEchartsDataPlace(startTime, endTime, areaCode, dateFirst, addressFirst, dateSecond, addressSecond, dateThird, addressThird);
+            Map<String, Object> map = countStatus(yqfkJZRegisterEntityList);
+            List<VillageEntity> villageList = villageDao.areaList(areaCode);
+            String[] villageNames = new String[villageList.size()];
+            String[] placeNames = {"寿阳县人民医院", "寿阳县朝阳镇社区卫生服务中心（南港卫生站）"
+                    , "寿阳县朝阳镇卫生院", "寿阳县中医院", "寿阳县妇幼保健院", "寿阳县尹灵芝镇卫生院", "寿阳县马首乡卫生院", "寿阳县景尚乡卫生院"
+                    , "寿阳县羊头崖乡中心卫生院", "寿阳县上湖乡卫生院", "寿阳县西洛镇卫生院", "寿阳县南燕竹镇卫生院", "寿阳县平头镇中心卫生院"
+                    , "寿阳县平舒乡卫生院", "寿阳县宗艾镇卫生院", "寿阳县解愁乡卫生院", "寿阳县温家庄乡卫生院", "寿阳县松塔镇中心卫生院", "县内临时接种点"};
+            String[] beenhomes = new String[villageList.size()];
+            String[] planhomes = new String[villageList.size()];
+            String[] nohomes = new String[villageList.size()];
+            String[] sums = new String[villageList.size()];
+            int[] diyis = new int[placeNames.length];
+            int[] diers = new int[placeNames.length];
+            int[] disans = new int[placeNames.length];
+            int[] sumDian = new int[placeNames.length];
+            for (int i = 0; i < placeNames.length; i++) {
+                int count = 0;
+                for (int j = 0; j < yqfkJZRegisterEntityList.size(); j++) {
+                    if (yqfkJZRegisterEntityList.get(j).getAddressFirst() != null ) {
+                        if (yqfkJZRegisterEntityList.get(j).getAddressFirst().equals(placeNames[i])) {
+                            count++;
+                        }
+                    }
+                }
+                diyis[i] = count;
+            }
+            for (int i = 0; i < placeNames.length; i++) {
+                int count = 0;
+                for (int j = 0; j < yqfkJZRegisterEntityList.size(); j++) {
+                    if (yqfkJZRegisterEntityList.get(j).getAddressSecond() != null ) {
+                        if (yqfkJZRegisterEntityList.get(j).getAddressSecond().equals(placeNames[i])) {
+                            count++;
+                        }
+                    }
+                }
+                disans[i] = count;
+            }
+            for (int i = 0; i < placeNames.length; i++) {
+                int count = 0;
+                for (int j = 0; j < yqfkJZRegisterEntityList.size(); j++) {
+                    if (yqfkJZRegisterEntityList.get(j).getAddressThird() != null ) {
+                        if (yqfkJZRegisterEntityList.get(j).getAddressThird().equals(placeNames[i])) {
+                            count++;
+                        }
+                    }
+                }
+                disans[i] = count;
+            }
+            for (int i=0;i<placeNames.length;i++){
+                sumDian[i]=diyis[i]+diers[i]+disans[i];
+            }
+            for (int i = 0; i < villageList.size(); i++) {
+                VillageEntity village = villageList.get(i);
+                yqfkJZRegisterEntityList = yqfkJZRegisterDao
+                        .getEchartsDataPlace(startTime, endTime, village.getAreaCode(), dateFirst, addressFirst, dateSecond, addressSecond, dateThird, addressThird);
+                Map<String, Object> dataMap = countStatus(yqfkJZRegisterEntityList);
+                villageNames[i] = village.getAreaName();
+                beenhomes[i] = dataMap.get("beenhome").toString();
+                planhomes[i] = dataMap.get("planhome").toString();
+                nohomes[i] = dataMap.get("nohome").toString();
+                sums[i] = dataMap.get("sum").toString();
+            }
+            map.put("villageNames", villageNames);
+            map.put("beenhomes", beenhomes);
+            map.put("planhomes", planhomes);
+            map.put("nohomes", nohomes);
+            map.put("sum", sums);
+            map.put("placeNames", placeNames);
+            map.put("diyis", diyis);
+            map.put("diers", diers);
+            map.put("disans", disans);
+            map.put("sumDian", sumDian);
+            result.setSuccess(true);
+            result.setResult(map);
+        } catch (Exception e) {
+            LOGGER.error("[echartsDataStatus]出错,{}", e.getMessage(), e);
+            result.setError("false");
+        }
+        return result.toJson();
+    }
+
 
     /**
      * 工作单位统计
@@ -154,7 +249,7 @@ public class YqfkJZRegisterServiceImpl extends
     public String echartsDataYqfkJZzzdw(String startTime, String endTime, String areaCode, String queryzzDWType1, String queryzzDWType2) {
         ServiceResult<Object> result = new ServiceResult();
         try {
-            List<YqfkJZRegisterEntity> yqfkJZRegisterEntityList = yqfkJZRegisterDao.getEchartsDataYqfkJZzzdw(startTime, endTime, areaCode, queryzzDWType1,queryzzDWType2);
+            List<YqfkJZRegisterEntity> yqfkJZRegisterEntityList = yqfkJZRegisterDao.getEchartsDataYqfkJZzzdw(startTime, endTime, areaCode, queryzzDWType1, queryzzDWType2);
             Map<String, Object> map = countStatus(yqfkJZRegisterEntityList);
             List<VillageEntity> villageList = villageDao.areaList(areaCode);
             String[] villageNames = new String[villageList.size()];
@@ -165,7 +260,7 @@ public class YqfkJZRegisterServiceImpl extends
 
             for (int i = 0; i < villageList.size(); i++) {
                 VillageEntity village = villageList.get(i);
-                yqfkJZRegisterEntityList = yqfkJZRegisterDao.getEchartsDataYqfkJZzzdw(startTime, endTime, village.getAreaCode(), queryzzDWType1,queryzzDWType2);
+                yqfkJZRegisterEntityList = yqfkJZRegisterDao.getEchartsDataYqfkJZzzdw(startTime, endTime, village.getAreaCode(), queryzzDWType1, queryzzDWType2);
                 Map<String, Object> dataMap = countStatus(yqfkJZRegisterEntityList);
                 villageNames[i] = village.getAreaName();
                 beenhomes[i] = dataMap.get("beenhome").toString();
@@ -263,10 +358,6 @@ public class YqfkJZRegisterServiceImpl extends
     }
 
 
-
-
-
-
     //不接种类原因统计
 
     @Override
@@ -315,7 +406,6 @@ public class YqfkJZRegisterServiceImpl extends
         }
         return result.toJson();
     }
-
 
 
     private Map<String, Object> countNoJZStatus(List<YqfkJZRegisterEntity> list) {
@@ -392,7 +482,6 @@ public class YqfkJZRegisterServiceImpl extends
         }
         return result.toJson();
     }
-
 
 
     private Map<String, Object> countStatus(List<YqfkJZRegisterEntity> list) {

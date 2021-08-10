@@ -23,6 +23,7 @@ public interface YqfkJZRegisterService extends AbstractGenericService<YqfkJZRegi
 
   String echartsDataYqfkJZzzdw(String startTime, String endTime, String areaCode, String queryzzDWType1, String queryzzDWType2);
 
+  String echartsDataPlace(String start, String end, String areaCode, String dateFirst, String addressFirst, String dateSecond, String addressSecond, String dateThird, String addressThird);
 
   /**
    * 自定义分页
@@ -52,4 +53,6 @@ public interface YqfkJZRegisterService extends AbstractGenericService<YqfkJZRegi
    * @param dto 前端的查询条件
    * */
   List<YqfkJZRegisterEntity> searchAllData(YqfkJZRegisterEntity dto);
+
+
 }

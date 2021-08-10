@@ -21,7 +21,10 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -109,7 +112,29 @@ public class YqfkJZRegisterController extends
     @PostMapping(value = "/getDataList.json", produces = BaseConstant.JSON)
     public String getDataList(HttpServletRequest request, @ModelAttribute CommonPageDto pageDto,
                               @ModelAttribute YqfkJZRegisterEntity dto) {
-
+        String temp=" 08:00:00";
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        if (dto.getDateFirstStr()!=null&&dto.getDateFirstStr()!=""){
+            try {
+                dto.setDateFirst(simpleDateFormat.parse(dto.getDateFirstStr()+temp));
+            } catch (Exception e) {
+                dto.setDateFirst(null);
+            }
+        }
+        if (dto.getDateSecondStr()!=null&&dto.getDateSecondStr()!=""){
+            try {
+                dto.setDateSecond(simpleDateFormat.parse(dto.getDateSecondStr()+temp));
+            } catch (Exception e) {
+                dto.setDateSecond(null);
+            }
+        }
+        if (dto.getDateThirdStr()!=null&&dto.getDateThirdStr()!=""){
+            try {
+                dto.setDateThird( simpleDateFormat.parse(dto.getDateThirdStr()+temp));
+            } catch (Exception e) {
+                dto.setDateThird(null);
+            }
+        }
         SysUserEntity user = WebUtil.getUser(request);
         if (user.getRoleId()==3000){
             dto.setAreaCode(user.getAreaCode());

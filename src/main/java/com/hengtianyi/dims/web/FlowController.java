@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import java.text.SimpleDateFormat;
 
 /**
  * 流程管理
@@ -348,5 +349,31 @@ public class FlowController {
         return yqfkJZRegisterService.echartsDataNoJZStatus(start, end, areaCode);
     }
 
+    /**
+     * 疫苗接种登记统计分析--按照接种状态统计
+     * @param model
+     * @return
+     */
+    @GetMapping(value = "a/analysis/yqfkJZplace.html", produces = BaseConstant.HTML)
+    public String analysisYqfkJZPlace(Model model) {
+        model.addAttribute("areaList", townshipService.areaList());
+        return "web/analysis/yqfkJZplace_index";
+    }
 
+
+    @ResponseBody
+    @PostMapping(value = "a/analysis/yqfkJZplaceData.json", produces = BaseConstant.JSON)
+    public String yqfkJZplaceData(@RequestParam(required = false) Long startTime,
+                                   @RequestParam(required = false) Long endTime,
+                                   @RequestParam(required = false) String areaCode,
+                                  @RequestParam(required = false) String dateFirst,
+                                  @RequestParam(required = false) String addressFirst,
+                                  @RequestParam(required = false) String dateSecond,
+                                  @RequestParam(required = false) String addressSecond,
+                                  @RequestParam(required = false) String dateThird,
+                                  @RequestParam(required = false) String addressThird) {
+        String start = startTime != null ? TimeUtil.format(startTime, BaseConstant.DATE_FORMAT2) : "";
+        String end = endTime != null ? TimeUtil.format(endTime, BaseConstant.DATE_FORMAT2) : "";
+        return yqfkJZRegisterService.echartsDataPlace(start, end, areaCode,dateFirst,addressFirst,dateSecond,addressSecond,dateThird,addressThird);
+    }
 }

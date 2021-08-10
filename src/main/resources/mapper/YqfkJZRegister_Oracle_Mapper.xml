@@ -891,6 +891,44 @@
     </if>
   </select>
 
+  <select id="getEchartsDataPlace" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select
+    t."ID" , t."JIEZH_STATE", t."NO_JZ_REASON_TYPE",t.ADDRESS_FIRST,t.ADDRESS_SECOND,t.ADDRESS_THIRD
+    from "YQ_YQFK_JZ" t
+    where 1=1
+    <choose>
+      <when test="endTime!=null and endTime!=''">
+        and t."CREATE_TIME" >= to_date(#{startTime,jdbcType=VARCHAR},'yyyy-mm-dd hh24:mi:ss')
+        and t."CREATE_TIME" &lt; to_date(#{endTime,jdbcType=VARCHAR},'yyyy-mm-dd hh24:mi:ss')
+      </when>
+      <otherwise>
+        and t."CREATE_TIME" &lt; sysdate
+      </otherwise>
+    </choose>
+    <if test="areaCode!=null and areaCode!=''">
+      and t."CREATE_ACCOUNT" in (select a.id from sys_user a where a.area_code like
+      (#{areaCode,jdbcType=VARCHAR} ||'%'))
+    </if>
+    <if test="dateFirst !=null and dateFirst!='' ">
+      and t."DATE_FIRST" = to_date(#{dateFirst,jdbcType=VARCHAR},'yyyy-mm-dd hh24:mi:ss')
+    </if>
+    <if test="addressFirst !=null and addressFirst!='' ">
+      and t."ADDRESS_FIRST" = #{addressFirst,jdbcType=VARCHAR}
+    </if>
+    <if test="dateSecond !=null and dateSecond!='' ">
+      and t."DATE_SECOND" =  to_date(#{dateSecond,jdbcType=VARCHAR},'yyyy-mm-dd hh24:mi:ss')
+    </if>
+    <if test="addressSecond !=null and addressSecond!='' ">
+      and t."ADDRESS_SECOND" = #{addressSecond,jdbcType=VARCHAR}
+    </if>
+    <if test="dateThird !=null and dateThird!='' ">
+      and t."DATE_THIRD" =to_date(#{dateThird,jdbcType=VARCHAR},'yyyy-mm-dd hh24:mi:ss')
+    </if>
+    <if test="addressThird !=null and addressThird!='' ">
+      and t."ADDRESS_THIRD" = #{addressThird,jdbcType=VARCHAR}
+    </if>
+  </select>
+
   <select id="getEchartsDataYqfkJZzzmm" resultMap="BaseResultMap" parameterType="java.lang.String">
     select
     t."ID" , t."ZZMM", t."JIEZH_STATE"

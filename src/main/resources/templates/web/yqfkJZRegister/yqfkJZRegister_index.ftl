@@ -203,9 +203,6 @@
                                     </select>
                                 </div>
                             </div>
-                        </div>
-
-                        <div class="col-xs-6 col-sm-5 col-lg-3">
                             <div class="form-group">
                                 <label class="col-sm-5 control-label">工作单位大类:</label>
                                 <div class="col-sm-7">
@@ -229,17 +226,124 @@
                             <div class="form-group">
                                 <label class="col-sm-5 control-label">工作单位详细:</label>
                                 <div class="col-sm-7">
-<#--                                    <select id="queryzzDWType3" class="form-control" name="" onchange="searchZZDW2(this);">-->
-<#--                                        <option value="">全部</option>-->
-<#--                                    </select>-->
+                                    <#--                                    <select id="queryzzDWType3" class="form-control" name="" onchange="searchZZDW2(this);">-->
+                                    <#--                                        <option value="">全部</option>-->
+                                    <#--                                    </select>-->
                                     <input type="text" id="queryzzDWType2" name="zzDWType3" class="form-control"
                                            autocomplete="off">
                                 </div>
                             </div>
                         </div>
+
+                        <div class="col-xs-6 col-sm-5 col-lg-3">
+                            <div class="form-group">
+                                <label class="col-sm-5 control-label">第一针接种时间:</label>
+                                <div class="col-sm-7">
+                                    <input type="text" class="form-control" id="dateFirst"  name="dateFirstStr"
+                                           placeholder="yyyy-MM-dd">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-5 control-label">第一针接种地点</label>
+                                <div class="col-sm-7">
+                                    <select name="addressFirst" id="addressFirst" class="form-control">
+                                        <option value="">全部</option>
+                                        <option value="寿阳县人民医院">寿阳县人民医院</option>
+                                        <option value="寿阳县朝阳镇社区卫生服务中心（南港卫生站）">寿阳县朝阳镇社区卫生服务中心（南港卫生站）</option>
+                                        <option value="寿阳县朝阳镇卫生院">寿阳县朝阳镇卫生院</option>
+                                        <option value="寿阳县中医院">寿阳县中医院</option>
+                                        <option value="寿阳县妇幼保健院">寿阳县妇幼保健院</option>
+                                        <option value="寿阳县尹灵芝镇卫生院">寿阳县尹灵芝镇卫生院</option>
+                                        <option value="寿阳县马首乡卫生院">寿阳县马首乡卫生院</option>
+                                        <option value="寿阳县景尚乡卫生院">寿阳县景尚乡卫生院</option>
+                                        <option value="寿阳县羊头崖乡中心卫生院">寿阳县羊头崖乡中心卫生院</option>
+                                        <option value="寿阳县上湖乡卫生院">寿阳县上湖乡卫生院</option>
+                                        <option value="寿阳县西洛镇卫生院">寿阳县西洛镇卫生院</option>
+                                        <option value="寿阳县南燕竹镇卫生院">寿阳县南燕竹镇卫生院</option>
+                                        <option value="寿阳县平头镇中心卫生院">寿阳县平头镇中心卫生院</option>
+                                        <option value="寿阳县平舒乡卫生院">寿阳县平舒乡卫生院</option>
+                                        <option value="寿阳县宗艾镇卫生院">寿阳县宗艾镇卫生院</option>
+                                        <option value="寿阳县解愁乡卫生院">寿阳县解愁乡卫生院</option>
+                                        <option value="寿阳县温家庄乡卫生院">寿阳县温家庄乡卫生院</option>
+                                        <option value="寿阳县松塔镇中心卫生院">寿阳县松塔镇中心卫生院</option>
+                                        <option value="县内临时接种点">县内临时接种点</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-6 col-sm-5 col-lg-3">
+                            <div class="form-group">
+                                <label class="col-sm-5 control-label">第二针接种时间:</label>
+                                <div class="col-sm-7">
+                                    <input type="text" class="form-control" id="dateSecond" name="dateSecondStr"
+                                           placeholder="yyyy-MM-dd ">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-5 control-label">第二针接种地点</label>
+                                <div class="col-sm-7">
+                                    <select name="addressSecond" id="addressSecond" class="form-control">
+                                        <option value="">全部</option>
+                                        <option value="寿阳县人民医院">寿阳县人民医院</option>
+                                        <option value="寿阳县朝阳镇社区卫生服务中心（南港卫生站）">寿阳县朝阳镇社区卫生服务中心（南港卫生站）</option>
+                                        <option value="寿阳县朝阳镇卫生院">寿阳县朝阳镇卫生院</option>
+                                        <option value="寿阳县中医院">寿阳县中医院</option>
+                                        <option value="寿阳县妇幼保健院">寿阳县妇幼保健院</option>
+                                        <option value="寿阳县尹灵芝镇卫生院">寿阳县尹灵芝镇卫生院</option>
+                                        <option value="寿阳县马首乡卫生院">寿阳县马首乡卫生院</option>
+                                        <option value="寿阳县景尚乡卫生院">寿阳县景尚乡卫生院</option>
+                                        <option value="寿阳县羊头崖乡中心卫生院">寿阳县羊头崖乡中心卫生院</option>
+                                        <option value="寿阳县上湖乡卫生院">寿阳县上湖乡卫生院</option>
+                                        <option value="寿阳县西洛镇卫生院">寿阳县西洛镇卫生院</option>
+                                        <option value="寿阳县南燕竹镇卫生院">寿阳县南燕竹镇卫生院</option>
+                                        <option value="寿阳县平头镇中心卫生院">寿阳县平头镇中心卫生院</option>
+                                        <option value="寿阳县平舒乡卫生院">寿阳县平舒乡卫生院</option>
+                                        <option value="寿阳县宗艾镇卫生院">寿阳县宗艾镇卫生院</option>
+                                        <option value="寿阳县解愁乡卫生院">寿阳县解愁乡卫生院</option>
+                                        <option value="寿阳县温家庄乡卫生院">寿阳县温家庄乡卫生院</option>
+                                        <option value="寿阳县松塔镇中心卫生院">寿阳县松塔镇中心卫生院</option>
+                                        <option value="县内临时接种点">县内临时接种点</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-6 col-sm-5 col-lg-3">
+                            <div class="form-group">
+                                <label class="col-sm-5 control-label">第三针接种时间:</label>
+                                <div class="col-sm-7">
+                                    <input type="text" class="form-control" id="dateThird" name="dateThirdStr"
+                                           placeholder="yyyy-MM-dd ">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-5 control-label">第三针接种地点</label>
+                                <div class="col-sm-7">
+                                    <select name="addressThird" id="addressThird" class="form-control">
+                                        <option value="">全部</option>
+                                        <option value="寿阳县人民医院">寿阳县人民医院</option>
+                                        <option value="寿阳县朝阳镇社区卫生服务中心（南港卫生站）">寿阳县朝阳镇社区卫生服务中心（南港卫生站）</option>
+                                        <option value="寿阳县朝阳镇卫生院">寿阳县朝阳镇卫生院</option>
+                                        <option value="寿阳县中医院">寿阳县中医院</option>
+                                        <option value="寿阳县妇幼保健院">寿阳县妇幼保健院</option>
+                                        <option value="寿阳县尹灵芝镇卫生院">寿阳县尹灵芝镇卫生院</option>
+                                        <option value="寿阳县马首乡卫生院">寿阳县马首乡卫生院</option>
+                                        <option value="寿阳县景尚乡卫生院">寿阳县景尚乡卫生院</option>
+                                        <option value="寿阳县羊头崖乡中心卫生院">寿阳县羊头崖乡中心卫生院</option>
+                                        <option value="寿阳县上湖乡卫生院">寿阳县上湖乡卫生院</option>
+                                        <option value="寿阳县西洛镇卫生院">寿阳县西洛镇卫生院</option>
+                                        <option value="寿阳县南燕竹镇卫生院">寿阳县南燕竹镇卫生院</option>
+                                        <option value="寿阳县平头镇中心卫生院">寿阳县平头镇中心卫生院</option>
+                                        <option value="寿阳县平舒乡卫生院">寿阳县平舒乡卫生院</option>
+                                        <option value="寿阳县宗艾镇卫生院">寿阳县宗艾镇卫生院</option>
+                                        <option value="寿阳县解愁乡卫生院">寿阳县解愁乡卫生院</option>
+                                        <option value="寿阳县温家庄乡卫生院">寿阳县温家庄乡卫生院</option>
+                                        <option value="寿阳县松塔镇中心卫生院">寿阳县松塔镇中心卫生院</option>
+                                        <option value="县内临时接种点">县内临时接种点</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-
-
                     <div class="text-center">
                         <button id="btn-search-yqfkJZRegister" class="btn btn-primary"><i class="fa fa-search"></i> 查询
                         </button>
@@ -546,7 +650,18 @@
     </div>
 </script>
 <script>
-
+    laydate.render({
+        elem: '#dateFirst',
+        "format": "yyyy-MM-dd"
+    });
+    laydate.render({
+        elem: '#dateSecond',
+        "format": "yyyy-MM-dd"
+    });
+    laydate.render({
+        elem: '#dateThird',
+        "format": "yyyy-MM-dd"
+    });
     function exportData() {
         var excel = LAY_EXCEL;
         //查询参数这里

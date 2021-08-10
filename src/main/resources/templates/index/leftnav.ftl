@@ -53,6 +53,7 @@
           <li><a class="J_menuItem" href="/a/analysis/yqfkNoJZstatus.html">按照不接种原因统计</a></li>
           <li><a class="J_menuItem" href="/a/analysis/yqfkJZzzmm.html">按照政治面貌统计</a></li>
           <li><a class="J_menuItem" href="/a/analysis/yqfkJZzzdw.html">按照工作单位统计</a></li>
+          <li><a class="J_menuItem" href="/a/analysis/yqfkJZplace.html">按照接种地点统计</a></li>
         </ul>
       </li>
 

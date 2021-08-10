@@ -2,8 +2,10 @@ package com.hengtianyi.dims.service.entity;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.hengtianyi.common.core.base.BaseEntity;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
+
 import java.util.List;
 
 /**
@@ -84,6 +86,7 @@ public class YqfkJZRegisterEntity extends BaseEntity {
     //第1针
     //  接种时间
     @JSONField(format = "yyyy-MM-dd")
+    @DateTimeFormat(pattern="YYYY-MM-dd")
     private Date dateFirst;
 
     //  接种地点(用户自己输入)
@@ -93,6 +96,7 @@ public class YqfkJZRegisterEntity extends BaseEntity {
     //第2针
     //  接种时间
     @JSONField(format = "yyyy-MM-dd")
+    @DateTimeFormat(pattern="YYYY-MM-dd")
     private Date dateSecond;
 
     //  接种地点(用户自己输入)
@@ -101,11 +105,39 @@ public class YqfkJZRegisterEntity extends BaseEntity {
     //第3针
     //  接种时间
     @JSONField(format = "yyyy-MM-dd")
+    @DateTimeFormat(pattern="YYYY-MM-dd")
     private Date dateThird;
 
     //  接种地点(用户自己输入)
     private String addressThird;
 
+    private String dateFirstStr;
+    private String dateSecondStr;
+    private String dateThirdStr;
+
+    public String getDateFirstStr() {
+        return dateFirstStr;
+    }
+
+    public void setDateFirstStr(String dateFirstStr) {
+        this.dateFirstStr = dateFirstStr;
+    }
+
+    public String getDateSecondStr() {
+        return dateSecondStr;
+    }
+
+    public void setDateSecondStr(String dateSecondStr) {
+        this.dateSecondStr = dateSecondStr;
+    }
+
+    public String getDateThirdStr() {
+        return dateThirdStr;
+    }
+
+    public void setDateThirdStr(String dateThirdStr) {
+        this.dateThirdStr = dateThirdStr;
+    }
 
     //未接种原因（1: 禁忌症  2: 到接种点后医生建议不接种  3: 不愿意接种 4:正在隔离期 5:准备接种）
     private String noJieZhReasonType;

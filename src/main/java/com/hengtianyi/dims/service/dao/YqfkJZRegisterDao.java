@@ -63,4 +63,14 @@ public interface YqfkJZRegisterDao extends AbstractGenericDao<YqfkJZRegisterEnti
                                                         @Param("areaCode") String areaCode,
                                                         @Param("queryzzDWType1") String queryzzDWType1,
                                                         @Param("queryzzDWType2") String queryzzDWType2);
+
+    List<YqfkJZRegisterEntity> getEchartsDataPlace(@Param("startTime") String startTime,
+                                                   @Param("endTime") String endTime,
+                                                   @Param("areaCode") String areaCode,
+                                                   @Param("dateFirst") String dateFirst,
+                                                   @Param("addressFirst") String addressFirst,
+                                                   @Param("dateSecond") String dateSecond,
+                                                   @Param("addressSecond") String addressSecond,
+                                                   @Param("dateThird") String dateThird,
+                                                   @Param("addressThird") String addressThird);
 }
