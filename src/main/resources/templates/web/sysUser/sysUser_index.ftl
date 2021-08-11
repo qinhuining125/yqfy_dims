@@ -14,6 +14,14 @@
           <div class="row">
             <div class="col-xs-6 col-sm-4 col-lg-3">
               <div class="form-group">
+                <label class="col-sm-4 control-label">账号：</label>
+                <div class="col-sm-7">
+                  <input type="text" name="userAccount" placeholder="搜索账号" class="form-control"/>
+                </div>
+              </div>
+            </div>
+            <div class="col-xs-6 col-sm-4 col-lg-3">
+              <div class="form-group">
                 <label class="col-sm-4 control-label">用户名：</label>
                 <div class="col-sm-7">
                   <input type="text" name="userName" placeholder="搜索用户名" class="form-control"/>
