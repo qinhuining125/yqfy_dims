@@ -68,55 +68,58 @@ public class LoginApiController {
    */
   @GetMapping(value = "/heart", produces = BaseConstant.JSON)
   public String heart() {
-//    ServiceResult<Object> result = new ServiceResult<>();
-//    result.setSuccess(true);
-//    return result.toJson();
-
-
-    //倒计时结束日期
-    String timeEnd = chooseOptionService.getFirstCategoryByCode("TIMER_END").get(0).getName();
-
-
-    String[] timeStr = timeEnd.split("-");
-    int yyyy = Integer.parseInt(timeStr[0]);
-    int MM = Integer.parseInt(timeStr[1]);
-    int dd = Integer.parseInt(timeStr[2]);
-
     ServiceResult<Object> result = new ServiceResult<>();
-    Calendar c;
-    long endTime;
-    Date date;
-    long startTime;
-    long midTime;
-    try{
-      c = Calendar.getInstance();
-      c.set(yyyy, MM, dd, 0, 0, 0);// 注意月份的设置，0-11表示1-12月
-      endTime = c.getTimeInMillis();
-      date = new Date();
-      startTime = date.getTime();
-      midTime = (endTime - startTime) / 1000;
-      if (midTime > 0) {
-        midTime--;
-        long ddLeft = midTime  / 24 / 60 / 60 ;
-        long hh = midTime / 60 / 60 % 24;
-        long mm = midTime / 60 % 60;
-        long ss = midTime % 60;
-        System.out.println("还剩余" + ddLeft + "天" + hh + "小时" + mm + "分钟" + ss + "秒");
-        String returnTimer = ddLeft +"";
-        result.setResult(returnTimer);
-        try {
-          Thread.sleep(1000);
-        } catch (InterruptedException e) {
-          e.printStackTrace();
-        }
-      }
-
-      result.setSuccess(Boolean.TRUE);
-    }catch (Exception e) {
-      LOGGER.error("[查询待办数量]出错,{}", e.getMessage(), e);
-      result.setError("查询待办数量出错");
-    }
+    //倒计时关闭时，默认设置为99，确保前台代码不需要修改
+    result.setResult("99");
+    result.setSuccess(true);
     return result.toJson();
+
+
+    //打开下面的注释就是打开倒计时
+//    //倒计时结束日期
+//    String timeEnd = chooseOptionService.getFirstCategoryByCode("TIMER_END").get(0).getName();
+//
+//
+//    String[] timeStr = timeEnd.split("-");
+//    int yyyy = Integer.parseInt(timeStr[0]);
+//    int MM = Integer.parseInt(timeStr[1]);
+//    int dd = Integer.parseInt(timeStr[2]);
+//
+//    ServiceResult<Object> result = new ServiceResult<>();
+//    Calendar c;
+//    long endTime;
+//    Date date;
+//    long startTime;
+//    long midTime;
+//    try{
+//      c = Calendar.getInstance();
+//      c.set(yyyy, MM, dd, 0, 0, 0);// 注意月份的设置，0-11表示1-12月
+//      endTime = c.getTimeInMillis();
+//      date = new Date();
+//      startTime = date.getTime();
+//      midTime = (endTime - startTime) / 1000;
+//      if (midTime > 0) {
+//        midTime--;
+//        long ddLeft = midTime  / 24 / 60 / 60 ;
+//        long hh = midTime / 60 / 60 % 24;
+//        long mm = midTime / 60 % 60;
+//        long ss = midTime % 60;
+//        System.out.println("还剩余" + ddLeft + "天" + hh + "小时" + mm + "分钟" + ss + "秒");
+//        String returnTimer = ddLeft +"";
+//        result.setResult(returnTimer);
+//        try {
+//          Thread.sleep(1000);
+//        } catch (InterruptedException e) {
+//          e.printStackTrace();
+//        }
+//      }
+//
+//      result.setSuccess(Boolean.TRUE);
+//    }catch (Exception e) {
+//      LOGGER.error("[查询倒计时]出错,{}", e.getMessage(), e);
+//      result.setError("查询倒计时");
+//    }
+//    return result.toJson();
   }
 
 
