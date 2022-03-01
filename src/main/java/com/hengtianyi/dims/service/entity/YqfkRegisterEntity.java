@@ -110,6 +110,9 @@ public class YqfkRegisterEntity extends BaseEntity {
   //添加生日
   private Date birthday;
 
+  public YqfkRegisterEntity() {
+  }
+
   public String getAreaCode() {
     return areaCode;
   }
@@ -125,6 +128,26 @@ public class YqfkRegisterEntity extends BaseEntity {
   private String createBelZhbm;
   //创建者所属村
   private String createBelCubm;
+
+  //健康码情况
+  private String healthyCode;
+  //行程码情况
+  private String travelCode;
+  public void setHealthyCode(String healthyCode) {
+    this.healthyCode = healthyCode;
+  }
+
+  public void setTravelCode(String travelCode) {
+    this.travelCode = travelCode;
+  }
+
+  public String getHealthyCode() {
+    return healthyCode;
+  }
+
+  public String getTravelCode() {
+    return travelCode;
+  }
 
   public String getCreateBelZhbm() {
     return createBelZhbm;

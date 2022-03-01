@@ -114,47 +114,22 @@
             <div class=" u-width-100p">
               <div class="c-control__input-box">
                 <label for="username">验证码</label>
-                <input class="c-control__input code_text" type="text" name="code" id="code"
+                <input class="c-control__code code_text " type="text" name="code" id="code"
                        placeholder="验证码" autocomplete="off"/>
-                <div class="img" style=" cursor:pointer">
-                  <a href="javascript:changeImg();" rel="external nofollow" title="点击更换验证码">
-                    <img id="img" src="/getVerify" alt="验证码"/>
-                  </a>
 
-                </div>
+                <a id="" href="javascript:changeImg();" rel="external nofollow" title="点击更换验证码">
+                  <#--                                    <img id="img" src="/getVerify" alt="验证码"/>-->
+                  <img id="code_img" src="/getVerify"
+                       data-src="hty-captcha" title="点我换图" alt="验证码"/>
+                </a>
               </div>
             </div>
           </div>
           <script>
             function changeImg() {
-              document.getElementById("img").src = "/getVerify?r=" + Math.random();
+              document.getElementById("code_img").src = "/getVerify?r=" + Math.random();
             }
           </script>
-            <#if captchaShow>
-            <#--<div class="code">-->
-            <#--<input class="c-control__input code_text" type="text" name="code" id="code"-->
-            <#--placeholder="验证码" autocomplete="off"/>-->
-            <#--<div class="img" style="visibility: hidden; cursor:pointer">-->
-            <#--<img id="code_img"-->
-            <#--src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="-->
-            <#--data-src="hty-captcha" title="点我换图" alt="验证码"/>-->
-            <#--</div>-->
-            <#--</div>-->
-              <div class="o-block__cell">
-                <div class=" u-width-100p">
-                  <div class="c-control__input-box">
-                    <input class="c-control__code code_text " type="text" name="code" id="code"
-                           placeholder="验证码" autocomplete="off"/>
-                    <div class="img"
-                         style="visibility: hidden; cursor:pointer;display: inline-block">
-                      <img id="code_img"
-                           src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="
-                           data-src="hty-captcha" title="点我换图" alt="验证码"/>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </#if>
           <div class="o-block__cell error_msg" id="error_msg">${msg!}</div>
           <div class="o-block__cell" id="login_btn">
             <input type="submit" class="c-button c-button--block" value="登录"/></div>
